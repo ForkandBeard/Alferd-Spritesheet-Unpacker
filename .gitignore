@@ -1,0 +1,5 @@
+*.svn-base
+bin/
+obj/
+.svn/
+*.user
