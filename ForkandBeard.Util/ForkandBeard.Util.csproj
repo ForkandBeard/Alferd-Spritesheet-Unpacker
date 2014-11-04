@@ -47,11 +47,18 @@
     <Compile Include="Geometry\LociType.cs" />
     <Compile Include="Geometry\TrigHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Random\Helper.cs" />
     <Compile Include="Random\MersenneTwister.cs" />
     <Compile Include="Serialisation\SerialisableKeyValuePair.cs" />
     <Compile Include="Serialisation\XML.cs" />
     <Compile Include="Text\Hash.cs" />
     <Compile Include="Geometry\Loci.cs" />
+    <Compile Include="UI\AutoBalancingFormTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\AutoBalancingFormTimer.Designer.cs">
+      <DependentUpon>AutoBalancingFormTimer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ListView.cs" />
     <Compile Include="UI\ListViewSorter.cs" />
     <Compile Include="UI\RGBHSLConverter.cs" />

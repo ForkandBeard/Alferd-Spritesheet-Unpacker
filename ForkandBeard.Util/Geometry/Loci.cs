@@ -252,7 +252,6 @@ namespace ForkandBeard.Util.Geometry
                             {
                                 return new Loci();
                             }
-                            break;
                     }
                     break;
                 case LociType.Point:
@@ -279,7 +278,6 @@ namespace ForkandBeard.Util.Geometry
                             {
                                 return new Loci();
                             }
-                            break;
                         case LociType.Point:
                             return new Loci(pobjTarget.Point);
                         case LociType.Rectangle:

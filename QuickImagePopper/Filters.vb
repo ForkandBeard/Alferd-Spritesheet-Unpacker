@@ -218,7 +218,7 @@ Public Class Filters
         For Each objFlat As Color In colReturnedColours
             sngClosest = Single.MaxValue
             For Each objOrig As Color In colOrigColours
-                sngDistance = ForkandBeard.TrigHelper.GetRelativeDistanceBetweenPoints(New Point(objFlat.R + 1, objFlat.G + 1), New Point(objOrig.R + 1, objOrig.G + 1), objFlat.B + 1, objOrig.B + 1) ' +1 to prevent  *0.
+                sngDistance = ForkandBeard.Util.Geometry.TrigHelper.GetRelativeDistanceBetweenPoints(New Point(objFlat.R + 1, objFlat.G + 1), New Point(objOrig.R + 1, objOrig.G + 1), objFlat.B + 1, objOrig.B + 1) ' +1 to prevent  *0.
 
                 If sngDistance < sngClosest Then
                     sngClosest = sngDistance
@@ -232,51 +232,6 @@ Public Class Filters
 
         Return objReturn
     End Function
-
-    'Public Shared Sub ReindexImagesInSeperateThreads(ByVal pcolImages As List(Of IndexedBitmap))
-    '    Dim objThread As Threading.Thread
-    '    Dim objIndexer As IndexedImagesIndexer
-
-    '    For Each objImage As IndexedBitmap In pcolImages
-    '        objIndexer = New IndexedImagesIndexer(objImage)
-    '        objThread = New Threading.Thread(AddressOf objIndexer.Start)
-    '        objThread.Start()
-    '    Next
-
-    '    SyncLock (IndexedImagesIndexer.CounterLock)
-    '        Do While IndexedImagesIndexer.Counter <> 0
-    '            Threading.Monitor.Wait(IndexedImagesIndexer.CounterLock)
-    '        Loop
-    '    End SyncLock
-    'End Sub
-
-    'Private Class IndexedImagesIndexer
-    '    Private IndexedBitmap As IndexedBitmap
-    '    Public Shared Counter As Integer = -1
-    '    Public Shared CounterLock As Object = New Object()
-
-    '    Public Sub New(ByVal pobjBitmap As IndexedBitmap)
-    '        Me.IndexedBitmap = pobjBitmap
-    '    End Sub
-
-    '    Public Sub Start()
-    '        SyncLock (CounterLock)
-    '            If Counter = -1 Then
-    '                Counter = 1
-    '            Else
-    '                Counter += 1
-    '            End If
-    '        End SyncLock
-    '        Try
-    '            Me.IndexedBitmap.RebuildIndexes()
-    '        Finally
-    '            SyncLock (CounterLock)
-    '                Counter -= 1
-    '                Threading.Monitor.PulseAll(CounterLock)
-    '            End SyncLock
-    '        End Try
-    '    End Sub
-    'End Class
 
     Public Shared Function DecreaseScale(ByVal pobjImage As Bitmap, ByVal pintXPixelsPerPixel As Integer, ByVal pintYPixelsPerPixel As Integer) As Bitmap
         Dim objInxBitmap As IndexedBitmap

@@ -177,7 +177,7 @@ Public Class RegionUnpacker
 
         End If
 
-        If ForkandBeard.GeometryHelper.GetXGapBetweenRectangles(pobjBox1, pobjBox2) <= frmMain.DistanceBetweenTiles Then
+        If ForkandBeard.Util.Geometry.GeometryHelper.GetXGapBetweenRectangles(pobjBox1, pobjBox2) <= frmMain.DistanceBetweenTiles Then
 
             For y As Integer = pobjBox1.Y - frmMain.DistanceBetweenTiles To pobjBox1.Bottom + frmMain.DistanceBetweenTiles
                 If y >= pobjBox2.Top _
@@ -201,7 +201,7 @@ Public Class RegionUnpacker
             Next
         End If
 
-        If ForkandBeard.GeometryHelper.GetYGapBetweenRectangles(pobjBox1, pobjBox2) <= frmMain.DistanceBetweenTiles Then
+        If ForkandBeard.Util.Geometry.GeometryHelper.GetYGapBetweenRectangles(pobjBox1, pobjBox2) <= frmMain.DistanceBetweenTiles Then
 
             For x As Integer = pobjBox1.Left - frmMain.DistanceBetweenTiles To pobjBox1.Right + frmMain.DistanceBetweenTiles
                 If x >= pobjBox2.Left _

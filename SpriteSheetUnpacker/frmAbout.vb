@@ -47,13 +47,13 @@ Public Class frmAbout
 
                 Dim objRandomRectangle As RectangleF
 
-                objRandomRectangle = New RectangleF(ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)), objHead.Size)
+                objRandomRectangle = New RectangleF(ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)), objHead.Size)
 
-                objGraphics.DrawImage(objHead, ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)))
+                objGraphics.DrawImage(objHead, ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)))
                 objGraphics.DrawLine( _
                     Pens.Black _
-                    , ForkandBeard.GeometryHelper.RandomPointInRectangle(objRandomRectangle) _
-                    , ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
+                    , ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(objRandomRectangle) _
+                    , ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
                     )
                 'objGraphics.FillRectangle(New SolidBrush(Color.FromArgb(100, 255, 255, 255)), objRandomRectangle)
                 'Me.RotateBackground()
@@ -83,20 +83,20 @@ Public Class frmAbout
             If Me.Random.Next(0, 10) = 1 Then
                 Dim intSize As Integer
                 intSize = Me.Random.Next(1, 25)
-                objGraphics.FillEllipse(New SolidBrush(Color.FromArgb(100, 200, 0, 0)), New RectangleF(ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)), New Size(intSize, intSize)))
+                objGraphics.FillEllipse(New SolidBrush(Color.FromArgb(100, 200, 0, 0)), New RectangleF(ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)), New Size(intSize, intSize)))
             End If
 
             If Me.Random.Next(0, 2) = 1 Then
                 objGraphics.DrawLine( _
                     New Pen(Color.FromArgb(100, 50, 50, 50), 3) _
-                    , ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
-                    , ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
+                    , ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
+                    , ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
                     )
             Else
                 objGraphics.DrawLine( _
                     Pens.White _
-                    , ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
-                    , ForkandBeard.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
+                    , ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
+                    , ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(New Rectangle(0, 0, Me.CoolBackGroundImage.Width, Me.CoolBackGroundImage.Height)) _
                     )
             End If
 

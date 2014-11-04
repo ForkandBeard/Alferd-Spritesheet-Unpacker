@@ -37,7 +37,7 @@ Partial Class frmMain
         Me.cmdCombine = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.CheckForUnpackFinishTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.ImageClipperAndAnimatorTimer = New ForkandBeard.AutoBalancingFormTimer(Me.components)
+        Me.ImageClipperAndAnimatorTimer = New ForkandBeard.Util.UI.AutoBalancingFormTimer(Me.components)
         Me.pnlMain = New SpriteSheetUnpacker.BuffablePanel()
         Me.OverlayFont = New System.Windows.Forms.Label()
         Me.lblDragAndDrop = New System.Windows.Forms.Label()
@@ -281,7 +281,7 @@ Partial Class frmMain
     Friend WithEvents cmdPaste As System.Windows.Forms.Button
     Friend WithEvents CheckForUnpackFinishTimer As System.Windows.Forms.Timer
     Friend WithEvents lblDragAndDrop As System.Windows.Forms.Label
-    Friend WithEvents ImageClipperAndAnimatorTimer As ForkandBeard.AutoBalancingFormTimer
+    Friend WithEvents ImageClipperAndAnimatorTimer As ForkandBeard.Util.UI.AutoBalancingFormTimer
     Friend WithEvents chkCut As System.Windows.Forms.CheckBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents SelectAllButton As System.Windows.Forms.Button

@@ -137,12 +137,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ForkandBeard\ForkandBeard.vbproj">
-      <Project>{498E0466-726A-4428-939D-35C45A078DEE}</Project>
-      <Name>ForkandBeard</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -158,6 +152,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ForkandBeard.Util\ForkandBeard.Util.csproj">
+      <Project>{D4DEBB68-E776-45F9-A1DB-E5000C206EFC}</Project>
+      <Name>ForkandBeard.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

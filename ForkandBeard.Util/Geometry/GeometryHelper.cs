@@ -145,5 +145,13 @@ namespace ForkandBeard.Util.Geometry
 
             return objReturn;
         }
+
+        public static PointF RandomPointInRectangle(RectangleF rectangle)
+        {
+            return new PointF(
+                            Random.Helper.GetNextSingle(rectangle.X, rectangle.X + rectangle.Width)
+                            , Random.Helper.GetNextSingle(rectangle.Y, rectangle.Y + rectangle.Height)
+                            );
+        }
     }
 }

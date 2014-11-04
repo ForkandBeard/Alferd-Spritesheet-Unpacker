@@ -271,9 +271,9 @@
       <Project>{B148DBB7-9B11-42DE-BB18-1D35CBE01D0B}</Project>
       <Name>ForkandBeard.Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ForkandBeard\ForkandBeard.vbproj">
-      <Project>{498E0466-726A-4428-939D-35C45A078DEE}</Project>
-      <Name>ForkandBeard</Name>
+    <ProjectReference Include="..\ForkandBeard.Util\ForkandBeard.Util.csproj">
+      <Project>{D4DEBB68-E776-45F9-A1DB-E5000C206EFC}</Project>
+      <Name>ForkandBeard.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\ImageManipulation\ImageQuantizers.csproj">
       <Project>{07DECDCF-C7D5-407A-8BF4-2D1187B47A27}</Project>
