@@ -4,7 +4,7 @@ Alferd-Spritesheet-Unpacker
 ## What is this?
 ASU is a simple spriting tool which takes an animation spritesheet image and automatically turns each sprite into an individual image.
 #### The interesting bit
-So the actual logic to find the individual sprites can be found in `ASU\RegionUnpacker.vb`.
+So the actual logic to find the individual sprites can be found in `ASU\BO\RegionUnpacker.vb`.
 #### To use
 Just double click the .sln file.
 
