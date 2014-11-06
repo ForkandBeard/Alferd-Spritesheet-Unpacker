@@ -14,7 +14,7 @@ namespace ForkandBeard.Logic
 
         public static string GetApplicationMajorVersion()
         {
-            return FileVersionInfo.GetVersionInfo(Process.GetCurrentProcess().MainModule.FileName).ProductVersion;
+            return FileVersionInfo.GetVersionInfo(Process.GetCurrentProcess().MainModule.FileName).FileMajorPart.ToString();
         }
 
         public static string GetApplicationNameAndMajorVersion()

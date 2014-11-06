@@ -194,7 +194,7 @@ namespace ForkandBeard.Util.Geometry
 
         public override string ToString()
         {
-            return string.Format("Line PointA[{0}] PointB[{1}]", this.PointA.ToString(), this.PointB.ToString());
+            return String.Format("Line PointA[{0}] PointB[{1}]", this.PointA.ToString(), this.PointB.ToString());
         }
     }
 }

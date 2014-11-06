@@ -309,11 +309,11 @@ namespace ForkandBeard.Util.Geometry
                 switch (this.Type)
                 {
                     case LociType.Line:
-                        return string.Format("{0}, {1}, {2}, {3}", this.Line.PointA.X, this.Line.PointA.Y, this.Line.PointB.X, this.Line.PointB.Y);
+                        return String.Format("{0}, {1}, {2}, {3}", this.Line.PointA.X, this.Line.PointA.Y, this.Line.PointB.X, this.Line.PointB.Y);
                     case LociType.Point:
-                        return string.Format("{0}, {1}", this.Point.X, this.Point.Y);
+                        return String.Format("{0}, {1}", this.Point.X, this.Point.Y);
                     case LociType.Rectangle:
-                        return string.Format("{0}, {1}, {2}, {3}", this.Rectangle.Location.X, this.Rectangle.Location.Y, GeometryHelper.GetBottomRightOfRectangle(this.Rectangle).X, GeometryHelper.GetBottomRightOfRectangle(this.Rectangle).Y);
+                        return String.Format("{0}, {1}, {2}, {3}", this.Rectangle.Location.X, this.Rectangle.Location.Y, GeometryHelper.GetBottomRightOfRectangle(this.Rectangle).X, GeometryHelper.GetBottomRightOfRectangle(this.Rectangle).Y);
                     default:
                         return string.Empty;
                 }
