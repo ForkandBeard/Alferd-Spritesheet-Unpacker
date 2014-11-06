@@ -204,7 +204,7 @@
       <Project>{D4DEBB68-E776-45F9-A1DB-E5000C206EFC}</Project>
       <Name>ForkandBeard.Util</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ImageManipulation\ImageQuantizers.csproj">
+    <ProjectReference Include="..\ImageQuantizers\ImageQuantizers.csproj">
       <Project>{07DECDCF-C7D5-407A-8BF4-2D1187B47A27}</Project>
       <Name>ImageQuantizers</Name>
     </ProjectReference>
