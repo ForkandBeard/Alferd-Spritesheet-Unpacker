@@ -26,13 +26,15 @@ namespace ASU.BO
         private bool _isBackgroundColourSet = false;
         private bool _isUnpacking = false;
         private const int INT_MAX_REGION_WIDTH = 400;
-        public string FileName;
 
+        public string FileName { get; set; }
         public int ColoursCount = 0;
-        public event UnpackingCompleteEventHandler UnpackingComplete;
-        public delegate void UnpackingCompleteEventHandler();
+
+        public event UnpackingCompleteEventHandler UnpackingComplete;        
         public event PcCompleteChangedEventHandler PcCompleteChanged;
+
         public delegate void PcCompleteChangedEventHandler(int pcComplete);
+        public delegate void UnpackingCompleteEventHandler();
 
         public ImageUnpacker(Bitmap image, string fileName)
         {
@@ -129,40 +131,40 @@ namespace ASU.BO
             newThread.Start();
         }
 
-        public static List<Rectangle> OrderBoxes(List<Rectangle> boxes, Enums.SelectAllOrder enuSelectAllOrder, Size spriteSheetSize)
+        public static List<Rectangle> OrderBoxes(List<Rectangle> boxes, Enums.SelectAllOrder selectAllOrder, Size spriteSheetSize)
         {
-            SortedDictionary<int, List<Rectangle>> colOrderedFrames = new SortedDictionary<int, List<Rectangle>>();
-            int intLocation = 0;
+            SortedDictionary<int, List<Rectangle>> orderedBoxes = new SortedDictionary<int, List<Rectangle>>();
+            int location = 0;
             List<Rectangle> returnedOrder = new List<Rectangle>();
 
 
-            foreach (Rectangle objFrame in boxes)
+            foreach (Rectangle box in boxes)
             {
-                switch (enuSelectAllOrder)
+                switch (selectAllOrder)
                 {
                     case Enums.SelectAllOrder.TopLeft:
-                        intLocation = objFrame.X + (objFrame.Y * spriteSheetSize.Width);
+                        location = box.X + (box.Y * spriteSheetSize.Width);
                         break;
                     case Enums.SelectAllOrder.BottomLeft:
-                        intLocation = objFrame.X + ((objFrame.Y + objFrame.Height) * spriteSheetSize.Width);
+                        location = box.X + ((box.Y + box.Height) * spriteSheetSize.Width);
                         break;
                     case Enums.SelectAllOrder.Centre:
-                        intLocation = Convert.ToInt32((objFrame.X + (objFrame.Width / 2)) + ((objFrame.Y + (objFrame.Height / 2)) * spriteSheetSize.Width));
+                        location = Convert.ToInt32((box.X + (box.Width / 2)) + ((box.Y + (box.Height / 2)) * spriteSheetSize.Width));
                         break;
                 }
 
-                if (!colOrderedFrames.ContainsKey(intLocation))
+                if (!orderedBoxes.ContainsKey(location))
                 {
-                    colOrderedFrames.Add(intLocation, new List<Rectangle>());
+                    orderedBoxes.Add(location, new List<Rectangle>());
                 }
-                colOrderedFrames[intLocation].Add(objFrame);
+                orderedBoxes[location].Add(box);
             }
 
-            foreach (int intLocationKey in colOrderedFrames.Keys)
+            foreach (int locationKey in orderedBoxes.Keys)
             {
-                foreach (Rectangle objFrame in colOrderedFrames[intLocationKey])
+                foreach (Rectangle box in orderedBoxes[locationKey])
                 {
-                    returnedOrder.Add(objFrame);
+                    returnedOrder.Add(box);
                 }
             }
 
@@ -173,8 +175,8 @@ namespace ASU.BO
         {
             try
             {
-                int intXSize = 0;
-                int intYSize = 0;
+                int xSize = 0;
+                int ySize = 0;
                 Rectangle region = default(Rectangle);
                 System.Threading.Thread regionThread = null;
 
@@ -185,19 +187,19 @@ namespace ASU.BO
                 }
                 this.SetPcComplete(10);
 
-                intYSize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Height / 3));
-                intXSize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Width / 3));
+                ySize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Height / 3));
+                xSize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Width / 3));
 
                 this.areaToUnpack = this.originalSize.Width * this.originalSize.Height;
 
-                for (int y = 0; y <= intYSize * 4; y += intYSize)
+                for (int y = 0; y <= ySize * 4; y += ySize)
                 {
 
-                    for (int x = 0; x <= intXSize * 4; x += intXSize)
+                    for (int x = 0; x <= xSize * 4; x += xSize)
                     {
-                        region = new Rectangle(x, y, Math.Min(intXSize, (this.originalSize.Width - x) - 1), Math.Min(intYSize, (this.originalSize.Height - y) - 1));
+                        region = new Rectangle(x, y, Math.Min(xSize, (this.originalSize.Width - x) - 1), Math.Min(ySize, (this.originalSize.Height - y) - 1));
                         regionThread = new System.Threading.Thread(this.HandleDividedAreaThread);
-                        regionThread.Name = "Region thread " + (y * (intXSize * 4)) + x;
+                        regionThread.Name = "Region thread " + (y * (xSize * 4)) + x;
                         this.threadCounter += 1;
                         regionThread.Start(region);
 
@@ -315,10 +317,10 @@ namespace ASU.BO
 
                     if ((x + y) % 100 == 0)
                     {
-                        int intTotal = 0;
+                        int total = 0;
 
-                        intTotal = this.originalSize.Width * this.originalSize.Height;
-                        this.SetPcComplete(Convert.ToInt32((((x * (this.originalSize.Height - 1)) + y) / intTotal) * 10));
+                        total = this.originalSize.Width * this.originalSize.Height;
+                        this.SetPcComplete(Convert.ToInt32((((x * (this.originalSize.Height - 1)) + y) / total) * 10));
                     }
                 }
             }

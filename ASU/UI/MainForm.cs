@@ -67,11 +67,11 @@ namespace ASU.UI
         }
 
         private List<BO.ImageUnpacker> unpackers = new List<BO.ImageUnpacker>();
-        private void CreateUnpacker(Bitmap pimgImage, string fileName)
+        private void CreateUnpacker(Bitmap image, string fileName)
         {
             BO.ImageUnpacker unpacker;
 
-            this.pnlOptions.Enabled = false;
+            this.OptionsPanel.Enabled = false;
             this.Boxes.Clear();
             this.Selected.Clear();
             this.Hover = Rectangle.Empty;
@@ -81,9 +81,9 @@ namespace ASU.UI
 
             this.UpdateTitlePc(0);
 
-            this.pnlZoom.Visible = false;
+            this.ZoomPanel.Visible = false;
 
-            unpacker = new BO.ImageUnpacker(pimgImage, fileName);
+            unpacker = new BO.ImageUnpacker(image, fileName);
             this.unpackers.Add(unpacker);
         }
 
@@ -95,7 +95,7 @@ namespace ASU.UI
             }
             else
             {
-                if (MessageBox.Show(String.Format("You are about to Unpack and automatically export {0} spritesheets to [{1}]. Are you sure you want to continue?", this.unpackers.Count, this.txtExportLocation.Text), "Confirm multiple Unpack", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+                if (MessageBox.Show(String.Format("You are about to Unpack and automatically export {0} spritesheets to [{1}]. Are you sure you want to continue?", this.unpackers.Count, this.ExportLocationTextBox.Text), "Confirm multiple Unpack", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
                 {
                     this.ResetFormPostUnpack(null);
                     return;
@@ -146,7 +146,7 @@ namespace ASU.UI
 
                     if (AutoOpenDestinationFolder)
                     {
-                        System.Diagnostics.Process.Start(this.txtExportLocation.Text);
+                        System.Diagnostics.Process.Start(this.ExportLocationTextBox.Text);
                     }
                 }
                 else
@@ -197,16 +197,15 @@ namespace ASU.UI
 
         private void SetHoverOverlayText()
         {
-
-	    this.SetOverlayText(
-                            new List<string> {"height", "width"}
-                            , new List<string>{ this.Hover.Height.ToString(), this.Hover.Width.ToString() }
-                            );
+	        this.SetOverlayText(
+                                new List<string> {"height", "width"}
+                                , new List<string>{ this.Hover.Height.ToString(), this.Hover.Width.ToString() }
+                                );
         }
 
         private void SetFullImageOverlayText()
         {
-            string colours = null;
+            string colours;
 
             if (this.unpackers[0].ColoursCount > 999)
             {
@@ -217,20 +216,23 @@ namespace ASU.UI
                 colours = this.unpackers[0].ColoursCount.ToString();
             }
 
-            this.SetOverlayText(new List<string>{
-		    "height",
-		    "width",
-		    "colours",
-		    "frames",
-		    "selected"
-	    }, new List<string>{
-		    this.unpackers[0].GetSize().Height.ToString(),
-		    this.unpackers[0].GetSize().Width.ToString(),
-		    colours,
-		    this.Boxes.Count.ToString(),
-		    this.Selected.Count.ToString()
-	    });
-}
+            this.SetOverlayText(
+                                new List<string>{
+		                                            "height"
+		                                            , "width"
+		                                            , "colours"
+		                                            , "frames"
+		                                            , "selected"
+	                                            }
+                                , new List<string>{
+		                                            this.unpackers[0].GetSize().Height.ToString()
+                                                    , this.unpackers[0].GetSize().Width.ToString()
+                                                    , colours
+                                                    , this.Boxes.Count.ToString()
+                                                    , this.Selected.Count.ToString()
+	                                                }
+                                );
+        }
 
         private void SetOverlayText(List<string> labels, List<string> data)
         {
@@ -244,24 +246,23 @@ namespace ASU.UI
 
         private void SetColoursBasedOnBackground(Color colour)
         {
-            float sngBrightness = 0;
+            float brightness = 0;
 
-            sngBrightness = colour.GetBrightness();
+            brightness = colour.GetBrightness();
 
-            if (sngBrightness >= 0.66)
+            if (brightness >= 0.66)
             {
                 // Very light.
                 Outline.Color = Color.FromArgb(Outline.Color.A, 0, 0, 0);
                 SelectedFill.Color = Color.FromArgb(SelectedFill.Color.A, 0, 0, 75);
                 HoverFill.Color = Color.FromArgb(HoverFill.Color.A, 75, 0, 0);
             }
-            else if (sngBrightness <= 0.33)
+            else if (brightness <= 0.33)
             {
                 // Very dark.
                 Outline.Color = Color.FromArgb(Outline.Color.A, 255, 255, 255);
                 SelectedFill.Color = Color.FromArgb(SelectedFill.Color.A, 200, 200, 255);
                 HoverFill.Color = Color.FromArgb(HoverFill.Color.A, 255, 200, 200);
-
             }
             else
             {
@@ -320,19 +321,19 @@ namespace ASU.UI
             }
         }
 
-        private void SplitBoxAtLocation(Rectangle pobjBox, Point pobjLocation)
+        private void SplitBoxAtLocation(Rectangle box, Point location)
         {
             this.Splits.Clear();
 
-            if (pobjBox.Width * pobjBox.Height > 1)
+            if (box.Width * box.Height > 1)
             {
-                this.SplitTopLeft = new Rectangle(pobjBox.X, pobjBox.Y, pobjLocation.X - pobjBox.X, pobjLocation.Y - pobjBox.Y);
+                this.SplitTopLeft = new Rectangle(box.X, box.Y, location.X - box.X, location.Y - box.Y);
                 this.Splits.Add(this.SplitTopLeft);
-                this.Splits.Add(new Rectangle(pobjLocation.X, pobjBox.Y, pobjBox.Right - pobjLocation.X, pobjLocation.Y - pobjBox.Y));
-                this.Splits.Add(new Rectangle(pobjBox.X, pobjLocation.Y, pobjLocation.X - pobjBox.X, pobjBox.Bottom - pobjLocation.Y));
-                this.SplitBottomRight = new Rectangle(pobjLocation.X, pobjLocation.Y, pobjBox.Right - pobjLocation.X, pobjBox.Bottom - pobjLocation.Y);
+                this.Splits.Add(new Rectangle(location.X, box.Y, box.Right - location.X, location.Y - box.Y));
+                this.Splits.Add(new Rectangle(box.X, location.Y, location.X - box.X, box.Bottom - location.Y));
+                this.SplitBottomRight = new Rectangle(location.X, location.Y, box.Right - location.X, box.Bottom - location.Y);
                 this.Splits.Add(this.SplitBottomRight);
-                this.BoxSplitting = pobjBox;
+                this.BoxSplitting = box;
             }
             else
             {
@@ -347,7 +348,7 @@ namespace ASU.UI
                 return;
             }
 
-            this.pnlOptions.Enabled = false;
+            this.OptionsPanel.Enabled = false;
             this.Boxes.Clear();
             this.Selected.Clear();
             this.Hover = Rectangle.Empty;
@@ -358,7 +359,7 @@ namespace ASU.UI
             this.LoadingImage = true;
             this.UpdateTitlePc(0);
 
-            this.pnlZoom.Visible = false;
+            this.ZoomPanel.Visible = false;
 
             this.StartUnpackers();
         }
@@ -380,12 +381,12 @@ namespace ASU.UI
             }
         }
 
-        private void frmMain_Load(object sender, System.EventArgs e)
+        private void MainForm_Load(object sender, System.EventArgs e)
         {
             try
             {
                 this.SuppressThirdPartyWarningMessage = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["SuppressThirdPartyImageConverterWarningMessage"]);
-                this.txtExportLocation.Text = AppDomain.CurrentDomain.BaseDirectory;
+                this.ExportLocationTextBox.Text = AppDomain.CurrentDomain.BaseDirectory;
                 this.KeyPreview = true;
                 ThirdPartyImageConverterPath = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"];
 
@@ -414,7 +415,7 @@ namespace ASU.UI
             }
         }
 
-        private void pnlMain_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        private void MainPanel_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             object dropped = null;
             string[] droppedFileNames;
@@ -451,11 +452,11 @@ namespace ASU.UI
                             }
                             catch (ArgumentException)
                             {
-                                string args = null;
-                                string location = null;
-                                Process convertProcess = null;
-                                string tempFileName = null;
-                                string tempFileNameAndExtension = null;
+                                string args;
+                                string location;
+                                Process convertProcess;
+                                string tempFileName;
+                                string tempFileNameAndExtension;
 
                                 if (!hasUserBeenPromptedToConvertFiles)
                                 {
@@ -506,7 +507,7 @@ namespace ASU.UI
                                     this.CreateUnpacker(image, System.IO.Path.GetFileNameWithoutExtension(fileName));
                                 }
                             }
-                            this.lblDragAndDrop.Visible = false;
+                            this.DragAndDropLabel.Visible = false;
                         }
                         this.StartUnpackers();
                         return;
@@ -523,19 +524,18 @@ namespace ASU.UI
             }
         }
 
-        private void pnlMain_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        private void MainPanel_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
 
-        private void pnlMain_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void MainPanel_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             try
             {
                 if (e.Button == System.Windows.Forms.MouseButtons.Right)
                 {
-                    //Me.rdoSelect.Checked = Not Me.rdoSelect.Checked
-                    this.chkCut.Checked = !this.chkCut.Checked;
+                    this.ClickModeCheckBoxButton.Checked = !this.ClickModeCheckBoxButton.Checked;
                 }
 
                 if (this.LoadingImage)
@@ -543,7 +543,7 @@ namespace ASU.UI
                     return;
                 }
 
-                if (!this.chkCut.Checked)
+                if (!this.ClickModeCheckBoxButton.Checked)
                 {
                     if (this.Hover != Rectangle.Empty)
                     {
@@ -572,7 +572,7 @@ namespace ASU.UI
                         this.Boxes.AddRange(this.Splits);
                         this.Splits.Clear();
                         SheetWithBoxes = null;
-                        this.chkCut.Checked = false;
+                        this.ClickModeCheckBoxButton.Checked = false;
                         return;
                     }
                 }
@@ -586,7 +586,7 @@ namespace ASU.UI
             }
         }
 
-        private void pnlMain_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void MainPanel_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             try
             {
@@ -595,10 +595,10 @@ namespace ASU.UI
                     return;
                 }
 
-                Point objLocation = default(Point);
-                this.pnlMain.Cursor = Cursors.Default;
+                Point location;
+                this.MainPanel.Cursor = Cursors.Default;
 
-                objLocation = new Point(e.Location.X - this.Offset.X, e.Location.Y - this.Offset.Y);
+                location = new Point(e.Location.X - this.Offset.X, e.Location.Y - this.Offset.Y);
 
                 if (this.IsMouseDown)
                 {
@@ -608,18 +608,18 @@ namespace ASU.UI
                 {
                     this.Hover = Rectangle.Empty;
 
-                    foreach (Rectangle objBox in this.Boxes)
+                    foreach (Rectangle box in this.Boxes)
                     {
-                        if (objBox.Contains(objLocation))
+                        if (box.Contains(location))
                         {
-                            if (this.chkCut.Checked)
+                            if (this.ClickModeCheckBoxButton.Checked)
                             {
-                                this.pnlMain.Cursor = Cursors.Cross;
-                                this.SplitBoxAtLocation(objBox, objLocation);
+                                this.MainPanel.Cursor = Cursors.Cross;
+                                this.SplitBoxAtLocation(box, location);
                             }
                             else
                             {
-                                this.Hover = objBox;
+                                this.Hover = box;
                             }
                             break; // TODO: might not be correct. Was : Exit For
                         }
@@ -644,7 +644,7 @@ namespace ASU.UI
                     this.MouseLocation = e.Location;
                 }
                 this.Refresh();
-                this.pnlZoom.Refresh();
+                this.ZoomPanel.Refresh();
             }
             catch (Exception ex)
             {
@@ -652,17 +652,17 @@ namespace ASU.UI
             }
         }
 
-        private void pnlMain_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void MainPanel_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             this.IsMouseDown = false;
         }
 
-        private void pnlMain_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        private void MainPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            Graphics objGraphics = null;
-            Graphics objZoomGraphics = null;
-            Bitmap objOriginal = null;
-            Bitmap objPaint = new Bitmap(this.pnlMain.ClientRectangle.Width, this.pnlMain.ClientRectangle.Height);
+            Graphics graphics = null;
+            Graphics zoomGraphics = null;
+            Bitmap originalImage = null;
+            Bitmap paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
 
             try
             {
@@ -673,68 +673,68 @@ namespace ASU.UI
 
                 if (this.unpackers.Count == 1)
                 {
-                    objOriginal = this.unpackers[0].GetOriginalClone();
+                    originalImage = this.unpackers[0].GetOriginalClone();
                 }
 
-                if (objOriginal != null)
+                if (originalImage != null)
                 {
                     if (SheetWithBoxes == null)
                     {
-                        Graphics objBoxGraphics = null;
+                        Graphics boxGraphics = null;
                         try
                         {
-                            SheetWithBoxes = new Bitmap(objOriginal);
-                            objBoxGraphics = Graphics.FromImage(SheetWithBoxes);
-                            objBoxGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                            SheetWithBoxes = new Bitmap(originalImage);
+                            boxGraphics = Graphics.FromImage(SheetWithBoxes);
+                            boxGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
 
-                            Pen objZoomOutline = default(Pen);
+                            Pen objZoomOutline;
                             objZoomOutline = new Pen(Outline.Color, 1);
-                            SheetWithBoxesEnlarged = new Bitmap(objOriginal);
-                            objZoomGraphics = Graphics.FromImage(SheetWithBoxesEnlarged);
+                            SheetWithBoxesEnlarged = new Bitmap(originalImage);
+                            zoomGraphics = Graphics.FromImage(SheetWithBoxesEnlarged);
 
-                            foreach (Rectangle objBox in this.Boxes)
+                            foreach (Rectangle box in this.Boxes)
                             {
-                                objBoxGraphics.DrawRectangle(Outline, objBox);
-                                objZoomGraphics.DrawRectangle(objZoomOutline, objBox);
+                                boxGraphics.DrawRectangle(Outline, box);
+                                zoomGraphics.DrawRectangle(objZoomOutline, box);
                             }
                         }
                         finally
                         {
-                            if (objBoxGraphics != null)
+                            if (boxGraphics != null)
                             {
-                                objBoxGraphics.Dispose();
+                                boxGraphics.Dispose();
                             }
                         }
                     }
 
-                    objGraphics = Graphics.FromImage(objPaint);
-                    objGraphics.DrawImage(SheetWithBoxes, this.Offset);
+                    graphics = Graphics.FromImage(paintedImage);
+                    graphics.DrawImage(SheetWithBoxes, this.Offset);
 
-                    Rectangle objBoxOffset = default(Rectangle);
+                    Rectangle boxOffset;
 
                     if (this.Splits.Count > 0)
                     {
-                        objBoxOffset = this.SplitTopLeft;
-                        objBoxOffset.Offset(this.Offset);
-                        objGraphics.FillRectangle(HoverFill, objBoxOffset);
+                        boxOffset = this.SplitTopLeft;
+                        boxOffset.Offset(this.Offset);
+                        graphics.FillRectangle(HoverFill, boxOffset);
 
-                        objBoxOffset = this.SplitBottomRight;
-                        objBoxOffset.Offset(this.Offset);
-                        objGraphics.FillRectangle(HoverFill, objBoxOffset);
+                        boxOffset = this.SplitBottomRight;
+                        boxOffset.Offset(this.Offset);
+                        graphics.FillRectangle(HoverFill, boxOffset);
                     }
 
                     if (this.Hover != Rectangle.Empty)
                     {
-                        objBoxOffset = this.Hover;
-                        objBoxOffset.Offset(this.Offset);
-                        objGraphics.FillRectangle(HoverFill, objBoxOffset);
+                        boxOffset = this.Hover;
+                        boxOffset.Offset(this.Offset);
+                        graphics.FillRectangle(HoverFill, boxOffset);
                     }
 
-                    foreach (Rectangle objSelected in this.Selected)
+                    foreach (Rectangle selectedBox in this.Selected)
                     {
-                        objBoxOffset = objSelected;
-                        objBoxOffset.Offset(this.Offset);
-                        objGraphics.FillRectangle(SelectedFill, objBoxOffset);
+                        boxOffset = selectedBox;
+                        boxOffset.Offset(this.Offset);
+                        graphics.FillRectangle(SelectedFill, boxOffset);
                     }
 
                     if (!this.IsMouseDown)
@@ -743,37 +743,37 @@ namespace ASU.UI
 
                         using (Graphics g = Graphics.FromImage(this.ZoomImage))
                         {
-                            g.DrawImage(objPaint, 0, 0, new Rectangle(this.MouseLocation.X - 10, this.MouseLocation.Y - 10, 20, 20), GraphicsUnit.Pixel);
+                            g.DrawImage(paintedImage, 0, 0, new Rectangle(this.MouseLocation.X - 10, this.MouseLocation.Y - 10, 20, 20), GraphicsUnit.Pixel);
                         }
 
-                        if (this.pnlZoom.BackgroundImage != null)
+                        if (this.ZoomPanel.BackgroundImage != null)
                         {
-                            this.pnlZoom.BackgroundImage.Dispose();
+                            this.ZoomPanel.BackgroundImage.Dispose();
                         }
-                        this.pnlZoom.BackgroundImage = BO.ImageScaler.IncreaseScale(this.ZoomImage, 4);
+                        this.ZoomPanel.BackgroundImage = BO.ImageScaler.IncreaseScale(this.ZoomImage, 4);
                         this.ZoomImage.Dispose();
                     }
 
-                    e.Graphics.DrawImage(objPaint, new Point(0, 0));
+                    e.Graphics.DrawImage(paintedImage, new Point(0, 0));
 
                     if (Outline.Color.GetBrightness() >= 0.5)
                     {
                         using (SolidBrush overlayBrushShadow = new SolidBrush(Color.FromArgb(Convert.ToInt32(Outline.Color.G / 2), Convert.ToInt32(Outline.Color.B / 2), Convert.ToInt32(Outline.Color.R / 2))))
                         {
-                            e.Graphics.DrawString(this.OverlayText, this.OverlayFont.Font, overlayBrushShadow, new Point(this.Width - 109, 6));
+                            e.Graphics.DrawString(this.OverlayText, this.OverlayFontLabel.Font, overlayBrushShadow, new Point(this.Width - 109, 6));
                         }
                     }
                     else
                     {
                         using (SolidBrush overlayBrushShadow = new SolidBrush(Color.FromArgb(Math.Min(255, Convert.ToInt32(Outline.Color.G * 1.5)), Math.Min(255, Convert.ToInt32(Outline.Color.B * 1.5)), Math.Min(255, Convert.ToInt32(Outline.Color.R * 1.5)))))
                         {
-                            e.Graphics.DrawString(this.OverlayText, this.OverlayFont.Font, overlayBrushShadow, new Point(this.Width - 109, 6));
+                            e.Graphics.DrawString(this.OverlayText, this.OverlayFontLabel.Font, overlayBrushShadow, new Point(this.Width - 109, 6));
                         }
                     }
 
                     using (SolidBrush overlayBrush = new SolidBrush(Outline.Color))
                     {
-                        e.Graphics.DrawString(this.OverlayText, this.OverlayFont.Font, overlayBrush, new Point(this.Width - 110, 5));
+                        e.Graphics.DrawString(this.OverlayText, this.OverlayFontLabel.Font, overlayBrush, new Point(this.Width - 110, 5));
                     }
                 }
             }
@@ -783,21 +783,21 @@ namespace ASU.UI
             }
             finally
             {
-                if (objOriginal != null)
+                if (originalImage != null)
                 {
-                    objOriginal.Dispose();
+                    originalImage.Dispose();
                 }
-                if (objGraphics != null)
+                if (graphics != null)
                 {
-                    objGraphics.Dispose();
+                    graphics.Dispose();
                 }
-                if (objZoomGraphics != null)
+                if (zoomGraphics != null)
                 {
-                    objZoomGraphics.Dispose();
+                    zoomGraphics.Dispose();
                 }
-                if (objPaint != null)
+                if (paintedImage != null)
                 {
-                    objPaint.Dispose();
+                    paintedImage.Dispose();
                 }
             }
         }
@@ -807,14 +807,14 @@ namespace ASU.UI
             return Convert.ToInt32(pintValue / pintIncrement) * pintIncrement;
         }
 
-        private void frmMain_Resize(object sender, System.EventArgs e)
+        private void MainForm_Resize(object sender, System.EventArgs e)
         {
-            this.pnlMain.Refresh();
+            this.MainPanel.Refresh();
         }
 
-        private void cmdCombine_Click(System.Object sender, System.EventArgs e)
+        private void CombineButton_Click(System.Object sender, System.EventArgs e)
         {
-            Rectangle objNewBox = Rectangle.Empty;
+            Rectangle newBox = Rectangle.Empty;
             try
             {
                 if (this.unpackers.Count != 1)
@@ -832,60 +832,60 @@ namespace ASU.UI
                 }
 
 
-                foreach (Rectangle objBox in this.Selected)
+                foreach (Rectangle box in this.Selected)
                 {
-                    if (objNewBox == Rectangle.Empty)
+                    if (newBox == Rectangle.Empty)
                     {
-                        objNewBox = objBox;
+                        newBox = box;
 
                     }
                     else
                     {
-                        if (objBox.Right > objNewBox.Right)
+                        if (box.Right > newBox.Right)
                         {
-                            objNewBox.Width = objBox.Right - objNewBox.Left;
+                            newBox.Width = box.Right - newBox.Left;
                         }
 
-                        if (objBox.Left < objNewBox.Left)
+                        if (box.Left < newBox.Left)
                         {
-                            objNewBox.Width += objNewBox.Left - objBox.Left;
+                            newBox.Width += newBox.Left - box.Left;
                         }
 
-                        if (objBox.Bottom > objNewBox.Bottom)
+                        if (box.Bottom > newBox.Bottom)
                         {
-                            objNewBox.Height = objBox.Bottom - objNewBox.Top;
+                            newBox.Height = box.Bottom - newBox.Top;
                         }
 
-                        if (objBox.Top < objNewBox.Top)
+                        if (box.Top < newBox.Top)
                         {
-                            objNewBox.Height += objNewBox.Top - objBox.Top;
+                            newBox.Height += newBox.Top - box.Top;
                         }
 
-                        objNewBox.X = Math.Min(objNewBox.X, objBox.X);
-                        objNewBox.Y = Math.Min(objBox.Y, objNewBox.Y);
+                        newBox.X = Math.Min(newBox.X, box.X);
+                        newBox.Y = Math.Min(box.Y, newBox.Y);
                     }
 
-                    this.Boxes.Remove(objBox);
+                    this.Boxes.Remove(box);
                 }
 
-                List<Rectangle> colToRemove = new List<Rectangle>();
+                List<Rectangle> toRemove = new List<Rectangle>();
 
-                foreach (Rectangle objBox in this.Boxes)
+                foreach (Rectangle box in this.Boxes)
                 {
-                    if (objBox.IntersectsWith(objNewBox))
+                    if (box.IntersectsWith(newBox))
                     {
-                        colToRemove.Add(objBox);
+                        toRemove.Add(box);
                     }
                 }
 
-                foreach (Rectangle objRemove in colToRemove)
+                foreach (Rectangle remove in toRemove)
                 {
-                    this.Boxes.Remove(objRemove);
+                    this.Boxes.Remove(remove);
                 }
 
                 this.Selected.Clear();
-                this.Selected.Add(objNewBox);
-                this.Boxes.Add(objNewBox);
+                this.Selected.Add(newBox);
+                this.Boxes.Add(newBox);
                 SheetWithBoxes = null;
                 this.Refresh();
             }
@@ -897,19 +897,19 @@ namespace ASU.UI
 
         private void ExportUnpackers(List<BO.ImageUnpacker> unpackers)
         {
-            string strArgs = null;
-            List<string> colTempFiles = new List<string>();
-            string strOutpath = null;
+            string args = null;
+            List<string> tempFiles = new List<string>();
+            string outpath = null;
             bool hasUserBeenPromptedToConvertFiles = false;
             bool userOkToConvertFiles = true;
             List<Rectangle> boxes = null;
-            DateTime laspe = System.DateTime.MinValue;
+            DateTime lapse = System.DateTime.MinValue;
 
             try
             {
                 if (PromptForDestinationFolder)
                 {
-                    this.FolderBrowserDialog1.SelectedPath = this.txtExportLocation.Text;
+                    this.FolderBrowserDialog1.SelectedPath = this.ExportLocationTextBox.Text;
                 }
 
 
@@ -922,15 +922,15 @@ namespace ASU.UI
                         {
                             if (PromptForDestinationFolder)
                             {
-                                this.txtExportLocation.Text = this.FolderBrowserDialog1.SelectedPath;
-                                strOutpath = this.FolderBrowserDialog1.SelectedPath;
+                                this.ExportLocationTextBox.Text = this.FolderBrowserDialog1.SelectedPath;
+                                outpath = this.FolderBrowserDialog1.SelectedPath;
                             }
 
-                            strOutpath = this.txtExportLocation.Text;
+                            outpath = this.ExportLocationTextBox.Text;
 
-                            Bitmap objOriginal = default(Bitmap);
+                            Bitmap original;
 
-                            objOriginal = unpacker.GetOriginalClone();
+                            original = unpacker.GetOriginalClone();
 
                             if (!string.IsNullOrEmpty(ExportNConvertArgs))
                             {
@@ -968,13 +968,13 @@ namespace ASU.UI
 
                             if (unpackers.Count > 1)
                             {
-                                strOutpath = System.IO.Path.Combine(this.txtExportLocation.Text, unpacker.FileName);
-                                System.IO.Directory.CreateDirectory(strOutpath);
+                                outpath = System.IO.Path.Combine(this.ExportLocationTextBox.Text, unpacker.FileName);
+                                System.IO.Directory.CreateDirectory(outpath);
                             }
 
-                            int intPreFileCount = 0;
+                            int preFileCount = 0;
 
-                            intPreFileCount = System.IO.Directory.GetFiles(strOutpath).Length;
+                            preFileCount = System.IO.Directory.GetFiles(outpath).Length;
 
                             if (unpackers.Count > 1)
                             {
@@ -985,7 +985,7 @@ namespace ASU.UI
                                 }
                                 else
                                 {
-                                    boxes = BO.ImageUnpacker.OrderBoxes(boxes, (Enums.SelectAllOrder)this.Options.cboSelectAllOrder.SelectedIndex, unpacker.GetSize());
+                                    boxes = BO.ImageUnpacker.OrderBoxes(boxes, (Enums.SelectAllOrder)this.Options.SelectAllOrderComboBox.SelectedIndex, unpacker.GetSize());
                                 }
                             }
                             else
@@ -993,9 +993,9 @@ namespace ASU.UI
                                 boxes = this.Selected;
                             }
 
-                            if (laspe != System.DateTime.MaxValue)
+                            if (lapse != System.DateTime.MaxValue)
                             {
-                                laspe = System.DateTime.Now;
+                                lapse = System.DateTime.Now;
                             }
 
                             for (int k = 0; k <= boxes.Count - 1; k++)
@@ -1003,89 +1003,89 @@ namespace ASU.UI
 
                                 if (!boxes[k].IsEmpty)
                                 {
-                                    Bitmap objBitmap = new Bitmap(boxes[k].Width, boxes[k].Height, objOriginal.PixelFormat);
+                                    Bitmap bitmap = new Bitmap(boxes[k].Width, boxes[k].Height, original.PixelFormat);
 
-                                    using (Graphics objGraphics = Graphics.FromImage(objBitmap))
+                                    using (Graphics objGraphics = Graphics.FromImage(bitmap))
                                     {
-                                        objGraphics.DrawImage(objOriginal, new Rectangle(0, 0, objBitmap.Width, objBitmap.Height), boxes[k], GraphicsUnit.Pixel);
+                                        objGraphics.DrawImage(original, new Rectangle(0, 0, bitmap.Width, bitmap.Height), boxes[k], GraphicsUnit.Pixel);
                                         objGraphics.Dispose();
                                     }
 
-                                    if (this.Options != null && this.Options.chkPreservePallette.Checked)
+                                    if (this.Options != null && this.Options.PreservePalletteCheckBox.Checked)
                                     {
                                         if (unpacker.GetPallette() != null)
                                         {
                                             ImageQuantizers.PaletteQuantizer quantizer = default(ImageQuantizers.PaletteQuantizer);
                                             Bitmap quantized = default(Bitmap);
                                             quantizer = new ImageQuantizers.PaletteQuantizer(new System.Collections.ArrayList(unpacker.GetPallette().Entries));
-                                            quantized = quantizer.Quantize(objBitmap);
-                                            objBitmap.Dispose();
-                                            objBitmap = quantized;
+                                            quantized = quantizer.Quantize(bitmap);
+                                            bitmap.Dispose();
+                                            bitmap = quantized;
                                         }
                                     }
 
                                     if (MakeBackgroundTransparent)
                                     {
-                                        objBitmap.MakeTransparent(unpacker.GetBackgroundColour());
+                                        bitmap.MakeTransparent(unpacker.GetBackgroundColour());
                                     }
 
                                     if (string.IsNullOrEmpty(ExportNConvertArgs))
                                     {
-                                        objBitmap.Save(String.Format("{0}\\{1}.{2}", strOutpath, k.ToString(), ExportFormat.ToString().ToLower()), ExportFormat);
+                                        bitmap.Save(String.Format("{0}\\{1}.{2}", outpath, k.ToString(), ExportFormat.ToString().ToLower()), ExportFormat);
                                     }
                                     else
                                     {
-                                        string strTempBitmapPath = null;
+                                        string tempBitmapPath = null;
                                         System.Diagnostics.ProcessStartInfo startInfo = null;
-                                        strTempBitmapPath = String.Format("{0}\\{1}.png", strOutpath, k.ToString());
-                                        colTempFiles.Add(strTempBitmapPath);
-                                        objBitmap.Save(strTempBitmapPath, System.Drawing.Imaging.ImageFormat.Png);
-                                        strArgs = ExportNConvertArgs.Replace("{file_name}", String.Format("\"{0}\\{1}.png\"", strOutpath, k.ToString()));
+                                        tempBitmapPath = String.Format("{0}\\{1}.png", outpath, k.ToString());
+                                        tempFiles.Add(tempBitmapPath);
+                                        bitmap.Save(tempBitmapPath, System.Drawing.Imaging.ImageFormat.Png);
+                                        args = ExportNConvertArgs.Replace("{file_name}", String.Format("\"{0}\\{1}.png\"", outpath, k.ToString()));
 
-                                        startInfo = new System.Diagnostics.ProcessStartInfo(ThirdPartyImageConverterPath, strArgs);
+                                        startInfo = new System.Diagnostics.ProcessStartInfo(ThirdPartyImageConverterPath, args);
                                         startInfo.CreateNoWindow = true;
                                         startInfo.UseShellExecute = true;
                                         using (System.Diagnostics.Process objProcess = System.Diagnostics.Process.Start(startInfo))
                                         {
                                             objProcess.WaitForExit();
-                                            if (System.DateTime.Now.Subtract(laspe).TotalSeconds > 10)
+                                            if (System.DateTime.Now.Subtract(lapse).TotalSeconds > 10)
                                             {
                                                 if (MessageBox.Show("Export of frames is taking a while. Do you want to abort?", "Execessive Export Time", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
                                                 {
-                                                    if (objOriginal != null)
+                                                    if (original != null)
                                                     {
-                                                        objOriginal.Dispose();
+                                                        original.Dispose();
                                                     }
                                                     return;
                                                 }
-                                                laspe = System.DateTime.MaxValue;
+                                                lapse = System.DateTime.MaxValue;
                                             }
                                         }
                                     }
 
-                                    objBitmap.Dispose();
+                                    bitmap.Dispose();
                                 }
                             }
 
-                            if (objOriginal != null)
+                            if (original != null)
                             {
-                                objOriginal.Dispose();
+                                original.Dispose();
                             }
 
-                            if (colTempFiles.Count > 0)
+                            if (tempFiles.Count > 0)
                             {
-                                List<string> colNotConverted = new List<string>();
+                                List<string> notConverted = new List<string>();
 
-                                foreach (string strTempFile in colTempFiles)
+                                foreach (string tempFile in tempFiles)
                                 {
-                                    if (System.IO.File.Exists(strTempFile))
+                                    if (System.IO.File.Exists(tempFile))
                                     {
-                                        colNotConverted.Add(strTempFile);
+                                        notConverted.Add(tempFile);
                                     }
-                                    System.IO.File.Delete(strTempFile);
+                                    System.IO.File.Delete(tempFile);
                                 }
 
-                                if (colNotConverted.Count > 0 && System.IO.Directory.GetFiles(strOutpath).Length < (intPreFileCount + (colTempFiles.Count * 2)))
+                                if (notConverted.Count > 0 && System.IO.Directory.GetFiles(outpath).Length < (preFileCount + (tempFiles.Count * 2)))
                                 {
                                     MessageBox.Show(String.Format("Exported files failed to be converted.{3}{3}Arguments used:{3}{0}{3}{3}Please see '{1}' documentation at {3}[{2}].", ExportNConvertArgs, BO.ThirdPartyPaths.GetThirdPartyConversionToolExecutableName(), BO.ThirdPartyPaths.GetThirdPartyConversionToolDirectory(), Environment.NewLine));
                                     return;
@@ -1094,7 +1094,7 @@ namespace ASU.UI
 
                             if (AutoOpenDestinationFolder && unpackers.Count == 1)
                             {
-                                System.Diagnostics.Process.Start(strOutpath);
+                                System.Diagnostics.Process.Start(outpath);
                             }
                         }
                     }
@@ -1119,7 +1119,7 @@ namespace ASU.UI
             }
         }
 
-        private void cmdExport_Click(System.Object sender, System.EventArgs e)
+        private void ExportButton_Click(System.Object sender, System.EventArgs e)
         {
             try
             {
@@ -1131,14 +1131,14 @@ namespace ASU.UI
             }
         }
 
-        private void pnlZoom_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        private void ZoomPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             try
             {
-                if (!this.chkCut.Checked)
+                if (!this.ClickModeCheckBoxButton.Checked)
                 {
-                    e.Graphics.DrawLine(ZoomPen, 0, (this.pnlZoom.ClientRectangle.Height / 2f) + 2, this.pnlZoom.ClientRectangle.Width, (this.pnlZoom.ClientRectangle.Height / 2f) + 2);
-                    e.Graphics.DrawLine(ZoomPen, (this.pnlZoom.ClientRectangle.Width / 2f) + 2, 0, (this.pnlZoom.ClientRectangle.Width / 2f) + 2, this.pnlZoom.ClientRectangle.Height);
+                    e.Graphics.DrawLine(ZoomPen, 0, (this.ZoomPanel.ClientRectangle.Height / 2f) + 2, this.ZoomPanel.ClientRectangle.Width, (this.ZoomPanel.ClientRectangle.Height / 2f) + 2);
+                    e.Graphics.DrawLine(ZoomPen, (this.ZoomPanel.ClientRectangle.Width / 2f) + 2, 0, (this.ZoomPanel.ClientRectangle.Width / 2f) + 2, this.ZoomPanel.ClientRectangle.Height);
                 }
             }
             catch (Exception sorry)
@@ -1146,7 +1146,7 @@ namespace ASU.UI
             }
         }
 
-        private void cmdUndo_Click(System.Object sender, System.EventArgs e)
+        private void UndoButton_Click(System.Object sender, System.EventArgs e)
         {
             try
             {
@@ -1181,7 +1181,7 @@ namespace ASU.UI
                 }
                 else
                 {
-                    this.Selected = BO.ImageUnpacker.OrderBoxes(this.unpackers[0].GetBoxes(), (Enums.SelectAllOrder)this.Options.cboSelectAllOrder.SelectedIndex, this.unpackers[0].GetSize());
+                    this.Selected = BO.ImageUnpacker.OrderBoxes(this.unpackers[0].GetBoxes(), (Enums.SelectAllOrder)this.Options.SelectAllOrderComboBox.SelectedIndex, this.unpackers[0].GetSize());
                 }
                 this.SetFullImageOverlayText();
                 this.Refresh();
@@ -1212,14 +1212,14 @@ namespace ASU.UI
             }
         }
 
-        private void cmdPaste_Click(System.Object sender, System.EventArgs e)
+        private void PasteButton_Click(System.Object sender, System.EventArgs e)
         {
             try
             {
                 if (Clipboard.ContainsImage())
                 {
                     this.unpackers.Clear();
-                    this.lblDragAndDrop.Visible = false;
+                    this.DragAndDropLabel.Visible = false;
                     this.CreateUnpacker(new Bitmap(Clipboard.GetImage()), "clipboard");
                     this.StartUnpackers();
                 }
@@ -1234,7 +1234,7 @@ namespace ASU.UI
             }
         }
 
-        private void cmdOptions_Click(System.Object sender, System.EventArgs e)
+        private void OptionsButton_Click(System.Object sender, System.EventArgs e)
         {
             try
             {
@@ -1242,8 +1242,8 @@ namespace ASU.UI
                 {
                     this.Options = new OptionsForm();
                     this.Options.Main = this;
-                    this.Options.chkPromptDestinationFolder.Checked = PromptForDestinationFolder;
-                    this.Options.chkOpenExportedDestination.Checked = AutoOpenDestinationFolder;
+                    this.Options.PromptDestinationFolderCheckBox.Checked = PromptForDestinationFolder;
+                    this.Options.OpenExportedDestinationCheckBox.Checked = AutoOpenDestinationFolder;
                 }
 
                 this.Options.ShowDialog();
@@ -1280,12 +1280,12 @@ namespace ASU.UI
                 this.Boxes = new List<Rectangle>();
             }
 
-            this.pnlMain.Refresh();
+            this.MainPanel.Refresh();
             this.CheckForUnpackFinishTimer.Stop();
             this.ImageClipperAndAnimatorTimer.Stop();
-            this.pnlMain.BackgroundImage = null;
-            this.pnlOptions.Enabled = true;
-            this.pnlZoom.Visible = this.unpackers.Count == 1;
+            this.MainPanel.BackgroundImage = null;
+            this.OptionsPanel.Enabled = true;
+            this.ZoomPanel.Visible = this.unpackers.Count == 1;
 
             this.Offset = new Point(0, 0);
             this.Text = String.Format(STR_FORM_TITLE, ForkandBeard.Logic.Names.GetApplicationMajorVersion(), "");
@@ -1293,8 +1293,8 @@ namespace ASU.UI
 
             if (this.unpackers.Count > 1 || this.unpackers.Count == 0)
             {
-                this.lblDragAndDrop.Visible = true;
-                this.pnlMain.BackColor = Color.FromArgb(224, 224, 224);
+                this.DragAndDropLabel.Visible = true;
+                this.MainPanel.BackColor = Color.FromArgb(224, 224, 224);
                 this.SetOverlayText(new List<string>(), new List<string>());
             }
             else
@@ -1326,7 +1326,7 @@ namespace ASU.UI
                 if (unpacker.IsBackgroundColourSet())
                 {
                     this.SetColoursBasedOnBackground(unpacker.GetBackgroundColour());
-                    this.pnlMain.BackColor = unpacker.GetBackgroundColour();
+                    this.MainPanel.BackColor = unpacker.GetBackgroundColour();
                 }
 
                 if (this.AreAllUnpacked())
@@ -1345,9 +1345,9 @@ namespace ASU.UI
         {
             BO.ImageUnpacker unpacker;
             int pcComplete = 0;
-            Bitmap objOriginal = null;
-            Bitmap objBackgroundImage = null;
-            Graphics objGraphics = null;
+            Bitmap original = null;
+            Bitmap backgroundImage = null;
+            Graphics graphics = null;
             try
             {
                 if (this.unpackers.Count == 1)
@@ -1374,19 +1374,19 @@ namespace ASU.UI
 
                 if (!unpacker.IsUnpacked())
                 {
-                    Rectangle objRandomRectangle = default(Rectangle);
+                    Rectangle randomRectangle = default(Rectangle);
 
-                    objOriginal = unpacker.GetOriginalClone();
+                    original = unpacker.GetOriginalClone();
                     this.UpdateTitlePc(pcComplete);
-                    objRandomRectangle = new Rectangle(0, 0, this.Random.Next(2, Convert.ToInt32(objOriginal.Width * 0.4f)), this.Random.Next(2, Convert.ToInt32(objOriginal.Height * 0.4f)));
-                    objBackgroundImage = new Bitmap(objRandomRectangle.Width, objRandomRectangle.Height);
-                    objRandomRectangle.X = this.Random.Next(0, Convert.ToInt32(objOriginal.Width - objRandomRectangle.Width));
-                    objRandomRectangle.Y = this.Random.Next(0, Convert.ToInt32(objOriginal.Height - objRandomRectangle.Height));
+                    randomRectangle = new Rectangle(0, 0, this.Random.Next(2, Convert.ToInt32(original.Width * 0.4f)), this.Random.Next(2, Convert.ToInt32(original.Height * 0.4f)));
+                    backgroundImage = new Bitmap(randomRectangle.Width, randomRectangle.Height);
+                    randomRectangle.X = this.Random.Next(0, Convert.ToInt32(original.Width - randomRectangle.Width));
+                    randomRectangle.Y = this.Random.Next(0, Convert.ToInt32(original.Height - randomRectangle.Height));
 
-                    objGraphics = Graphics.FromImage(objBackgroundImage);
-                    objGraphics.DrawImage(objOriginal, 0, 0, objRandomRectangle, GraphicsUnit.Pixel);
+                    graphics = Graphics.FromImage(backgroundImage);
+                    graphics.DrawImage(original, 0, 0, randomRectangle, GraphicsUnit.Pixel);
 
-                    this.pnlMain.BackgroundImage = objBackgroundImage;
+                    this.MainPanel.BackgroundImage = backgroundImage;
                     this.Text = this.FormTitle;
 
                     lock ((BO.RegionUnpacker.Wait))
@@ -1401,14 +1401,14 @@ namespace ASU.UI
             }
             finally
             {
-                if (objOriginal != null)
+                if (original != null)
                 {
-                    objOriginal.Dispose();
+                    original.Dispose();
                 }
 
-                if (objGraphics != null)
+                if (graphics != null)
                 {
-                    objGraphics.Dispose();
+                    graphics.Dispose();
                 }
             }
         }
@@ -1426,16 +1426,16 @@ namespace ASU.UI
                 return base.ProcessCmdKey(ref msg, keyData);
             }
 
-            Rectangle objPanelRectangle = default(Rectangle);
-            Point objCursor = default(Point);
+            Rectangle panelRectangle;
+            Point cursor;
 
-            objCursor = Cursor.Position;
-            objPanelRectangle = this.pnlMain.ClientRectangle;
+            cursor = Cursor.Position;
+            panelRectangle = this.MainPanel.ClientRectangle;
 
-            objPanelRectangle.X = this.Left;
-            objPanelRectangle.Y = this.Top + (this.Height - this.pnlMain.Height - this.pnlOptions.Height);
+            panelRectangle.X = this.Left;
+            panelRectangle.Y = this.Top + (this.Height - this.MainPanel.Height - this.OptionsPanel.Height);
 
-            if (objPanelRectangle.Contains(objCursor))
+            if (panelRectangle.Contains(cursor))
             {
                 switch (keyData)
                 {
@@ -1458,15 +1458,15 @@ namespace ASU.UI
         }
         #endregion
 
-        private void chkCut_CheckedChanged(System.Object sender, System.EventArgs e)
+        private void ClickModeCheckBoxButton_CheckedChanged(System.Object sender, System.EventArgs e)
         {
-            if (this.chkCut.Checked)
+            if (this.ClickModeCheckBoxButton.Checked)
             {
-                this.chkCut.Image = global::ASU.Properties.Resources.cut;
+                this.ClickModeCheckBoxButton.Image = global::ASU.Properties.Resources.cut;
             }
             else
             {
-                this.chkCut.Image = global::ASU.Properties.Resources.cursor;
+                this.ClickModeCheckBoxButton.Image = global::ASU.Properties.Resources.cursor;
             }
         }
     }

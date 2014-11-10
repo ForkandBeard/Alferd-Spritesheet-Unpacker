@@ -14,11 +14,11 @@ namespace ASU.BO
         private Rectangle Region;
 
         public List<Rectangle> Boxes = new List<Rectangle>();
-        public RegionUnpacker(Bitmap pimgImage, Rectangle pobjRegion, Color pobjBackgroundColour)
+        public RegionUnpacker(Bitmap image, Rectangle region, Color backgroundColour)
         {
-            this.Image = pimgImage;
-            this.Region = pobjRegion;
-            this.BackgroundColour = pobjBackgroundColour;
+            this.Image = image;
+            this.Region = region;
+            this.BackgroundColour = backgroundColour;
         }
 
         public void UnpackRegion()
@@ -37,140 +37,139 @@ namespace ASU.BO
             return this.Image;
         }
 
-        private static List<Rectangle> CreateBoxes(Bitmap pobjImage, Rectangle pobjRegion, Color pobjBackground)
+        private static List<Rectangle> CreateBoxes(Bitmap image, Rectangle region, Color background)
         {
-            List<Rectangle> colReturn = new List<Rectangle>();
-            Point objPresentPixel = default(Point);
-            Rectangle objNewBox = default(Rectangle);
+            List<Rectangle> boxes = new List<Rectangle>();
+            Point presentPixel;
+            Rectangle newBox;
             int x2 = 0;
             int y2 = 0;
-            Color objPresentColour = default(Color);
+            Color presentColour;
 
-            for (int y = pobjRegion.Top; y <= pobjRegion.Bottom; y++)
+            for (int y = region.Top; y <= region.Bottom; y++)
             {
 
-                for (int x = pobjRegion.Left; x <= pobjRegion.Right; x++)
+                for (int x = region.Left; x <= region.Right; x++)
                 {
-                    if (x > 0 && x < pobjImage.Width && y > 0 && y < pobjImage.Height)
+                    if (x > 0 && x < image.Width && y > 0 && y < image.Height)
                     {
-                        objPresentPixel = new Point(x, y);
+                        presentPixel = new Point(x, y);
 
-                        objPresentColour = pobjImage.GetPixel(x, y);
+                        presentColour = image.GetPixel(x, y);
 
-                        if (objPresentColour != pobjBackground)
+                        if (presentColour != background)
                         {
-                            objNewBox = new Rectangle(objPresentPixel, new Size(0, 0));
+                            newBox = new Rectangle(presentPixel, new Size(0, 0));
                             x2 = x;
 
-                            while (x2 < (pobjImage.Width - 1) && pobjImage.GetPixel(x2, y) != pobjBackground)
+                            while (x2 < (image.Width - 1) && image.GetPixel(x2, y) != background)
                             {
                                 x2 += 1;
-                                objNewBox = new Rectangle(objNewBox.X, objNewBox.Y, objNewBox.Width + 1, objNewBox.Height);
+                                newBox = new Rectangle(newBox.X, newBox.Y, newBox.Width + 1, newBox.Height);
                             }
 
                             y2 = y;
-                            while (y2 < (pobjImage.Height - 1) && pobjImage.GetPixel(x2, y2) != pobjBackground)
+                            while (y2 < (image.Height - 1) && image.GetPixel(x2, y2) != background)
                             {
                                 y2 += 1;
-                                objNewBox = new Rectangle(objNewBox.X, objNewBox.Y, objNewBox.Width, objNewBox.Height + 1);
+                                newBox = new Rectangle(newBox.X, newBox.Y, newBox.Width, newBox.Height + 1);
                             }
 
-                            y2 = y + objNewBox.Height;
-                            while (y2 < (pobjImage.Height - 1) && pobjImage.GetPixel(x, y2) != pobjBackground)
+                            y2 = y + newBox.Height;
+                            while (y2 < (image.Height - 1) && image.GetPixel(x, y2) != background)
                             {
                                 y2 += 1;
-                                objNewBox = new Rectangle(objNewBox.X, objNewBox.Y, objNewBox.Width, objNewBox.Height + 1);
+                                newBox = new Rectangle(newBox.X, newBox.Y, newBox.Width, newBox.Height + 1);
                             }
 
-                            colReturn.Add(objNewBox);
+                            boxes.Add(newBox);
 
-                            x += (objNewBox.Width + 1);
+                            x += (newBox.Width + 1);
                         }
                     }
                 }
             }
 
-            return colReturn;
+            return boxes;
         }
 
-        public static void CombineBoxes(ref List<Rectangle> pcolBoxes, Color pobjBackground, Bitmap pobjImage)
+        public static void CombineBoxes(ref List<Rectangle> boxes, Color background, Bitmap image)
         {
-            int intIndex = 0;
+            int index = 0;
             do
             {
-                intIndex = CombineFirstOverlappingBox(ref pcolBoxes, pobjBackground, pobjImage, intIndex);
-            } while (intIndex != -1);
+                index = CombineFirstOverlappingBox(ref boxes, background, image, index);
+            } while (index != -1);
         }
 
-        private static int CombineFirstOverlappingBox(ref List<Rectangle> pcolBoxes, Color pobjBackground, Bitmap pobjImage, int pintStartIndex)
+        private static int CombineFirstOverlappingBox(ref List<Rectangle> boxes, Color background, Bitmap image, int startIndex)
         {
-            Rectangle objNewBox = Rectangle.Empty;
-            List<Rectangle> colOldBoxes = new List<Rectangle>();
-            int intReturn = -1;
-            Rectangle objBox = default(Rectangle);
-
-            // Each objBox As Rectangle In pcolBoxes
-            for (int i = pintStartIndex; i <= pcolBoxes.Count - 1; i++)
+            Rectangle newBox = Rectangle.Empty;
+            List<Rectangle> oldBoxes = new List<Rectangle>();
+            int returnIndex = -1;
+            Rectangle box;
+            
+            for (int i = startIndex; i <= boxes.Count - 1; i++)
             {
-                objBox = pcolBoxes[i];
+                box = boxes[i];
 
-                foreach (Rectangle objCollider in pcolBoxes)
+                foreach (Rectangle collider in boxes)
                 {
 
-                    if (objBox != objCollider)
+                    if (box != collider)
                     {
 
-                        if (DoBoxesContainAdjacentOrOverlappingPixels(objBox, objCollider, pobjBackground, pobjImage))
+                        if (DoBoxesContainAdjacentOrOverlappingPixels(box, collider, background, image))
                         {
-                            objNewBox = objBox;
+                            newBox = box;
 
-                            intReturn = i;
-                            if (objCollider.Right > objNewBox.Right)
+                            returnIndex = i;
+                            if (collider.Right > newBox.Right)
                             {
-                                objNewBox.Width = objCollider.Right - objNewBox.Left;
+                                newBox.Width = collider.Right - newBox.Left;
                             }
 
-                            if (objCollider.Left < objNewBox.Left)
+                            if (collider.Left < newBox.Left)
                             {
-                                objNewBox.Width += objNewBox.Left - objCollider.Left;
+                                newBox.Width += newBox.Left - collider.Left;
                             }
 
-                            if (objCollider.Bottom > objNewBox.Bottom)
+                            if (collider.Bottom > newBox.Bottom)
                             {
-                                objNewBox.Height = objCollider.Bottom - objNewBox.Top;
+                                newBox.Height = collider.Bottom - newBox.Top;
                             }
 
-                            if (objCollider.Top < objNewBox.Top)
+                            if (collider.Top < newBox.Top)
                             {
-                                objNewBox.Height += objNewBox.Top - objCollider.Top;
+                                newBox.Height += newBox.Top - collider.Top;
                             }
 
-                            objNewBox.X = Math.Min(objNewBox.X, objCollider.X);
-                            objNewBox.Y = Math.Min(objCollider.Y, objNewBox.Y);
+                            newBox.X = Math.Min(newBox.X, collider.X);
+                            newBox.Y = Math.Min(collider.Y, newBox.Y);
 
-                            colOldBoxes.Add(objBox);
-                            colOldBoxes.Add(objCollider);
+                            oldBoxes.Add(box);
+                            oldBoxes.Add(collider);
                             break; // TODO: might not be correct. Was : Exit For
                         }
                     }
                 }
 
-                if (objNewBox != Rectangle.Empty)
+                if (newBox != Rectangle.Empty)
                 {
                     break; // TODO: might not be correct. Was : Exit For
                 }
             }
 
-            if (objNewBox != Rectangle.Empty)
+            if (newBox != Rectangle.Empty)
             {
-                foreach (Rectangle objBox2 in colOldBoxes)
+                foreach (Rectangle oldBox in oldBoxes)
                 {
-                    pcolBoxes.Remove(objBox2);
+                    boxes.Remove(oldBox);
                 }
-                pcolBoxes.Add(objNewBox);
+                boxes.Add(newBox);
             }
 
-            return intReturn;
+            return returnIndex;
         }
 
         public static void DeleteAllTempFiles()
@@ -178,10 +177,10 @@ namespace ASU.BO
             try
             {
                 Console.WriteLine("Deleting from " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-                foreach (string strFile in System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "asu_temp_spritesheet*", System.IO.SearchOption.TopDirectoryOnly))
+                foreach (string file in System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "asu_temp_spritesheet*", System.IO.SearchOption.TopDirectoryOnly))
                 {
-                    Console.WriteLine("Deleting " + strFile);
-                    System.IO.File.Delete(strFile);
+                    Console.WriteLine("Deleting " + file);
+                    System.IO.File.Delete(file);
                 }
             }
             catch (Exception ignore)
@@ -190,18 +189,18 @@ namespace ASU.BO
             }
         }
 
-        private static bool DoBoxesContainAdjacentOrOverlappingPixels(Rectangle pobjBox1, Rectangle pobjBox2, Color pobjBackground, Bitmap pobjImage)
+        private static bool DoBoxesContainAdjacentOrOverlappingPixels(Rectangle box1, Rectangle box2, Color background, Bitmap image)
         {
-            Rectangle objIntersection = default(Rectangle);
+            Rectangle intersection;
 
-            if (pobjBox1.IntersectsWith(pobjBox2))
+            if (box1.IntersectsWith(box2))
             {
-                objIntersection = Rectangle.Intersect(pobjBox1, pobjBox2);
-                for (int x = objIntersection.X; x <= objIntersection.Right; x++)
+                intersection = Rectangle.Intersect(box1, box2);
+                for (int x = intersection.X; x <= intersection.Right; x++)
                 {
-                    for (int y = objIntersection.Y; y <= objIntersection.Bottom; y++)
+                    for (int y = intersection.Y; y <= intersection.Bottom; y++)
                     {
-                        if (pobjImage.GetPixel(x, y) != pobjBackground)
+                        if (image.GetPixel(x, y) != background)
                         {
                             return true;
                         }
@@ -211,18 +210,18 @@ namespace ASU.BO
             }
 
 
-            if (ForkandBeard.Util.Geometry.GeometryHelper.GetXGapBetweenRectangles(pobjBox1, pobjBox2) <= UI.MainForm.DistanceBetweenTiles)
+            if (ForkandBeard.Util.Geometry.GeometryHelper.GetXGapBetweenRectangles(box1, box2) <= UI.MainForm.DistanceBetweenTiles)
             {
-                for (int y = pobjBox1.Y - UI.MainForm.DistanceBetweenTiles; y <= pobjBox1.Bottom + UI.MainForm.DistanceBetweenTiles; y++)
+                for (int y = box1.Y - UI.MainForm.DistanceBetweenTiles; y <= box1.Bottom + UI.MainForm.DistanceBetweenTiles; y++)
                 {
 
-                    if (y >= pobjBox2.Top && y <= pobjBox2.Bottom)
+                    if (y >= box2.Top && y <= box2.Bottom)
                     {
-                        if (pobjBox2.Left > pobjBox1.Right)
+                        if (box2.Left > box1.Right)
                         {
-                            if (pobjImage.GetPixel(pobjBox1.Right, y) != pobjBackground)
+                            if (image.GetPixel(box1.Right, y) != background)
                             {
-                                if (pobjImage.GetPixel(pobjBox2.Left, y) != pobjBackground)
+                                if (image.GetPixel(box2.Left, y) != background)
                                 {
                                     return true;
                                 }
@@ -230,9 +229,9 @@ namespace ASU.BO
                         }
                         else
                         {
-                            if (pobjImage.GetPixel(pobjBox1.Left, y) != pobjBackground)
+                            if (image.GetPixel(box1.Left, y) != background)
                             {
-                                if (pobjImage.GetPixel(pobjBox2.Right, y) != pobjBackground)
+                                if (image.GetPixel(box2.Right, y) != background)
                                 {
                                     return true;
                                 }
@@ -244,18 +243,18 @@ namespace ASU.BO
             }
 
 
-            if (ForkandBeard.Util.Geometry.GeometryHelper.GetYGapBetweenRectangles(pobjBox1, pobjBox2) <= UI.MainForm.DistanceBetweenTiles)
+            if (ForkandBeard.Util.Geometry.GeometryHelper.GetYGapBetweenRectangles(box1, box2) <= UI.MainForm.DistanceBetweenTiles)
             {
-                for (int x = pobjBox1.Left - UI.MainForm.DistanceBetweenTiles; x <= pobjBox1.Right + UI.MainForm.DistanceBetweenTiles; x++)
+                for (int x = box1.Left - UI.MainForm.DistanceBetweenTiles; x <= box1.Right + UI.MainForm.DistanceBetweenTiles; x++)
                 {
 
-                    if (x >= pobjBox2.Left && x <= pobjBox2.Right)
+                    if (x >= box2.Left && x <= box2.Right)
                     {
-                        if (pobjBox2.Top > pobjBox1.Bottom)
+                        if (box2.Top > box1.Bottom)
                         {
-                            if (pobjImage.GetPixel(x, pobjBox1.Bottom) != pobjBackground)
+                            if (image.GetPixel(x, box1.Bottom) != background)
                             {
-                                if (pobjImage.GetPixel(x, pobjBox2.Top) != pobjBackground)
+                                if (image.GetPixel(x, box2.Top) != background)
                                 {
                                     return true;
                                 }
@@ -263,9 +262,9 @@ namespace ASU.BO
                         }
                         else
                         {
-                            if (pobjImage.GetPixel(x, pobjBox1.Top) != pobjBackground)
+                            if (image.GetPixel(x, box1.Top) != background)
                             {
-                                if (pobjImage.GetPixel(x, pobjBox2.Bottom) != pobjBackground)
+                                if (image.GetPixel(x, box2.Bottom) != background)
                                 {
                                     return true;
                                 }

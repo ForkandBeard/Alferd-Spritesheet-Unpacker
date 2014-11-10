@@ -6,7 +6,7 @@ using System.Drawing;
 namespace ASU.BO
 {
     /// <summary>
-    /// Not sure where I fot this code from, but it isn't mine.
+    /// http://csharpdocument.blogspot.co.uk/2013/10/how-to-rotate-image.html
     /// </summary>
     internal static class PointMath
     {

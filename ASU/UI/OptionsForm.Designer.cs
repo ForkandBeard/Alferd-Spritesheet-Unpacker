@@ -37,179 +37,179 @@ namespace ASU.UI
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsForm));
             this.ColorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.pnlSelectedColour = new System.Windows.Forms.Panel();
-            this.pnlTileBorderColour = new System.Windows.Forms.Panel();
-            this.pnlHoverColour = new System.Windows.Forms.Panel();
-            this.ctlOutlineWidth = new System.Windows.Forms.NumericUpDown();
-            this.cmdClose = new System.Windows.Forms.Button();
-            this.lblOutlineWidth = new System.Windows.Forms.Label();
-            this.lblDistanceBetweenTiles = new System.Windows.Forms.Label();
-            this.ctlDistanceBetweenTiles = new System.Windows.Forms.NumericUpDown();
-            this.cmdAbout = new System.Windows.Forms.Button();
-            this.cboExportFormat = new System.Windows.Forms.ComboBox();
-            this.lblExportFormat = new System.Windows.Forms.Label();
-            this.txtNConvertArgs = new System.Windows.Forms.TextBox();
+            this.SelectedColourPanel = new System.Windows.Forms.Panel();
+            this.TileBorderColourPanel = new System.Windows.Forms.Panel();
+            this.HoverColourPanel = new System.Windows.Forms.Panel();
+            this.OutlineWidthUpDown = new System.Windows.Forms.NumericUpDown();
+            this.CloseButton = new System.Windows.Forms.Button();
+            this.OutlineWidthLabel = new System.Windows.Forms.Label();
+            this.DistanceBetweenTilesLabel = new System.Windows.Forms.Label();
+            this.DistanceBetweenTilesUpDown = new System.Windows.Forms.NumericUpDown();
+            this.AboutButton = new System.Windows.Forms.Button();
+            this.ExportFormatComboBox = new System.Windows.Forms.ComboBox();
+            this.ExportFormatLabel = new System.Windows.Forms.Label();
+            this.NConvertArgsTextBox = new System.Windows.Forms.TextBox();
             this.Label1 = new System.Windows.Forms.Label();
-            this.chkShowCommandLineArgs = new System.Windows.Forms.CheckBox();
-            this.lblCommandLine = new System.Windows.Forms.Label();
-            this.lnkCommandLineHelp = new System.Windows.Forms.LinkLabel();
+            this.ShowCommandLineArgsCheckBox = new System.Windows.Forms.CheckBox();
+            this.CommandLineLabel = new System.Windows.Forms.Label();
+            this.CommandLineHelpLink = new System.Windows.Forms.LinkLabel();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
-            this.cmdSelectedColour = new System.Windows.Forms.Button();
-            this.cmdTileBorderColour = new System.Windows.Forms.Button();
-            this.cmdHoverColour = new System.Windows.Forms.Button();
-            this.pnlExport = new System.Windows.Forms.GroupBox();
-            this.chkPreservePallette = new System.Windows.Forms.CheckBox();
-            this.chkExportBGTransparent = new System.Windows.Forms.CheckBox();
-            this.lnkDownload = new System.Windows.Forms.LinkLabel();
-            this.cboSelectAllOrder = new System.Windows.Forms.ComboBox();
+            this.SelectedColourButton = new System.Windows.Forms.Button();
+            this.TileBorderColourButton = new System.Windows.Forms.Button();
+            this.HoverColourButton = new System.Windows.Forms.Button();
+            this.ExportPanel = new System.Windows.Forms.GroupBox();
+            this.PreservePalletteCheckBox = new System.Windows.Forms.CheckBox();
+            this.ExportBGTransparentCheckBox = new System.Windows.Forms.CheckBox();
+            this.DownloadLink = new System.Windows.Forms.LinkLabel();
+            this.SelectAllOrderComboBox = new System.Windows.Forms.ComboBox();
             this.Label2 = new System.Windows.Forms.Label();
-            this.chkPromptDestinationFolder = new System.Windows.Forms.CheckBox();
-            this.chkOpenExportedDestination = new System.Windows.Forms.CheckBox();
-            this.lnkHelp = new System.Windows.Forms.LinkLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.ctlOutlineWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ctlDistanceBetweenTiles)).BeginInit();
+            this.PromptDestinationFolderCheckBox = new System.Windows.Forms.CheckBox();
+            this.OpenExportedDestinationCheckBox = new System.Windows.Forms.CheckBox();
+            this.HelpLink = new System.Windows.Forms.LinkLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.OutlineWidthUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DistanceBetweenTilesUpDown)).BeginInit();
             this.GroupBox1.SuspendLayout();
             this.GroupBox2.SuspendLayout();
-            this.pnlExport.SuspendLayout();
+            this.ExportPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pnlSelectedColour
+            // SelectedColourPanel
             // 
-            this.pnlSelectedColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(255)))));
-            this.pnlSelectedColour.Location = new System.Drawing.Point(93, 17);
-            this.pnlSelectedColour.Name = "pnlSelectedColour";
-            this.pnlSelectedColour.Size = new System.Drawing.Size(70, 35);
-            this.pnlSelectedColour.TabIndex = 5;
+            this.SelectedColourPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(255)))));
+            this.SelectedColourPanel.Location = new System.Drawing.Point(93, 17);
+            this.SelectedColourPanel.Name = "SelectedColourPanel";
+            this.SelectedColourPanel.Size = new System.Drawing.Size(70, 35);
+            this.SelectedColourPanel.TabIndex = 5;
             // 
-            // pnlTileBorderColour
+            // TileBorderColourPanel
             // 
-            this.pnlTileBorderColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(255)))));
-            this.pnlTileBorderColour.Location = new System.Drawing.Point(93, 58);
-            this.pnlTileBorderColour.Name = "pnlTileBorderColour";
-            this.pnlTileBorderColour.Size = new System.Drawing.Size(70, 35);
-            this.pnlTileBorderColour.TabIndex = 7;
+            this.TileBorderColourPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(255)))));
+            this.TileBorderColourPanel.Location = new System.Drawing.Point(93, 58);
+            this.TileBorderColourPanel.Name = "TileBorderColourPanel";
+            this.TileBorderColourPanel.Size = new System.Drawing.Size(70, 35);
+            this.TileBorderColourPanel.TabIndex = 7;
             // 
-            // pnlHoverColour
+            // HoverColourPanel
             // 
-            this.pnlHoverColour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.pnlHoverColour.Location = new System.Drawing.Point(93, 99);
-            this.pnlHoverColour.Name = "pnlHoverColour";
-            this.pnlHoverColour.Size = new System.Drawing.Size(70, 35);
-            this.pnlHoverColour.TabIndex = 9;
+            this.HoverColourPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.HoverColourPanel.Location = new System.Drawing.Point(93, 99);
+            this.HoverColourPanel.Name = "HoverColourPanel";
+            this.HoverColourPanel.Size = new System.Drawing.Size(70, 35);
+            this.HoverColourPanel.TabIndex = 9;
             // 
-            // ctlOutlineWidth
+            // OutlineWidthUpDown
             // 
-            this.ctlOutlineWidth.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlOutlineWidth.Location = new System.Drawing.Point(103, 20);
-            this.ctlOutlineWidth.Minimum = new decimal(new int[] {
+            this.OutlineWidthUpDown.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OutlineWidthUpDown.Location = new System.Drawing.Point(103, 20);
+            this.OutlineWidthUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.ctlOutlineWidth.Name = "ctlOutlineWidth";
-            this.ctlOutlineWidth.Size = new System.Drawing.Size(48, 27);
-            this.ctlOutlineWidth.TabIndex = 0;
-            this.ctlOutlineWidth.Value = new decimal(new int[] {
+            this.OutlineWidthUpDown.Name = "OutlineWidthUpDown";
+            this.OutlineWidthUpDown.Size = new System.Drawing.Size(48, 27);
+            this.OutlineWidthUpDown.TabIndex = 0;
+            this.OutlineWidthUpDown.Value = new decimal(new int[] {
             2,
             0,
             0,
             0});
             // 
-            // cmdClose
+            // CloseButton
             // 
-            this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdClose.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cmdClose.Location = new System.Drawing.Point(286, 328);
-            this.cmdClose.Name = "cmdClose";
-            this.cmdClose.Size = new System.Drawing.Size(76, 39);
-            this.cmdClose.TabIndex = 9;
-            this.cmdClose.Text = "Update and Close";
-            this.cmdClose.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdClose.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.cmdClose.UseVisualStyleBackColor = true;
-            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CloseButton.Location = new System.Drawing.Point(286, 328);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(76, 39);
+            this.CloseButton.TabIndex = 9;
+            this.CloseButton.Text = "Update and Close";
+            this.CloseButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.CloseButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
-            // lblOutlineWidth
+            // OutlineWidthLabel
             // 
-            this.lblOutlineWidth.Location = new System.Drawing.Point(4, 17);
-            this.lblOutlineWidth.Name = "lblOutlineWidth";
-            this.lblOutlineWidth.Size = new System.Drawing.Size(93, 32);
-            this.lblOutlineWidth.TabIndex = 12;
-            this.lblOutlineWidth.Text = "Tile Outline Width";
-            this.lblOutlineWidth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OutlineWidthLabel.Location = new System.Drawing.Point(4, 17);
+            this.OutlineWidthLabel.Name = "OutlineWidthLabel";
+            this.OutlineWidthLabel.Size = new System.Drawing.Size(93, 32);
+            this.OutlineWidthLabel.TabIndex = 12;
+            this.OutlineWidthLabel.Text = "Tile Outline Width";
+            this.OutlineWidthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblDistanceBetweenTiles
+            // DistanceBetweenTilesLabel
             // 
-            this.lblDistanceBetweenTiles.Location = new System.Drawing.Point(7, 59);
-            this.lblDistanceBetweenTiles.Name = "lblDistanceBetweenTiles";
-            this.lblDistanceBetweenTiles.Size = new System.Drawing.Size(90, 32);
-            this.lblDistanceBetweenTiles.TabIndex = 14;
-            this.lblDistanceBetweenTiles.Text = "Distance Between Frames";
-            this.lblDistanceBetweenTiles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.DistanceBetweenTilesLabel.Location = new System.Drawing.Point(7, 59);
+            this.DistanceBetweenTilesLabel.Name = "DistanceBetweenTilesLabel";
+            this.DistanceBetweenTilesLabel.Size = new System.Drawing.Size(90, 32);
+            this.DistanceBetweenTilesLabel.TabIndex = 14;
+            this.DistanceBetweenTilesLabel.Text = "Distance Between Frames";
+            this.DistanceBetweenTilesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // ctlDistanceBetweenTiles
+            // DistanceBetweenTilesUpDown
             // 
-            this.ctlDistanceBetweenTiles.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlDistanceBetweenTiles.Location = new System.Drawing.Point(103, 62);
-            this.ctlDistanceBetweenTiles.Minimum = new decimal(new int[] {
+            this.DistanceBetweenTilesUpDown.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DistanceBetweenTilesUpDown.Location = new System.Drawing.Point(103, 62);
+            this.DistanceBetweenTilesUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.ctlDistanceBetweenTiles.Name = "ctlDistanceBetweenTiles";
-            this.ctlDistanceBetweenTiles.Size = new System.Drawing.Size(48, 27);
-            this.ctlDistanceBetweenTiles.TabIndex = 1;
-            this.ctlDistanceBetweenTiles.Value = new decimal(new int[] {
+            this.DistanceBetweenTilesUpDown.Name = "DistanceBetweenTilesUpDown";
+            this.DistanceBetweenTilesUpDown.Size = new System.Drawing.Size(48, 27);
+            this.DistanceBetweenTilesUpDown.TabIndex = 1;
+            this.DistanceBetweenTilesUpDown.Value = new decimal(new int[] {
             3,
             0,
             0,
             0});
             // 
-            // cmdAbout
+            // AboutButton
             // 
-            this.cmdAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmdAbout.Font = new System.Drawing.Font("Calibri", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdAbout.Location = new System.Drawing.Point(16, 328);
-            this.cmdAbout.Name = "cmdAbout";
-            this.cmdAbout.Size = new System.Drawing.Size(36, 16);
-            this.cmdAbout.TabIndex = 6;
-            this.cmdAbout.Text = "about...";
-            this.cmdAbout.UseVisualStyleBackColor = true;
-            this.cmdAbout.Click += new System.EventHandler(this.cmdAbout_Click);
+            this.AboutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AboutButton.Font = new System.Drawing.Font("Calibri", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AboutButton.Location = new System.Drawing.Point(16, 328);
+            this.AboutButton.Name = "AboutButton";
+            this.AboutButton.Size = new System.Drawing.Size(36, 16);
+            this.AboutButton.TabIndex = 6;
+            this.AboutButton.Text = "about...";
+            this.AboutButton.UseVisualStyleBackColor = true;
+            this.AboutButton.Click += new System.EventHandler(this.AboutButton_Click);
             // 
-            // cboExportFormat
+            // ExportFormatComboBox
             // 
-            this.cboExportFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboExportFormat.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboExportFormat.FormattingEnabled = true;
-            this.cboExportFormat.Location = new System.Drawing.Point(105, 20);
-            this.cboExportFormat.Name = "cboExportFormat";
-            this.cboExportFormat.Size = new System.Drawing.Size(229, 27);
-            this.cboExportFormat.TabIndex = 0;
-            this.cboExportFormat.SelectedIndexChanged += new System.EventHandler(this.cboExportFormat_SelectedIndexChanged);
+            this.ExportFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ExportFormatComboBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExportFormatComboBox.FormattingEnabled = true;
+            this.ExportFormatComboBox.Location = new System.Drawing.Point(105, 20);
+            this.ExportFormatComboBox.Name = "ExportFormatComboBox";
+            this.ExportFormatComboBox.Size = new System.Drawing.Size(229, 27);
+            this.ExportFormatComboBox.TabIndex = 0;
+            this.ExportFormatComboBox.SelectedIndexChanged += new System.EventHandler(this.ExportFormatComboBox_SelectedIndexChanged);
             // 
-            // lblExportFormat
+            // ExportFormatLabel
             // 
-            this.lblExportFormat.Location = new System.Drawing.Point(6, 18);
-            this.lblExportFormat.Name = "lblExportFormat";
-            this.lblExportFormat.Size = new System.Drawing.Size(96, 32);
-            this.lblExportFormat.TabIndex = 16;
-            this.lblExportFormat.Text = "File Format";
-            this.lblExportFormat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ExportFormatLabel.Location = new System.Drawing.Point(6, 18);
+            this.ExportFormatLabel.Name = "ExportFormatLabel";
+            this.ExportFormatLabel.Size = new System.Drawing.Size(96, 32);
+            this.ExportFormatLabel.TabIndex = 16;
+            this.ExportFormatLabel.Text = "File Format";
+            this.ExportFormatLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtNConvertArgs
+            // NConvertArgsTextBox
             // 
-            this.txtNConvertArgs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.NConvertArgsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNConvertArgs.Enabled = false;
-            this.txtNConvertArgs.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNConvertArgs.Location = new System.Drawing.Point(104, 92);
-            this.txtNConvertArgs.Name = "txtNConvertArgs";
-            this.txtNConvertArgs.Size = new System.Drawing.Size(230, 27);
-            this.txtNConvertArgs.TabIndex = 3;
-            this.txtNConvertArgs.Text = "pcx";
-            this.txtNConvertArgs.TextChanged += new System.EventHandler(this.txtNConvertArgs_TextChanged);
+            this.NConvertArgsTextBox.Enabled = false;
+            this.NConvertArgsTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NConvertArgsTextBox.Location = new System.Drawing.Point(104, 92);
+            this.NConvertArgsTextBox.Name = "NConvertArgsTextBox";
+            this.NConvertArgsTextBox.Size = new System.Drawing.Size(230, 27);
+            this.NConvertArgsTextBox.TabIndex = 3;
+            this.NConvertArgsTextBox.Text = "pcx";
+            this.NConvertArgsTextBox.TextChanged += new System.EventHandler(this.NConvertArgsTextBox_TextChanged);
             // 
             // Label1
             // 
@@ -220,53 +220,53 @@ namespace ASU.UI
             this.Label1.Text = "Advanced File Format";
             this.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // chkShowCommandLineArgs
+            // ShowCommandLineArgsCheckBox
             // 
-            this.chkShowCommandLineArgs.BackColor = System.Drawing.Color.Transparent;
-            this.chkShowCommandLineArgs.Enabled = false;
-            this.chkShowCommandLineArgs.Location = new System.Drawing.Point(152, 116);
-            this.chkShowCommandLineArgs.Name = "chkShowCommandLineArgs";
-            this.chkShowCommandLineArgs.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.chkShowCommandLineArgs.Size = new System.Drawing.Size(182, 26);
-            this.chkShowCommandLineArgs.TabIndex = 4;
-            this.chkShowCommandLineArgs.Text = "Show Advanced Command Line";
-            this.chkShowCommandLineArgs.UseVisualStyleBackColor = false;
-            this.chkShowCommandLineArgs.CheckedChanged += new System.EventHandler(this.chkShowCommandLineArgs_CheckedChanged);
+            this.ShowCommandLineArgsCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.ShowCommandLineArgsCheckBox.Enabled = false;
+            this.ShowCommandLineArgsCheckBox.Location = new System.Drawing.Point(152, 116);
+            this.ShowCommandLineArgsCheckBox.Name = "ShowCommandLineArgsCheckBox";
+            this.ShowCommandLineArgsCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ShowCommandLineArgsCheckBox.Size = new System.Drawing.Size(182, 26);
+            this.ShowCommandLineArgsCheckBox.TabIndex = 4;
+            this.ShowCommandLineArgsCheckBox.Text = "Show Advanced Command Line";
+            this.ShowCommandLineArgsCheckBox.UseVisualStyleBackColor = false;
+            this.ShowCommandLineArgsCheckBox.CheckedChanged += new System.EventHandler(this.ShowCommandLineArgsCheckBox_CheckedChanged);
             // 
-            // lblCommandLine
+            // CommandLineLabel
             // 
-            this.lblCommandLine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.CommandLineLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCommandLine.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.lblCommandLine.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCommandLine.Location = new System.Drawing.Point(8, 152);
-            this.lblCommandLine.Name = "lblCommandLine";
-            this.lblCommandLine.Size = new System.Drawing.Size(326, 59);
-            this.lblCommandLine.TabIndex = 21;
-            this.lblCommandLine.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCommandLine.Visible = false;
+            this.CommandLineLabel.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.CommandLineLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CommandLineLabel.Location = new System.Drawing.Point(8, 152);
+            this.CommandLineLabel.Name = "CommandLineLabel";
+            this.CommandLineLabel.Size = new System.Drawing.Size(326, 59);
+            this.CommandLineLabel.TabIndex = 21;
+            this.CommandLineLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CommandLineLabel.Visible = false;
             // 
-            // lnkCommandLineHelp
+            // CommandLineHelpLink
             // 
-            this.lnkCommandLineHelp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.CommandLineHelpLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkCommandLineHelp.BackColor = System.Drawing.Color.Transparent;
-            this.lnkCommandLineHelp.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkCommandLineHelp.Location = new System.Drawing.Point(9, 136);
-            this.lnkCommandLineHelp.Name = "lnkCommandLineHelp";
-            this.lnkCommandLineHelp.Size = new System.Drawing.Size(325, 14);
-            this.lnkCommandLineHelp.TabIndex = 22;
-            this.lnkCommandLineHelp.TabStop = true;
-            this.lnkCommandLineHelp.Text = "command line help file";
-            this.lnkCommandLineHelp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lnkCommandLineHelp.Visible = false;
+            this.CommandLineHelpLink.BackColor = System.Drawing.Color.Transparent;
+            this.CommandLineHelpLink.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CommandLineHelpLink.Location = new System.Drawing.Point(9, 136);
+            this.CommandLineHelpLink.Name = "CommandLineHelpLink";
+            this.CommandLineHelpLink.Size = new System.Drawing.Size(325, 14);
+            this.CommandLineHelpLink.TabIndex = 22;
+            this.CommandLineHelpLink.TabStop = true;
+            this.CommandLineHelpLink.Text = "command line help file";
+            this.CommandLineHelpLink.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CommandLineHelpLink.Visible = false;
             // 
             // GroupBox1
             // 
-            this.GroupBox1.Controls.Add(this.ctlOutlineWidth);
-            this.GroupBox1.Controls.Add(this.lblOutlineWidth);
-            this.GroupBox1.Controls.Add(this.ctlDistanceBetweenTiles);
-            this.GroupBox1.Controls.Add(this.lblDistanceBetweenTiles);
+            this.GroupBox1.Controls.Add(this.OutlineWidthUpDown);
+            this.GroupBox1.Controls.Add(this.OutlineWidthLabel);
+            this.GroupBox1.Controls.Add(this.DistanceBetweenTilesUpDown);
+            this.GroupBox1.Controls.Add(this.DistanceBetweenTilesLabel);
             this.GroupBox1.Location = new System.Drawing.Point(16, 74);
             this.GroupBox1.Name = "GroupBox1";
             this.GroupBox1.Size = new System.Drawing.Size(157, 103);
@@ -276,12 +276,12 @@ namespace ASU.UI
             // 
             // GroupBox2
             // 
-            this.GroupBox2.Controls.Add(this.cmdSelectedColour);
-            this.GroupBox2.Controls.Add(this.pnlSelectedColour);
-            this.GroupBox2.Controls.Add(this.cmdTileBorderColour);
-            this.GroupBox2.Controls.Add(this.pnlTileBorderColour);
-            this.GroupBox2.Controls.Add(this.cmdHoverColour);
-            this.GroupBox2.Controls.Add(this.pnlHoverColour);
+            this.GroupBox2.Controls.Add(this.SelectedColourButton);
+            this.GroupBox2.Controls.Add(this.SelectedColourPanel);
+            this.GroupBox2.Controls.Add(this.TileBorderColourButton);
+            this.GroupBox2.Controls.Add(this.TileBorderColourPanel);
+            this.GroupBox2.Controls.Add(this.HoverColourButton);
+            this.GroupBox2.Controls.Add(this.HoverColourPanel);
             this.GroupBox2.Location = new System.Drawing.Point(187, 5);
             this.GroupBox2.Name = "GroupBox2";
             this.GroupBox2.Size = new System.Drawing.Size(175, 143);
@@ -289,114 +289,114 @@ namespace ASU.UI
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "Colours";
             // 
-            // cmdSelectedColour
+            // SelectedColourButton
             // 
-            this.cmdSelectedColour.Image = global::ASU.Properties.Resources.color_wheel;
-            this.cmdSelectedColour.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cmdSelectedColour.Location = new System.Drawing.Point(9, 17);
-            this.cmdSelectedColour.Name = "cmdSelectedColour";
-            this.cmdSelectedColour.Size = new System.Drawing.Size(78, 35);
-            this.cmdSelectedColour.TabIndex = 0;
-            this.cmdSelectedColour.Text = "Selected Colour";
-            this.cmdSelectedColour.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdSelectedColour.UseVisualStyleBackColor = true;
-            this.cmdSelectedColour.Click += new System.EventHandler(this.cmdSelectedColour_Click);
+            this.SelectedColourButton.Image = global::ASU.Properties.Resources.color_wheel;
+            this.SelectedColourButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.SelectedColourButton.Location = new System.Drawing.Point(9, 17);
+            this.SelectedColourButton.Name = "SelectedColourButton";
+            this.SelectedColourButton.Size = new System.Drawing.Size(78, 35);
+            this.SelectedColourButton.TabIndex = 0;
+            this.SelectedColourButton.Text = "Selected Colour";
+            this.SelectedColourButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.SelectedColourButton.UseVisualStyleBackColor = true;
+            this.SelectedColourButton.Click += new System.EventHandler(this.SelectedColourButton_Click);
             // 
-            // cmdTileBorderColour
+            // TileBorderColourButton
             // 
-            this.cmdTileBorderColour.Image = global::ASU.Properties.Resources.color_wheel;
-            this.cmdTileBorderColour.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cmdTileBorderColour.Location = new System.Drawing.Point(9, 58);
-            this.cmdTileBorderColour.Name = "cmdTileBorderColour";
-            this.cmdTileBorderColour.Size = new System.Drawing.Size(78, 35);
-            this.cmdTileBorderColour.TabIndex = 1;
-            this.cmdTileBorderColour.Text = "Tile Border";
-            this.cmdTileBorderColour.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdTileBorderColour.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.cmdTileBorderColour.UseVisualStyleBackColor = true;
-            this.cmdTileBorderColour.Click += new System.EventHandler(this.cmdTileBorderColour_Click);
+            this.TileBorderColourButton.Image = global::ASU.Properties.Resources.color_wheel;
+            this.TileBorderColourButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.TileBorderColourButton.Location = new System.Drawing.Point(9, 58);
+            this.TileBorderColourButton.Name = "TileBorderColourButton";
+            this.TileBorderColourButton.Size = new System.Drawing.Size(78, 35);
+            this.TileBorderColourButton.TabIndex = 1;
+            this.TileBorderColourButton.Text = "Tile Border";
+            this.TileBorderColourButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.TileBorderColourButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.TileBorderColourButton.UseVisualStyleBackColor = true;
+            this.TileBorderColourButton.Click += new System.EventHandler(this.TileBorderColourButton_Click);
             // 
-            // cmdHoverColour
+            // HoverColourButton
             // 
-            this.cmdHoverColour.Image = global::ASU.Properties.Resources.color_wheel;
-            this.cmdHoverColour.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cmdHoverColour.Location = new System.Drawing.Point(9, 99);
-            this.cmdHoverColour.Name = "cmdHoverColour";
-            this.cmdHoverColour.Size = new System.Drawing.Size(78, 35);
-            this.cmdHoverColour.TabIndex = 2;
-            this.cmdHoverColour.Text = "Hover Colour";
-            this.cmdHoverColour.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdHoverColour.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.cmdHoverColour.UseVisualStyleBackColor = true;
-            this.cmdHoverColour.Click += new System.EventHandler(this.cmdHoverColour_Click);
+            this.HoverColourButton.Image = global::ASU.Properties.Resources.color_wheel;
+            this.HoverColourButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.HoverColourButton.Location = new System.Drawing.Point(9, 99);
+            this.HoverColourButton.Name = "HoverColourButton";
+            this.HoverColourButton.Size = new System.Drawing.Size(78, 35);
+            this.HoverColourButton.TabIndex = 2;
+            this.HoverColourButton.Text = "Hover Colour";
+            this.HoverColourButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.HoverColourButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.HoverColourButton.UseVisualStyleBackColor = true;
+            this.HoverColourButton.Click += new System.EventHandler(this.HoverColourButton_Click);
             // 
-            // pnlExport
+            // ExportPanel
             // 
-            this.pnlExport.Controls.Add(this.chkPreservePallette);
-            this.pnlExport.Controls.Add(this.chkExportBGTransparent);
-            this.pnlExport.Controls.Add(this.lnkCommandLineHelp);
-            this.pnlExport.Controls.Add(this.lblExportFormat);
-            this.pnlExport.Controls.Add(this.cboExportFormat);
-            this.pnlExport.Controls.Add(this.txtNConvertArgs);
-            this.pnlExport.Controls.Add(this.Label1);
-            this.pnlExport.Controls.Add(this.lblCommandLine);
-            this.pnlExport.Controls.Add(this.chkShowCommandLineArgs);
-            this.pnlExport.Location = new System.Drawing.Point(16, 179);
-            this.pnlExport.Name = "pnlExport";
-            this.pnlExport.Size = new System.Drawing.Size(346, 140);
-            this.pnlExport.TabIndex = 5;
-            this.pnlExport.TabStop = false;
-            this.pnlExport.Text = "Export Options";
+            this.ExportPanel.Controls.Add(this.PreservePalletteCheckBox);
+            this.ExportPanel.Controls.Add(this.ExportBGTransparentCheckBox);
+            this.ExportPanel.Controls.Add(this.CommandLineHelpLink);
+            this.ExportPanel.Controls.Add(this.ExportFormatLabel);
+            this.ExportPanel.Controls.Add(this.ExportFormatComboBox);
+            this.ExportPanel.Controls.Add(this.NConvertArgsTextBox);
+            this.ExportPanel.Controls.Add(this.Label1);
+            this.ExportPanel.Controls.Add(this.CommandLineLabel);
+            this.ExportPanel.Controls.Add(this.ShowCommandLineArgsCheckBox);
+            this.ExportPanel.Location = new System.Drawing.Point(16, 179);
+            this.ExportPanel.Name = "ExportPanel";
+            this.ExportPanel.Size = new System.Drawing.Size(346, 140);
+            this.ExportPanel.TabIndex = 5;
+            this.ExportPanel.TabStop = false;
+            this.ExportPanel.Text = "Export Options";
             // 
-            // chkPreservePallette
+            // PreservePalletteCheckBox
             // 
-            this.chkPreservePallette.AutoSize = true;
-            this.chkPreservePallette.Location = new System.Drawing.Point(106, 72);
-            this.chkPreservePallette.Name = "chkPreservePallette";
-            this.chkPreservePallette.Size = new System.Drawing.Size(107, 17);
-            this.chkPreservePallette.TabIndex = 2;
-            this.chkPreservePallette.Text = "Preserve Pallette";
-            this.chkPreservePallette.UseVisualStyleBackColor = true;
-            this.chkPreservePallette.CheckedChanged += new System.EventHandler(this.chkPreservePallette_CheckedChanged);
+            this.PreservePalletteCheckBox.AutoSize = true;
+            this.PreservePalletteCheckBox.Location = new System.Drawing.Point(106, 72);
+            this.PreservePalletteCheckBox.Name = "PreservePalletteCheckBox";
+            this.PreservePalletteCheckBox.Size = new System.Drawing.Size(107, 17);
+            this.PreservePalletteCheckBox.TabIndex = 2;
+            this.PreservePalletteCheckBox.Text = "Preserve Pallette";
+            this.PreservePalletteCheckBox.UseVisualStyleBackColor = true;
+            this.PreservePalletteCheckBox.CheckedChanged += new System.EventHandler(this.PreservePalletteCheckBox_CheckedChanged);
             // 
-            // chkExportBGTransparent
+            // ExportBGTransparentCheckBox
             // 
-            this.chkExportBGTransparent.AutoSize = true;
-            this.chkExportBGTransparent.Checked = true;
-            this.chkExportBGTransparent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkExportBGTransparent.Location = new System.Drawing.Point(106, 53);
-            this.chkExportBGTransparent.Name = "chkExportBGTransparent";
-            this.chkExportBGTransparent.Size = new System.Drawing.Size(168, 17);
-            this.chkExportBGTransparent.TabIndex = 1;
-            this.chkExportBGTransparent.Text = "Make Background Transparent";
-            this.chkExportBGTransparent.UseVisualStyleBackColor = true;
+            this.ExportBGTransparentCheckBox.AutoSize = true;
+            this.ExportBGTransparentCheckBox.Checked = true;
+            this.ExportBGTransparentCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ExportBGTransparentCheckBox.Location = new System.Drawing.Point(106, 53);
+            this.ExportBGTransparentCheckBox.Name = "ExportBGTransparentCheckBox";
+            this.ExportBGTransparentCheckBox.Size = new System.Drawing.Size(168, 17);
+            this.ExportBGTransparentCheckBox.TabIndex = 1;
+            this.ExportBGTransparentCheckBox.Text = "Make Background Transparent";
+            this.ExportBGTransparentCheckBox.UseVisualStyleBackColor = true;
             // 
-            // lnkDownload
+            // DownloadLink
             // 
-            this.lnkDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lnkDownload.BackColor = System.Drawing.Color.Transparent;
-            this.lnkDownload.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkDownload.Location = new System.Drawing.Point(6, 351);
-            this.lnkDownload.Name = "lnkDownload";
-            this.lnkDownload.Size = new System.Drawing.Size(124, 23);
-            this.lnkDownload.TabIndex = 7;
-            this.lnkDownload.TabStop = true;
-            this.lnkDownload.Text = "Download latest version";
-            this.lnkDownload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lnkDownload.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDownload_LinkClicked);
+            this.DownloadLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DownloadLink.BackColor = System.Drawing.Color.Transparent;
+            this.DownloadLink.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DownloadLink.Location = new System.Drawing.Point(6, 351);
+            this.DownloadLink.Name = "DownloadLink";
+            this.DownloadLink.Size = new System.Drawing.Size(124, 23);
+            this.DownloadLink.TabIndex = 7;
+            this.DownloadLink.TabStop = true;
+            this.DownloadLink.Text = "Download latest version";
+            this.DownloadLink.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.DownloadLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DownloadLink_LinkClicked);
             // 
-            // cboSelectAllOrder
+            // SelectAllOrderComboBox
             // 
-            this.cboSelectAllOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSelectAllOrder.FormattingEnabled = true;
-            this.cboSelectAllOrder.Items.AddRange(new object[] {
+            this.SelectAllOrderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SelectAllOrderComboBox.FormattingEnabled = true;
+            this.SelectAllOrderComboBox.Items.AddRange(new object[] {
             "Top Left",
             "Bottom Left",
             "Centre"});
-            this.cboSelectAllOrder.Location = new System.Drawing.Point(280, 156);
-            this.cboSelectAllOrder.Name = "cboSelectAllOrder";
-            this.cboSelectAllOrder.Size = new System.Drawing.Size(82, 21);
-            this.cboSelectAllOrder.TabIndex = 4;
+            this.SelectAllOrderComboBox.Location = new System.Drawing.Point(280, 156);
+            this.SelectAllOrderComboBox.Name = "SelectAllOrderComboBox";
+            this.SelectAllOrderComboBox.Size = new System.Drawing.Size(82, 21);
+            this.SelectAllOrderComboBox.TabIndex = 4;
             // 
             // Label2
             // 
@@ -407,61 +407,61 @@ namespace ASU.UI
             this.Label2.Text = "Select All Order";
             this.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // chkPromptDestinationFolder
+            // PromptDestinationFolderCheckBox
             // 
-            this.chkPromptDestinationFolder.BackColor = System.Drawing.Color.Transparent;
-            this.chkPromptDestinationFolder.Checked = true;
-            this.chkPromptDestinationFolder.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkPromptDestinationFolder.Location = new System.Drawing.Point(6, 5);
-            this.chkPromptDestinationFolder.Name = "chkPromptDestinationFolder";
-            this.chkPromptDestinationFolder.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.chkPromptDestinationFolder.Size = new System.Drawing.Size(161, 28);
-            this.chkPromptDestinationFolder.TabIndex = 0;
-            this.chkPromptDestinationFolder.Text = "Prompt for Export Folder";
-            this.chkPromptDestinationFolder.UseVisualStyleBackColor = false;
+            this.PromptDestinationFolderCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.PromptDestinationFolderCheckBox.Checked = true;
+            this.PromptDestinationFolderCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.PromptDestinationFolderCheckBox.Location = new System.Drawing.Point(6, 5);
+            this.PromptDestinationFolderCheckBox.Name = "PromptDestinationFolderCheckBox";
+            this.PromptDestinationFolderCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.PromptDestinationFolderCheckBox.Size = new System.Drawing.Size(161, 28);
+            this.PromptDestinationFolderCheckBox.TabIndex = 0;
+            this.PromptDestinationFolderCheckBox.Text = "Prompt for Export Folder";
+            this.PromptDestinationFolderCheckBox.UseVisualStyleBackColor = false;
             // 
-            // chkOpenExportedDestination
+            // OpenExportedDestinationCheckBox
             // 
-            this.chkOpenExportedDestination.BackColor = System.Drawing.Color.Transparent;
-            this.chkOpenExportedDestination.Checked = true;
-            this.chkOpenExportedDestination.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkOpenExportedDestination.Location = new System.Drawing.Point(-19, 33);
-            this.chkOpenExportedDestination.Name = "chkOpenExportedDestination";
-            this.chkOpenExportedDestination.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.chkOpenExportedDestination.Size = new System.Drawing.Size(186, 28);
-            this.chkOpenExportedDestination.TabIndex = 1;
-            this.chkOpenExportedDestination.Text = "Open Folder Exported to";
-            this.chkOpenExportedDestination.UseVisualStyleBackColor = false;
+            this.OpenExportedDestinationCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.OpenExportedDestinationCheckBox.Checked = true;
+            this.OpenExportedDestinationCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.OpenExportedDestinationCheckBox.Location = new System.Drawing.Point(-19, 33);
+            this.OpenExportedDestinationCheckBox.Name = "OpenExportedDestinationCheckBox";
+            this.OpenExportedDestinationCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.OpenExportedDestinationCheckBox.Size = new System.Drawing.Size(186, 28);
+            this.OpenExportedDestinationCheckBox.TabIndex = 1;
+            this.OpenExportedDestinationCheckBox.Text = "Open Folder Exported to";
+            this.OpenExportedDestinationCheckBox.UseVisualStyleBackColor = false;
             // 
-            // lnkHelp
+            // HelpLink
             // 
-            this.lnkHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lnkHelp.BackColor = System.Drawing.Color.Transparent;
-            this.lnkHelp.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkHelp.Location = new System.Drawing.Point(136, 351);
-            this.lnkHelp.Name = "lnkHelp";
-            this.lnkHelp.Size = new System.Drawing.Size(31, 23);
-            this.lnkHelp.TabIndex = 8;
-            this.lnkHelp.TabStop = true;
-            this.lnkHelp.Text = "help";
-            this.lnkHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.HelpLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.HelpLink.BackColor = System.Drawing.Color.Transparent;
+            this.HelpLink.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HelpLink.Location = new System.Drawing.Point(136, 351);
+            this.HelpLink.Name = "HelpLink";
+            this.HelpLink.Size = new System.Drawing.Size(31, 23);
+            this.HelpLink.TabIndex = 8;
+            this.HelpLink.TabStop = true;
+            this.HelpLink.Text = "help";
+            this.HelpLink.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(374, 379);
-            this.Controls.Add(this.lnkHelp);
-            this.Controls.Add(this.chkOpenExportedDestination);
-            this.Controls.Add(this.chkPromptDestinationFolder);
+            this.Controls.Add(this.HelpLink);
+            this.Controls.Add(this.OpenExportedDestinationCheckBox);
+            this.Controls.Add(this.PromptDestinationFolderCheckBox);
             this.Controls.Add(this.Label2);
-            this.Controls.Add(this.cboSelectAllOrder);
-            this.Controls.Add(this.lnkDownload);
-            this.Controls.Add(this.pnlExport);
+            this.Controls.Add(this.SelectAllOrderComboBox);
+            this.Controls.Add(this.DownloadLink);
+            this.Controls.Add(this.ExportPanel);
             this.Controls.Add(this.GroupBox2);
             this.Controls.Add(this.GroupBox1);
-            this.Controls.Add(this.cmdAbout);
-            this.Controls.Add(this.cmdClose);
+            this.Controls.Add(this.AboutButton);
+            this.Controls.Add(this.CloseButton);
             this.Font = new System.Drawing.Font("Calibri", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -471,47 +471,47 @@ namespace ASU.UI
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Options";
-            this.Load += new System.EventHandler(this.frmOptions_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.ctlOutlineWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ctlDistanceBetweenTiles)).EndInit();
+            this.Load += new System.EventHandler(this.OptionsForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.OutlineWidthUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DistanceBetweenTilesUpDown)).EndInit();
             this.GroupBox1.ResumeLayout(false);
             this.GroupBox2.ResumeLayout(false);
-            this.pnlExport.ResumeLayout(false);
-            this.pnlExport.PerformLayout();
+            this.ExportPanel.ResumeLayout(false);
+            this.ExportPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
         internal System.Windows.Forms.ColorDialog ColorDialog1;
-        internal System.Windows.Forms.Button cmdSelectedColour;
-        internal System.Windows.Forms.Panel pnlSelectedColour;
-        internal System.Windows.Forms.Panel pnlTileBorderColour;
-        internal System.Windows.Forms.Button cmdTileBorderColour;
-        internal System.Windows.Forms.Panel pnlHoverColour;
-        internal System.Windows.Forms.Button cmdHoverColour;
-        internal System.Windows.Forms.NumericUpDown ctlOutlineWidth;
-        internal System.Windows.Forms.Button cmdClose;
-        internal System.Windows.Forms.Label lblOutlineWidth;
-        internal System.Windows.Forms.Label lblDistanceBetweenTiles;
-        internal System.Windows.Forms.NumericUpDown ctlDistanceBetweenTiles;
-        internal System.Windows.Forms.Button cmdAbout;
-        internal System.Windows.Forms.ComboBox cboExportFormat;
-        internal System.Windows.Forms.Label lblExportFormat;
-        internal System.Windows.Forms.TextBox txtNConvertArgs;
+        internal System.Windows.Forms.Button SelectedColourButton;
+        internal System.Windows.Forms.Panel SelectedColourPanel;
+        internal System.Windows.Forms.Panel TileBorderColourPanel;
+        internal System.Windows.Forms.Button TileBorderColourButton;
+        internal System.Windows.Forms.Panel HoverColourPanel;
+        internal System.Windows.Forms.Button HoverColourButton;
+        internal System.Windows.Forms.NumericUpDown OutlineWidthUpDown;
+        internal System.Windows.Forms.Button CloseButton;
+        internal System.Windows.Forms.Label OutlineWidthLabel;
+        internal System.Windows.Forms.Label DistanceBetweenTilesLabel;
+        internal System.Windows.Forms.NumericUpDown DistanceBetweenTilesUpDown;
+        internal System.Windows.Forms.Button AboutButton;
+        internal System.Windows.Forms.ComboBox ExportFormatComboBox;
+        internal System.Windows.Forms.Label ExportFormatLabel;
+        internal System.Windows.Forms.TextBox NConvertArgsTextBox;
         internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.CheckBox chkShowCommandLineArgs;
-        internal System.Windows.Forms.Label lblCommandLine;
-        internal System.Windows.Forms.LinkLabel lnkCommandLineHelp;
+        internal System.Windows.Forms.CheckBox ShowCommandLineArgsCheckBox;
+        internal System.Windows.Forms.Label CommandLineLabel;
+        internal System.Windows.Forms.LinkLabel CommandLineHelpLink;
         internal System.Windows.Forms.GroupBox GroupBox1;
         internal System.Windows.Forms.GroupBox GroupBox2;
-        internal System.Windows.Forms.GroupBox pnlExport;
-        internal System.Windows.Forms.LinkLabel lnkDownload;
-        internal System.Windows.Forms.CheckBox chkExportBGTransparent;
-        internal System.Windows.Forms.ComboBox cboSelectAllOrder;
+        internal System.Windows.Forms.GroupBox ExportPanel;
+        internal System.Windows.Forms.LinkLabel DownloadLink;
+        internal System.Windows.Forms.CheckBox ExportBGTransparentCheckBox;
+        internal System.Windows.Forms.ComboBox SelectAllOrderComboBox;
         internal System.Windows.Forms.Label Label2;
-        internal System.Windows.Forms.CheckBox chkPromptDestinationFolder;
-        internal System.Windows.Forms.CheckBox chkOpenExportedDestination;
-        internal System.Windows.Forms.LinkLabel lnkHelp;
-        internal System.Windows.Forms.CheckBox chkPreservePallette;
+        internal System.Windows.Forms.CheckBox PromptDestinationFolderCheckBox;
+        internal System.Windows.Forms.CheckBox OpenExportedDestinationCheckBox;
+        internal System.Windows.Forms.LinkLabel HelpLink;
+        internal System.Windows.Forms.CheckBox PreservePalletteCheckBox;
         public OptionsForm()
         {
             InitializeComponent();

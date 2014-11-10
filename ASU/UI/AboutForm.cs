@@ -12,17 +12,22 @@ namespace ASU.UI
     {
         private PointF Movement = new PointF(0, 0);
         private Bitmap CoolBackGroundImage = null;
-        private int Flood;
-        private int Counter = 0;
-        private int NewDrops;
         private Random Random = new Random();
 
         private List<PointF> Drops = new List<PointF>();
 
         public AboutForm()
         {
-            Paint += frmAbout_Paint;
-            Load += frmAbout_Load;
+            this.InitializeComponent();
+            Paint += AboutForm_Paint;
+            Load += AboutForm_Load;
+        }
+
+        private void AboutForm_Load(object sender, System.EventArgs e)
+        {
+            MessageBox.Show("Any bugs, suggestions, feedback can be left @ https://github.com/ForkandBeard/Alferd-Spritesheet-Unpacker/issues");
+            this.CoolBackGroundImage = new Bitmap(this.Width * 2, this.Height * 2);
+            Graphics.FromImage(this.CoolBackGroundImage).FillRectangle(Brushes.Silver, new Rectangle(0, 0, this.Width * 2, this.Height * 2));
         }
 
         private void Timer1_Tick(System.Object sender, System.EventArgs e)
@@ -38,46 +43,46 @@ namespace ASU.UI
 
                 this.RotateBackground();
 
-                Graphics objGraphics = default(Graphics);
+                Graphics graphics = default(Graphics);
 
-                objGraphics = Graphics.FromImage(this.CoolBackGroundImage);
-                objGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                graphics = Graphics.FromImage(this.CoolBackGroundImage);
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
                 if (this.Random.Next(0, 20) == 1)
                 {
-                    Bitmap objHead = default(Bitmap);
-                    objHead = global::ASU.Properties.Resources.AlferdPackerHead;
+                    Bitmap head;
+                    head = global::ASU.Properties.Resources.AlferdPackerHead;
 
                     if (this.Random.Next(0, 2) == 1)
                     {
-                        objHead.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                        head.RotateFlip(RotateFlipType.RotateNoneFlipY);
                     }
 
                     if (this.Random.Next(0, 2) == 1)
                     {
-                        objHead.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                        head.RotateFlip(RotateFlipType.RotateNoneFlipX);
                     }
 
-                    objHead.MakeTransparent(Color.White);
-                    objHead = BO.Rotate.RotateImage(objHead, this.Random.Next(0, 360));
+                    head.MakeTransparent(Color.White);
+                    head = BO.Rotate.RotateImage(head, this.Random.Next(0, 360));
 
-                    RectangleF objRandomRectangle = default(RectangleF);
+                    RectangleF randomRectangle = default(RectangleF);
 
-                    objRandomRectangle = new RectangleF(ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), objHead.Size);
+                    randomRectangle = new RectangleF(ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), head.Size);
 
-                    objGraphics.DrawImage(objHead, ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
-                    objGraphics.DrawLine(Pens.Black, ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(objRandomRectangle), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
-                    objHead.Dispose();
-                    objGraphics.Dispose();
-                    objGraphics = Graphics.FromImage(this.CoolBackGroundImage);
-                    objGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    graphics.DrawImage(head, ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
+                    graphics.DrawLine(Pens.Black, ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(randomRectangle), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
+                    head.Dispose();
+                    graphics.Dispose();
+                    graphics = Graphics.FromImage(this.CoolBackGroundImage);
+                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 }
 
                 if (this.Random.Next(0, 20) == 1)
                 {
-                    int intRand = 0;
-                    intRand = this.Random.Next(0, 5);
-                    switch (intRand)
+                    int randomInteger = 0;
+                    randomInteger = this.Random.Next(0, 5);
+                    switch (randomInteger)
                     {
                         case 0:
                             this.Movement = new PointF(0f, 0.1f);
@@ -99,21 +104,21 @@ namespace ASU.UI
 
                 if (this.Random.Next(0, 10) == 1)
                 {
-                    int intSize = 0;
-                    intSize = this.Random.Next(1, 25);
-                    objGraphics.FillEllipse(new SolidBrush(Color.FromArgb(100, 200, 0, 0)), new RectangleF(ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), new Size(intSize, intSize)));
+                    int size = 0;
+                    size = this.Random.Next(1, 25);
+                    graphics.FillEllipse(new SolidBrush(Color.FromArgb(100, 200, 0, 0)), new RectangleF(ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), new Size(size, size)));
                 }
 
                 if (this.Random.Next(0, 2) == 1)
                 {
-                    objGraphics.DrawLine(new Pen(Color.FromArgb(100, 50, 50, 50), 3), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
+                    graphics.DrawLine(new Pen(Color.FromArgb(100, 50, 50, 50), 3), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
                 }
                 else
                 {
-                    objGraphics.DrawLine(Pens.White, ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
+                    graphics.DrawLine(Pens.White, ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)), ForkandBeard.Util.Geometry.GeometryHelper.RandomPointInRectangle(new Rectangle(0, 0, this.CoolBackGroundImage.Width, this.CoolBackGroundImage.Height)));
                 }
 
-                objGraphics.Dispose();
+                graphics.Dispose();
             }
             catch (Exception sorry)
             {
@@ -122,32 +127,25 @@ namespace ASU.UI
 
         private void RotateBackground()
         {
-            Graphics objGraphics = default(Graphics);
-            Bitmap objOldImage = default(Bitmap);
+            Graphics graphics = default(Graphics);
+            Bitmap oldImage = default(Bitmap);
 
-            objOldImage = (Bitmap)this.CoolBackGroundImage.Clone();
+            oldImage = (Bitmap)this.CoolBackGroundImage.Clone();
             this.CoolBackGroundImage.Dispose();
 
             this.CoolBackGroundImage = new Bitmap(this.Width * 2, this.Height * 2);
 
-            objGraphics = Graphics.FromImage(this.CoolBackGroundImage);
-            objGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            graphics = Graphics.FromImage(this.CoolBackGroundImage);
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            objGraphics.RotateTransform(0.05f);
+            graphics.RotateTransform(0.05f);
 
-            objGraphics.DrawImage(objOldImage, this.Movement);
-            objGraphics.Dispose();
-            objOldImage.Dispose();
+            graphics.DrawImage(oldImage, this.Movement);
+            graphics.Dispose();
+            oldImage.Dispose();
         }
 
-        private void frmAbout_Load(object sender, System.EventArgs e)
-        {
-            MessageBox.Show("Any bugs, suggestions, feedback to cat@forkandbeard.co.uk");
-            this.CoolBackGroundImage = new Bitmap(this.Width * 2, this.Height * 2);
-            Graphics.FromImage(this.CoolBackGroundImage).FillRectangle(Brushes.Silver, new Rectangle(0, 0, this.Width * 2, this.Height * 2));
-        }
-
-        private void frmAbout_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        private void AboutForm_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             e.Graphics.DrawImage(this.CoolBackGroundImage, (this.CoolBackGroundImage.Width * 0.3f) * -1, (this.CoolBackGroundImage.Height * 0.3f) * -1);
         }

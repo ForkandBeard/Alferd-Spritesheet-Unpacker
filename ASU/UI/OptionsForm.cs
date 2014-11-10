@@ -14,47 +14,47 @@ namespace ASU.UI
         private const string STR_ADVANCED_EXPORT_FILE_FORMAT = "<Advanced>";
 
         public MainForm Main;
-        private void cmdSelectedColour_Click(System.Object sender, System.EventArgs e)
+        private void SelectedColourButton_Click(System.Object sender, System.EventArgs e)
         {
-            this.ColorDialog1.Color = this.pnlSelectedColour.BackColor;
+            this.ColorDialog1.Color = this.SelectedColourPanel.BackColor;
             this.ColorDialog1.ShowDialog();
-            this.pnlSelectedColour.BackColor = Color.FromArgb(200, this.ColorDialog1.Color);
+            this.SelectedColourPanel.BackColor = Color.FromArgb(200, this.ColorDialog1.Color);
         }
 
-        private void cmdTileBorderColour_Click(System.Object sender, System.EventArgs e)
+        private void TileBorderColourButton_Click(System.Object sender, System.EventArgs e)
         {
-            this.ColorDialog1.Color = this.pnlTileBorderColour.BackColor;
+            this.ColorDialog1.Color = this.TileBorderColourPanel.BackColor;
             this.ColorDialog1.ShowDialog();
-            this.pnlTileBorderColour.BackColor = this.ColorDialog1.Color;
+            this.TileBorderColourPanel.BackColor = this.ColorDialog1.Color;
         }
 
-        private void cmdHoverColour_Click(System.Object sender, System.EventArgs e)
+        private void HoverColourButton_Click(System.Object sender, System.EventArgs e)
         {
-            this.ColorDialog1.Color = this.pnlHoverColour.BackColor;
+            this.ColorDialog1.Color = this.HoverColourPanel.BackColor;
             this.ColorDialog1.ShowDialog();
-            this.pnlHoverColour.BackColor = Color.FromArgb(150, this.ColorDialog1.Color);
+            this.HoverColourPanel.BackColor = Color.FromArgb(150, this.ColorDialog1.Color);
         }
 
-        private void cmdClose_Click(System.Object sender, System.EventArgs e)
+        private void CloseButton_Click(System.Object sender, System.EventArgs e)
         {
             try
             {
                 if (this.Main != null)
                 {
-                    bool blnReloadNeeded = false;
+                    bool reloadNeeded = false;
 
-                    MainForm.SelectedFill = new SolidBrush(Color.FromArgb(MainForm.SelectedFill.Color.A, this.pnlSelectedColour.BackColor));
-                    MainForm.ZoomPen = new Pen(Color.FromArgb(MainForm.ZoomPen.Color.A, this.pnlSelectedColour.BackColor), MainForm.ZoomPen.Width);
-                    MainForm.HoverFill = new SolidBrush(Color.FromArgb(MainForm.HoverFill.Color.A, this.pnlHoverColour.BackColor));
-                    MainForm.Outline = new Pen(Color.FromArgb(MainForm.Outline.Color.A, this.pnlTileBorderColour.BackColor), (float)this.ctlOutlineWidth.Value);
-                    MainForm.PromptForDestinationFolder = this.chkPromptDestinationFolder.Checked;
-                    MainForm.AutoOpenDestinationFolder = this.chkOpenExportedDestination.Checked;
-                    MainForm.MakeBackgroundTransparent = this.chkExportBGTransparent.Checked;
+                    MainForm.SelectedFill = new SolidBrush(Color.FromArgb(MainForm.SelectedFill.Color.A, this.SelectedColourPanel.BackColor));
+                    MainForm.ZoomPen = new Pen(Color.FromArgb(MainForm.ZoomPen.Color.A, this.SelectedColourPanel.BackColor), MainForm.ZoomPen.Width);
+                    MainForm.HoverFill = new SolidBrush(Color.FromArgb(MainForm.HoverFill.Color.A, this.HoverColourPanel.BackColor));
+                    MainForm.Outline = new Pen(Color.FromArgb(MainForm.Outline.Color.A, this.TileBorderColourPanel.BackColor), (float)this.OutlineWidthUpDown.Value);
+                    MainForm.PromptForDestinationFolder = this.PromptDestinationFolderCheckBox.Checked;
+                    MainForm.AutoOpenDestinationFolder = this.OpenExportedDestinationCheckBox.Checked;
+                    MainForm.MakeBackgroundTransparent = this.ExportBGTransparentCheckBox.Checked;
 
-                    if (this.cboExportFormat.Text != STR_ADVANCED_EXPORT_FILE_FORMAT)
+                    if (this.ExportFormatComboBox.Text != STR_ADVANCED_EXPORT_FILE_FORMAT)
                     {
                         MainForm.ExportNConvertArgs = string.Empty;
-                        MainForm.ExportFormat = (System.Drawing.Imaging.ImageFormat)this.cboExportFormat.SelectedItem;
+                        MainForm.ExportFormat = (System.Drawing.Imaging.ImageFormat)this.ExportFormatComboBox.SelectedItem;
                     }
                     else
                     {
@@ -62,20 +62,20 @@ namespace ASU.UI
                         MainForm.ExportNConvertArgs = this.CreateCommandLineArgs();
                     }
 
-                    if (MainForm.DistanceBetweenTiles != this.ctlDistanceBetweenTiles.Value)
+                    if (MainForm.DistanceBetweenTiles != this.DistanceBetweenTilesUpDown.Value)
                     {
-                        MainForm.DistanceBetweenTiles = Convert.ToInt32(this.ctlDistanceBetweenTiles.Value);
-                        blnReloadNeeded = true;
+                        MainForm.DistanceBetweenTiles = Convert.ToInt32(this.DistanceBetweenTilesUpDown.Value);
+                        reloadNeeded = true;
                     }
 
                     MainForm.SheetWithBoxes = null;
-                    if (blnReloadNeeded)
+                    if (reloadNeeded)
                     {
                         this.Main.ReloadOriginal();
                     }
                     else
                     {
-                        this.Main.pnlMain.Refresh();
+                        this.Main.MainPanel.Refresh();
                     }
                 }
                 this.Hide();
@@ -86,42 +86,42 @@ namespace ASU.UI
             }
         }
 
-        private void frmOptions_Load(object sender, System.EventArgs e)
+        private void OptionsForm_Load(object sender, System.EventArgs e)
         {
             try
             {
                 this.Text = String.Format(STR_FORM_TITLE, ForkandBeard.Logic.Names.GetApplicationMajorVersion());
-                this.lnkCommandLineHelp.Text = String.Format("{0} command line help file", System.IO.Path.GetFileName(System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"]));
+                this.CommandLineHelpLink.Text = String.Format("{0} command line help file", System.IO.Path.GetFileName(System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"]));
 
-                if (this.cboSelectAllOrder.SelectedIndex == -1)
+                if (this.SelectAllOrderComboBox.SelectedIndex == -1)
                 {
-                    this.cboSelectAllOrder.SelectedIndex = 0;
+                    this.SelectAllOrderComboBox.SelectedIndex = 0;
                 }
 
-                this.cboExportFormat.Items.Clear();
-                this.cboExportFormat.Items.Add(System.Drawing.Imaging.ImageFormat.Png);
-                this.cboExportFormat.Items.Add(System.Drawing.Imaging.ImageFormat.Bmp);
-                this.cboExportFormat.Items.Add(System.Drawing.Imaging.ImageFormat.Gif);
-                this.cboExportFormat.Items.Add(System.Drawing.Imaging.ImageFormat.Tiff);
-                this.cboExportFormat.Items.Add(System.Drawing.Imaging.ImageFormat.Jpeg);
-                this.cboExportFormat.Items.Add(STR_ADVANCED_EXPORT_FILE_FORMAT);
-                this.lblCommandLine.Text = this.CreateCommandLineArgs();
+                this.ExportFormatComboBox.Items.Clear();
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Png);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Bmp);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Gif);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Tiff);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Jpeg);
+                this.ExportFormatComboBox.Items.Add(STR_ADVANCED_EXPORT_FILE_FORMAT);
+                this.CommandLineLabel.Text = this.CreateCommandLineArgs();
 
                 if (this.Main != null)
                 {
-                    this.chkExportBGTransparent.Checked = MainForm.MakeBackgroundTransparent;
-                    this.pnlSelectedColour.BackColor = MainForm.SelectedFill.Color;
-                    this.pnlTileBorderColour.BackColor = MainForm.Outline.Color;
-                    this.pnlHoverColour.BackColor = MainForm.HoverFill.Color;
-                    this.ctlDistanceBetweenTiles.Value = MainForm.DistanceBetweenTiles;
-                    this.ctlOutlineWidth.Value = Convert.ToDecimal(MainForm.Outline.Width);
+                    this.ExportBGTransparentCheckBox.Checked = MainForm.MakeBackgroundTransparent;
+                    this.SelectedColourPanel.BackColor = MainForm.SelectedFill.Color;
+                    this.TileBorderColourPanel.BackColor = MainForm.Outline.Color;
+                    this.HoverColourPanel.BackColor = MainForm.HoverFill.Color;
+                    this.DistanceBetweenTilesUpDown.Value = MainForm.DistanceBetweenTiles;
+                    this.OutlineWidthUpDown.Value = Convert.ToDecimal(MainForm.Outline.Width);
                     if (MainForm.ExportFormat != null)
                     {
-                        this.cboExportFormat.SelectedItem = MainForm.ExportFormat;
+                        this.ExportFormatComboBox.SelectedItem = MainForm.ExportFormat;
                     }
                     else
                     {
-                        this.cboExportFormat.Text = STR_ADVANCED_EXPORT_FILE_FORMAT;
+                        this.ExportFormatComboBox.Text = STR_ADVANCED_EXPORT_FILE_FORMAT;
                     }
                 }
             }
@@ -131,92 +131,92 @@ namespace ASU.UI
             }
         }
 
-        private void cmdAbout_Click(System.Object sender, System.EventArgs e)
+        private void AboutButton_Click(System.Object sender, System.EventArgs e)
         {
             AboutForm aboutForm = new AboutForm();
             aboutForm.ShowDialog();
         }
 
-        private void cboExportFormat_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void ExportFormatComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            this.txtNConvertArgs.Enabled = this.cboExportFormat.Text == STR_ADVANCED_EXPORT_FILE_FORMAT;
-            this.chkShowCommandLineArgs.Enabled = this.txtNConvertArgs.Enabled;
-            this.lnkCommandLineHelp.Visible = this.txtNConvertArgs.Enabled && this.chkShowCommandLineArgs.Checked;
-            this.lblCommandLine.Visible = this.txtNConvertArgs.Enabled && this.chkShowCommandLineArgs.Checked;
+            this.NConvertArgsTextBox.Enabled = this.ExportFormatComboBox.Text == STR_ADVANCED_EXPORT_FILE_FORMAT;
+            this.ShowCommandLineArgsCheckBox.Enabled = this.NConvertArgsTextBox.Enabled;
+            this.CommandLineHelpLink.Visible = this.NConvertArgsTextBox.Enabled && this.ShowCommandLineArgsCheckBox.Checked;
+            this.CommandLineLabel.Visible = this.NConvertArgsTextBox.Enabled && this.ShowCommandLineArgsCheckBox.Checked;
 
-            if (this.cboExportFormat.Text == STR_ADVANCED_EXPORT_FILE_FORMAT)
+            if (this.ExportFormatComboBox.Text == STR_ADVANCED_EXPORT_FILE_FORMAT)
             {
-                this.chkExportBGTransparent.Checked = false;
+                this.ExportBGTransparentCheckBox.Checked = false;
             }
             else
             {
-                this.chkShowCommandLineArgs.Checked = false;
+                this.ShowCommandLineArgsCheckBox.Checked = false;
             }
         }
 
-        private void txtNConvertArgs_TextChanged(System.Object sender, System.EventArgs e)
+        private void NConvertArgsTextBox_TextChanged(System.Object sender, System.EventArgs e)
         {
-            this.lblCommandLine.Text = this.CreateCommandLineArgs();
+            this.CommandLineLabel.Text = this.CreateCommandLineArgs();
         }
 
         private string CreateCommandLineArgs()
         {
-            string strReturn = null;
+            string returnString;
 
-            strReturn = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverterCommandArgsExportFormat"].Replace("{text}", this.txtNConvertArgs.Text);
+            returnString = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverterCommandArgsExportFormat"].Replace("{text}", this.NConvertArgsTextBox.Text);
 
-            return strReturn;
+            return returnString;
         }
 
-        private void chkShowCommandLineArgs_CheckedChanged(System.Object sender, System.EventArgs e)
+        private void ShowCommandLineArgsCheckBox_CheckedChanged(System.Object sender, System.EventArgs e)
         {
-            this.lblCommandLine.Visible = this.chkShowCommandLineArgs.Checked;
-            this.lnkCommandLineHelp.Visible = this.chkShowCommandLineArgs.Checked;
+            this.CommandLineLabel.Visible = this.ShowCommandLineArgsCheckBox.Checked;
+            this.CommandLineHelpLink.Visible = this.ShowCommandLineArgsCheckBox.Checked;
 
-            if (this.chkShowCommandLineArgs.Checked)
+            if (this.ShowCommandLineArgsCheckBox.Checked)
             {
-                this.pnlExport.Height += 91;
+                this.ExportPanel.Height += 91;
                 this.Height += 89;
             }
             else
             {
-                this.pnlExport.Height -= 91;
+                this.ExportPanel.Height -= 91;
                 this.Height -= 89;
             }
         }
 
-        private void lnkCommandLineHelp_LinkClicked(System.Object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        private void CommandLineHelpLink_LinkClicked(System.Object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
-            string strThirdPartyImageConverterHelpFile = null;
+            string thirdPartyImageConverterHelpFile = null;
 
-            strThirdPartyImageConverterHelpFile = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverterHelpFile"];
-            if (strThirdPartyImageConverterHelpFile.StartsWith("\\"))
+            thirdPartyImageConverterHelpFile = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverterHelpFile"];
+            if (thirdPartyImageConverterHelpFile.StartsWith("\\"))
             {
-                strThirdPartyImageConverterHelpFile = AppDomain.CurrentDomain.BaseDirectory + strThirdPartyImageConverterHelpFile;
+                thirdPartyImageConverterHelpFile = AppDomain.CurrentDomain.BaseDirectory + thirdPartyImageConverterHelpFile;
             }
-            System.Diagnostics.Process.Start(strThirdPartyImageConverterHelpFile);
+            System.Diagnostics.Process.Start(thirdPartyImageConverterHelpFile);
         }
 
-        private void lnkDownload_LinkClicked(System.Object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        private void DownloadLink_LinkClicked(System.Object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/ForkandBeard/Alferd-Spritesheet-Unpacker/releases");
         }
 
-        private void lnkHelp_LinkClicked(System.Object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        private void HelpLink_LinkClicked(System.Object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.alferdspritesheetunpacker.forkandbeard.co.uk/ForkandBeard/apps/AlferdSpritesheetUnpacker/FAQ.aspx?app=Alferd");
         }
 
-        private void chkPreservePallette_CheckedChanged(System.Object sender, System.EventArgs e)
+        private void PreservePalletteCheckBox_CheckedChanged(System.Object sender, System.EventArgs e)
         {
-            if (this.chkPreservePallette.Checked)
+            if (this.PreservePalletteCheckBox.Checked)
             {
-                this.chkExportBGTransparent.Checked = false;
-                this.chkExportBGTransparent.Enabled = false;
+                this.ExportBGTransparentCheckBox.Checked = false;
+                this.ExportBGTransparentCheckBox.Enabled = false;
             }
             else
             {
-                this.chkExportBGTransparent.Enabled = true;
+                this.ExportBGTransparentCheckBox.Enabled = true;
             }
         }
     }

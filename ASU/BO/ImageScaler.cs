@@ -10,93 +10,91 @@ namespace ASU.BO
     {
         public static Bitmap IncreaseScale(Bitmap image, int scale)
         {
-            Bitmap imgNew;
-            BitmapData objWriteData;
-            BitmapData objReadData;
-            IntPtr ptrWriteScan0Address;
-            IntPtr ptrReadScan0Address;
-            int intWriteByteLength = 0;
-            int intReadByteLength = 0;
-            int intPixelByteLength = 0;
+            Bitmap newImage;
+            BitmapData writeData;
+            BitmapData readData;
+            IntPtr writeScan0Address;
+            IntPtr readScan0Address;
+            int writeByteLength = 0;
+            int readByteLength = 0;
+            int pixelByteLength = 0;
 
             switch (image.PixelFormat)
             {
                 case PixelFormat.Format24bppRgb:
-                    intPixelByteLength = 3;
+                    pixelByteLength = 3;
                     break;
                 case PixelFormat.Format32bppArgb:
-                    intPixelByteLength = 4;
+                    pixelByteLength = 4;
                     break;
                 default:
-                    throw new Exception("Format not supported.");
+                    throw new ArgumentException(String.Format("ImageFormat [{0}] not supported.", image.PixelFormat.ToString()));
             }
 
-            objReadData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);
+            readData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);
 
             //http://msdn.microsoft.com/en-us/library/system.drawing.bitmapdata.aspx
-            imgNew = new Bitmap(Convert.ToInt32(image.Width * scale), Convert.ToInt32(image.Height * scale), image.PixelFormat);
+            newImage = new Bitmap(Convert.ToInt32(image.Width * scale), Convert.ToInt32(image.Height * scale), image.PixelFormat);
 
-            objWriteData = imgNew.LockBits(new Rectangle(0, 0, imgNew.Width, imgNew.Height), ImageLockMode.WriteOnly, image.PixelFormat);
+            writeData = newImage.LockBits(new Rectangle(0, 0, newImage.Width, newImage.Height), ImageLockMode.WriteOnly, image.PixelFormat);
 
-            ptrWriteScan0Address = objWriteData.Scan0;
-            ptrReadScan0Address = objReadData.Scan0;
+            writeScan0Address = writeData.Scan0;
+            readScan0Address = readData.Scan0;
 
-            intWriteByteLength = Math.Abs(objWriteData.Stride) * imgNew.Height;
-            intReadByteLength = Math.Abs(objReadData.Stride) * image.Height;
+            writeByteLength = Math.Abs(writeData.Stride) * newImage.Height;
+            readByteLength = Math.Abs(readData.Stride) * image.Height;
 
-            byte[] arrWriteRGBValues = null;
-            List<byte> colWriteRGBBytes = new List<byte>();
-            byte[] arrReadRGBValues = new byte[intReadByteLength];
-            int intReadPadding = 0;
+            byte[] writeRGBValues = null;
+            List<byte> writeRGBBytes = new List<byte>();
+            byte[] readRGBValues = new byte[readByteLength];
+            int readPadding = 0;
 
-            System.Runtime.InteropServices.Marshal.Copy(ptrReadScan0Address, arrReadRGBValues, 0, intReadByteLength);
+            System.Runtime.InteropServices.Marshal.Copy(readScan0Address, readRGBValues, 0, readByteLength);
 
-            intReadPadding = (objReadData.Stride - (image.Width * intPixelByteLength));
+            readPadding = (readData.Stride - (image.Width * pixelByteLength));
             // 3 = R,G,B. 4 = A,R,G,B.
-            List<byte> colStrideBytes = new List<byte>();
+            List<byte> strideBytes = new List<byte>();
 
-            for (int i = 0; i <= arrReadRGBValues.Length - 1; i += intPixelByteLength)
+            for (int i = 0; i <= readRGBValues.Length - 1; i += pixelByteLength)
             {
                 for (int scaleCounter = 0; scaleCounter <= scale - 1; scaleCounter++)
                 {
-                    for (int _rgb = 0; _rgb <= intPixelByteLength - 1; _rgb++)
+                    for (int _rgb = 0; _rgb <= pixelByteLength - 1; _rgb++)
                     {
-                        colStrideBytes.Add(arrReadRGBValues[i + _rgb]);
+                        strideBytes.Add(readRGBValues[i + _rgb]);
                     }
                 }
 
                 // Strides are rounded up to four bytes...
-
-                if (Math.Ceiling((double) colStrideBytes.Count / 4) == (objWriteData.Stride / 4))
+                if (Math.Ceiling((double) strideBytes.Count / 4) == (writeData.Stride / 4))
                 {
-                    if (colStrideBytes.Count != objWriteData.Stride)
-                    {
-                        // ... so pad short rows.
-                        for (int k = 0; k <= (objWriteData.Stride - colStrideBytes.Count) - 1; k++)
+                    if (strideBytes.Count != writeData.Stride)
+                    {   // ... so pad short rows.
+                        for (int k = 0; k <= (writeData.Stride - strideBytes.Count) - 1; k++)
                         {
-                            colStrideBytes.Add(0);
+                            strideBytes.Add(0);
                         }
                     }
 
                     for (int scaleCounter = 0; scaleCounter <= scale - 1; scaleCounter++)
                     {
-                        colWriteRGBBytes.AddRange(colStrideBytes);
+                        writeRGBBytes.AddRange(strideBytes);
                     }
-                    colStrideBytes = new List<byte>();
+                    strideBytes = new List<byte>();
                     // Read strides are also rounded up to four bytes, so skip the padded bytes.
-                    i += intReadPadding;
+                    i += readPadding;
                 }
             }
 
-            arrWriteRGBValues = colWriteRGBBytes.ToArray();
+            writeRGBValues = writeRGBBytes.ToArray();
 
-            System.Runtime.InteropServices.Marshal.Copy(arrWriteRGBValues, 0, ptrWriteScan0Address, intWriteByteLength);
+            System.Runtime.InteropServices.Marshal.Copy(writeRGBValues, 0, writeScan0Address, writeByteLength);
 
             // Unlock the bits.
-            imgNew.UnlockBits(objWriteData);
-            image.UnlockBits(objReadData);
+            newImage.UnlockBits(writeData);
+            image.UnlockBits(readData);
 
-            return imgNew;
+            return newImage;
         }
     }
 }

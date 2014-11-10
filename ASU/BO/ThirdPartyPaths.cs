@@ -8,15 +8,15 @@ namespace ASU.BO
     {
         public static string GetThirdPartyConversionToolFullPath()
         {
-            string strReturn = null;
+            string path = String.Empty;
 
-            strReturn = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"];
-            if (strReturn.StartsWith("\\"))
+            path = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"];
+            if (path.StartsWith("\\"))
             {
-                strReturn = AppDomain.CurrentDomain.BaseDirectory + strReturn;
+                path = AppDomain.CurrentDomain.BaseDirectory + path;
             }
 
-            return strReturn;
+            return path;
         }
 
         public static string GetThirdPartyConversionToolExecutableName()

@@ -6,6 +6,9 @@ using System.Drawing.Drawing2D;
 
 namespace ASU.BO
 {
+    /// <summary>
+    /// http://csharpdocument.blogspot.co.uk/2013/10/how-to-rotate-image.html
+    /// </summary>
     public class Rotate
     {
         public Rotate()

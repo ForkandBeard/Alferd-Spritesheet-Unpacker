@@ -32,7 +32,7 @@
             this.components = new System.ComponentModel.Container();
             this.LinkLabel1 = new System.Windows.Forms.LinkLabel();
             this.Label1 = new System.Windows.Forms.Label();
-            this.Timer1 = new System.Windows.Forms.Timer(this.components);
+            this.AnimationTimer = new System.Windows.Forms.Timer(this.components);
             this.Label2 = new System.Windows.Forms.Label();
             this.Label3 = new System.Windows.Forms.Label();
             this.BuffablePanel1 = new ASU.UI.BuffablePanel(this.components);
@@ -64,10 +64,11 @@
             this.Label1.Text = "written by \r\nMitchell William Cooper 2011\r\n";
             this.Label1.Click += new System.EventHandler(this.Label1_Click);
             // 
-            // Timer1
+            // AnimationTimer
             // 
-            this.Timer1.Enabled = true;
-            this.Timer1.Interval = 50;
+            this.AnimationTimer.Enabled = true;
+            this.AnimationTimer.Interval = 50;
+            this.AnimationTimer.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Label2
             // 
@@ -128,7 +129,7 @@
 	}
         internal System.Windows.Forms.LinkLabel LinkLabel1;
         internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.Timer Timer1;
+        internal System.Windows.Forms.Timer AnimationTimer;
         internal System.Windows.Forms.Label Label2;
         internal System.Windows.Forms.Label Label3;
         internal ASU.UI.BuffablePanel BuffablePanel1;
