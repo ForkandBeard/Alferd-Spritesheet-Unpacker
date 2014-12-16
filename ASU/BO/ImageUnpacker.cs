@@ -7,6 +7,8 @@ namespace ASU.BO
 {
     public class ImageUnpacker
     {
+        public bool IsLarge { get; set; }
+
         private Bitmap original;
         private object originalLock = new object();
         private int pcComplete = 0;
@@ -46,6 +48,7 @@ namespace ASU.BO
             this.originalSize = image.Size;
             this.boxes = new List<Rectangle>();
             this.FileName = fileName;
+            this.IsLarge = (this.original.Width * this.original.Height) > (800 * 800);
         }
 
         public System.Drawing.Imaging.ColorPalette GetPallette()
@@ -109,6 +112,10 @@ namespace ASU.BO
 
         private void SetPcComplete(int pcComplete)
         {
+            if(pcComplete > 100)
+            {   // TODO: Fix this bug.
+                pcComplete = 100;
+            }
             if (pcComplete > this.pcComplete)
             {
                 this.pcComplete = pcComplete;
@@ -128,6 +135,7 @@ namespace ASU.BO
             this._isUnpacking = true;
             this.threadCounter = 0;
             this.threadCompleteCounter = 0;
+            newThread.IsBackground = true;
             newThread.Start();
         }
 
@@ -175,9 +183,13 @@ namespace ASU.BO
         {
             try
             {
+                int subRegionCount;
                 int xSize = 0;
                 int ySize = 0;
+                decimal totalSize;
                 Rectangle region = default(Rectangle);
+                List<System.Threading.Thread> regionThreads = new List<System.Threading.Thread>();
+                List<Rectangle> regions = new List<Rectangle>();
                 System.Threading.Thread regionThread = null;
 
                 this.areAllThreadsCreated = false;
@@ -187,24 +199,41 @@ namespace ASU.BO
                 }
                 this.SetPcComplete(10);
 
-                ySize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Height / 3));
-                xSize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Width / 3));
+                if(Environment.ProcessorCount > 1)
+                {
+                    subRegionCount = 4;
+                }
+                else
+                {
+                    subRegionCount = 2;
+                }
+
+                ySize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Height / (double)subRegionCount));
+                xSize = Convert.ToInt32(Math.Ceiling((double)this.originalSize.Width / (double)subRegionCount));
 
                 this.areaToUnpack = this.originalSize.Width * this.originalSize.Height;
 
-                for (int y = 0; y <= ySize * 4; y += ySize)
+                totalSize = this.originalSize.Height * this.originalSize.Width;
+                
+                for (int y = 0; y < this.originalSize.Height; y += ySize)
                 {
-
-                    for (int x = 0; x <= xSize * 4; x += xSize)
+                    for (int x = 0; x < this.originalSize.Width; x += xSize)
                     {
-                        region = new Rectangle(x, y, Math.Min(xSize, (this.originalSize.Width - x) - 1), Math.Min(ySize, (this.originalSize.Height - y) - 1));
+                        region = new Rectangle(x, y, Math.Min(xSize+1, (this.originalSize.Width - x) - 1), Math.Min(ySize+1, (this.originalSize.Height - y) - 1));
                         regionThread = new System.Threading.Thread(this.HandleDividedAreaThread);
                         regionThread.Name = "Region thread " + (y * (xSize * 4)) + x;
                         this.threadCounter += 1;
-                        regionThread.Start(region);
-
-                        this.SetPcComplete(10 + Convert.ToInt32((((Math.Min(y, this.originalSize.Height) * (this.originalSize.Width - 1)) + Math.Min(x, this.originalSize.Width)) / (this.originalSize.Height * this.originalSize.Width)) * 10));
+                        regionThread.IsBackground = true;
+                        
+                        regionThreads.Add(regionThread);
+                        regions.Add(region);                        
                     }
+                }
+
+                for (int k = 0; k < regionThreads.Count; k++)
+                {
+                    regionThreads[k].Start(regions[k]);
+                    this.SetPcComplete(10 + Convert.ToInt32((((Math.Min(regions[k].Y, this.originalSize.Height) * (this.originalSize.Width - 1)) + Math.Min(regions[k].X, this.originalSize.Width)) / totalSize) * 10));
                 }
 
                 this.SetPcComplete(20);
@@ -227,6 +256,11 @@ namespace ASU.BO
         {
             try
             {
+                if (Environment.ProcessorCount == 1)
+                {
+                    System.Threading.Thread.Sleep(25);
+                }
+
                 this.HandleDividedArea((Rectangle)regionObject, true, this.GetOriginalClone());
             }
             catch (Exception ex)
@@ -262,10 +296,10 @@ namespace ASU.BO
                     unpacker.UnpackRegion();
                     lock ((this.areaUnpackedLock))
                     {
-                        this.areaUnpacked += Convert.ToInt32((region.Width * region.Height) * 0.8);
+                        this.areaUnpacked += Convert.ToInt32((double)(region.Width * region.Height) * 0.8f);
                     }
 
-                    this.SetPcComplete(20 + Convert.ToInt32((this.areaUnpacked / this.areaToUnpack) * 75));
+                    this.SetPcComplete(20 + Convert.ToInt32(((double)this.areaUnpacked / (double)this.areaToUnpack) * 75f));
 
                     lock ((this.boxesLock))
                     {
@@ -275,10 +309,10 @@ namespace ASU.BO
 
                 lock ((this.areaUnpackedLock))
                 {
-                    this.areaUnpacked += Convert.ToInt32((region.Width * region.Height) * 0.2);
+                    this.areaUnpacked += Convert.ToInt32((double)(region.Width * region.Height) * 0.2f);
                 }
 
-                this.SetPcComplete(20 + Convert.ToInt32((this.areaUnpacked / this.areaToUnpack) * 80));
+                this.SetPcComplete(20 + Convert.ToInt32(((double)this.areaUnpacked / (double)this.areaToUnpack) * 80f));
             }
 
             if (updateCounter)
@@ -317,7 +351,7 @@ namespace ASU.BO
 
                     if ((x + y) % 100 == 0)
                     {
-                        int total = 0;
+                        decimal total = 0;
 
                         total = this.originalSize.Width * this.originalSize.Height;
                         this.SetPcComplete(Convert.ToInt32((((x * (this.originalSize.Height - 1)) + y) / total) * 10));

@@ -23,7 +23,14 @@ namespace ForkandBeard.Logic
                     exceptionForm = new Forms.ExceptionForm(ex, toEmailAddress);
                     if (owner != null)
                     {
-                        exceptionForm.ShowDialog(owner);
+                        try
+                        {
+                            exceptionForm.ShowDialog(owner);
+                        }
+                        catch
+                        {
+                            exceptionForm.ShowDialog();
+                        }
                     }
                     else
                     {

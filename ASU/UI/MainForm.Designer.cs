@@ -42,6 +42,9 @@ namespace ASU.UI
             this.CheckForUnpackFinishTimer = new System.Windows.Forms.Timer(this.components);
             this.ImageClipperAndAnimatorTimer = new ForkandBeard.Util.UI.AutoBalancingFormTimer(this.components);
             this.MainPanel = new ASU.UI.BuffablePanel(this.components);
+            this.HyperModeUnpacking0Label = new System.Windows.Forms.Label();
+            this.HyperModeUnpacking1Label = new System.Windows.Forms.Label();
+            this.HyperModeUnpackingLabel = new System.Windows.Forms.Label();
             this.OverlayFontLabel = new System.Windows.Forms.Label();
             this.DragAndDropLabel = new System.Windows.Forms.Label();
             this.ZoomPanel = new ASU.UI.BuffablePanel(this.components);
@@ -165,12 +168,12 @@ namespace ASU.UI
             this.ExportSelectedButton.UseVisualStyleBackColor = true;
             this.ExportSelectedButton.Click += new System.EventHandler(this.ExportButton_Click);
             // 
-            // txtExportLocation
+            // ExportLocationTextBox
             // 
             this.ExportLocationTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ExportLocationTextBox.Location = new System.Drawing.Point(97, 58);
-            this.ExportLocationTextBox.Name = "txtExportLocation";
+            this.ExportLocationTextBox.Name = "ExportLocationTextBox";
             this.ExportLocationTextBox.Size = new System.Drawing.Size(341, 21);
             this.ExportLocationTextBox.TabIndex = 6;
             // 
@@ -209,9 +212,9 @@ namespace ASU.UI
             // 
             // ImageClipperAndAnimatorTimer
             // 
-            this.ImageClipperAndAnimatorTimer.Interval = 75;
+            this.ImageClipperAndAnimatorTimer.Interval = 200;
             this.ImageClipperAndAnimatorTimer.MaxInterval = 1000;
-            this.ImageClipperAndAnimatorTimer.MinInterval = 40;
+            this.ImageClipperAndAnimatorTimer.MinInterval = 50;
             this.ImageClipperAndAnimatorTimer.BalancedTock += new ForkandBeard.Util.UI.AutoBalancingFormTimer.BalancedTockEventHandler(this.ImageClipperAndAnimatorTimer_BalancedTock);
             // 
             // MainPanel
@@ -219,6 +222,9 @@ namespace ASU.UI
             this.MainPanel.AllowDrop = true;
             this.MainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.MainPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.MainPanel.Controls.Add(this.HyperModeUnpacking0Label);
+            this.MainPanel.Controls.Add(this.HyperModeUnpacking1Label);
+            this.MainPanel.Controls.Add(this.HyperModeUnpackingLabel);
             this.MainPanel.Controls.Add(this.OverlayFontLabel);
             this.MainPanel.Controls.Add(this.DragAndDropLabel);
             this.MainPanel.Controls.Add(this.ZoomPanel);
@@ -236,13 +242,56 @@ namespace ASU.UI
             this.MainPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainPanel_MouseMove);
             this.MainPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainPanel_MouseUp);
             // 
-            // OverlayFont
+            // HyperModeUnpacking0Label
+            // 
+            this.HyperModeUnpacking0Label.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.HyperModeUnpacking0Label.AutoSize = true;
+            this.HyperModeUnpacking0Label.BackColor = System.Drawing.Color.Transparent;
+            this.HyperModeUnpacking0Label.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HyperModeUnpacking0Label.ForeColor = System.Drawing.Color.Gray;
+            this.HyperModeUnpacking0Label.Location = new System.Drawing.Point(346, 103);
+            this.HyperModeUnpacking0Label.Name = "HyperModeUnpacking0Label";
+            this.HyperModeUnpacking0Label.Size = new System.Drawing.Size(61, 40);
+            this.HyperModeUnpacking0Label.TabIndex = 5;
+            this.HyperModeUnpacking0Label.Text = "_un";
+            this.HyperModeUnpacking0Label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.HyperModeUnpacking0Label.Visible = false;
+            // 
+            // HyperModeUnpacking1Label
+            // 
+            this.HyperModeUnpacking1Label.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.HyperModeUnpacking1Label.AutoSize = true;
+            this.HyperModeUnpacking1Label.BackColor = System.Drawing.Color.Transparent;
+            this.HyperModeUnpacking1Label.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HyperModeUnpacking1Label.ForeColor = System.Drawing.Color.Gray;
+            this.HyperModeUnpacking1Label.Location = new System.Drawing.Point(466, 103);
+            this.HyperModeUnpacking1Label.Name = "HyperModeUnpacking1Label";
+            this.HyperModeUnpacking1Label.Size = new System.Drawing.Size(57, 40);
+            this.HyperModeUnpacking1Label.TabIndex = 4;
+            this.HyperModeUnpacking1Label.Text = "ing";
+            this.HyperModeUnpacking1Label.Visible = false;
+            // 
+            // HyperModeUnpackingLabel
+            // 
+            this.HyperModeUnpackingLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.HyperModeUnpackingLabel.AutoSize = true;
+            this.HyperModeUnpackingLabel.BackColor = System.Drawing.Color.Transparent;
+            this.HyperModeUnpackingLabel.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HyperModeUnpackingLabel.ForeColor = System.Drawing.Color.Gray;
+            this.HyperModeUnpackingLabel.Location = new System.Drawing.Point(399, 103);
+            this.HyperModeUnpackingLabel.Name = "HyperModeUnpackingLabel";
+            this.HyperModeUnpackingLabel.Size = new System.Drawing.Size(76, 40);
+            this.HyperModeUnpackingLabel.TabIndex = 3;
+            this.HyperModeUnpackingLabel.Text = "pack";
+            this.HyperModeUnpackingLabel.Visible = false;
+            // 
+            // OverlayFontLabel
             // 
             this.OverlayFontLabel.AutoSize = true;
             this.OverlayFontLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OverlayFontLabel.ForeColor = System.Drawing.Color.Blue;
             this.OverlayFontLabel.Location = new System.Drawing.Point(502, 12);
-            this.OverlayFontLabel.Name = "OverlayFont";
+            this.OverlayFontLabel.Name = "OverlayFontLabel";
             this.OverlayFontLabel.Size = new System.Drawing.Size(79, 13);
             this.OverlayFontLabel.TabIndex = 2;
             this.OverlayFontLabel.Text = "overlay font";
@@ -310,5 +359,8 @@ namespace ASU.UI
         internal System.Windows.Forms.Button SelectAllButton;
 
         internal System.Windows.Forms.Label OverlayFontLabel;
+        internal System.Windows.Forms.Label HyperModeUnpackingLabel;
+        internal System.Windows.Forms.Label HyperModeUnpacking0Label;
+        internal System.Windows.Forms.Label HyperModeUnpacking1Label;
     }
 }

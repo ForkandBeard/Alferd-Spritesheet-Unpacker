@@ -150,9 +150,14 @@ namespace ASU.UI
                     }
                 }
                 else
-                {
-                    // Ensure 2 are unpacking at one time.
-                    if (countUnpacking < 2)
+                {   // Ensure 2 are unpacking at one time (where multiple processors are available).
+                    if (
+                            (
+                            (Environment.ProcessorCount > 1)
+                            && (countUnpacking < 2)
+                            )
+                        ||  (countUnpacking < 1)
+                        )
                     {
                         foreach (BO.ImageUnpacker unpacker in this.unpackers)
                         {
@@ -662,7 +667,7 @@ namespace ASU.UI
             Graphics graphics = null;
             Graphics zoomGraphics = null;
             Bitmap originalImage = null;
-            Bitmap paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
+            Bitmap paintedImage = null;
 
             try
             {
@@ -707,6 +712,7 @@ namespace ASU.UI
                         }
                     }
 
+                    paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
                     graphics = Graphics.FromImage(paintedImage);
                     graphics.DrawImage(SheetWithBoxes, this.Offset);
 
@@ -1286,6 +1292,9 @@ namespace ASU.UI
             this.MainPanel.BackgroundImage = null;
             this.OptionsPanel.Enabled = true;
             this.ZoomPanel.Visible = this.unpackers.Count == 1;
+            this.HyperModeUnpackingLabel.Visible = false;
+            this.HyperModeUnpacking0Label.Visible = false;
+            this.HyperModeUnpacking1Label.Visible = false;
 
             this.Offset = new Point(0, 0);
             this.Text = String.Format(STR_FORM_TITLE, ForkandBeard.Logic.Names.GetApplicationMajorVersion(), "");
@@ -1301,6 +1310,8 @@ namespace ASU.UI
             {
                 this.SetFullImageOverlayText();
             }
+
+            this.MainPanel.Refresh();
         }
 
         private void CheckForUnpackFinishTimer_Tick(object sender, System.EventArgs e)
@@ -1374,19 +1385,38 @@ namespace ASU.UI
 
                 if (!unpacker.IsUnpacked())
                 {
-                    Rectangle randomRectangle = default(Rectangle);
-
-                    original = unpacker.GetOriginalClone();
                     this.UpdateTitlePc(pcComplete);
-                    randomRectangle = new Rectangle(0, 0, this.Random.Next(2, Convert.ToInt32(original.Width * 0.4f)), this.Random.Next(2, Convert.ToInt32(original.Height * 0.4f)));
-                    backgroundImage = new Bitmap(randomRectangle.Width, randomRectangle.Height);
-                    randomRectangle.X = this.Random.Next(0, Convert.ToInt32(original.Width - randomRectangle.Width));
-                    randomRectangle.Y = this.Random.Next(0, Convert.ToInt32(original.Height - randomRectangle.Height));
+                    this.HyperModeUnpackingLabel.Visible = false;
+                    this.HyperModeUnpacking0Label.Visible = false;
+                    this.HyperModeUnpacking1Label.Visible = false;
 
-                    graphics = Graphics.FromImage(backgroundImage);
-                    graphics.DrawImage(original, 0, 0, randomRectangle, GraphicsUnit.Pixel);
+                    if (unpacker.IsLarge)
+                    {
+                        this.MainPanel.Refresh();
+                        this.MainPanel.BackgroundImage = null;
+                        this.HyperModeUnpackingLabel.Visible = true;
+                        this.HyperModeUnpacking1Label.Visible = true;
+                        this.HyperModeUnpacking0Label.Visible = true;
+                        this.HyperModeUnpacking0Label.ForeColor = Color.FromArgb(this.Random.Next(50, 150), this.Random.Next(0, 10), this.Random.Next(0, 100));
+                        this.HyperModeUnpackingLabel.ForeColor = Color.FromArgb(this.Random.Next(150, 160), this.Random.Next(0, 100), this.Random.Next(100, 200));
+                        this.HyperModeUnpacking1Label.ForeColor = Color.FromArgb(this.Random.Next(200, 256), this.Random.Next(200, 256), this.Random.Next(200, 210));
+                    }
+                    else
+                    {
+                        Rectangle randomRectangle;
+                        
+                        original = unpacker.GetOriginalClone();                        
+                        randomRectangle = new Rectangle(0, 0, this.Random.Next(2, Convert.ToInt32(original.Width * 0.4f)), this.Random.Next(2, Convert.ToInt32(original.Height * 0.4f)));
+                        backgroundImage = new Bitmap(randomRectangle.Width, randomRectangle.Height);
+                        randomRectangle.X = this.Random.Next(0, Convert.ToInt32(original.Width - randomRectangle.Width));
+                        randomRectangle.Y = this.Random.Next(0, Convert.ToInt32(original.Height - randomRectangle.Height));
 
-                    this.MainPanel.BackgroundImage = backgroundImage;
+                        graphics = Graphics.FromImage(backgroundImage);
+                        graphics.DrawImage(original, 0, 0, randomRectangle, GraphicsUnit.Pixel);
+
+                        this.MainPanel.BackgroundImage = backgroundImage;                        
+                    }
+
                     this.Text = this.FormTitle;
 
                     lock ((BO.RegionUnpacker.Wait))
