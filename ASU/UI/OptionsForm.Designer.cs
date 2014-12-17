@@ -445,6 +445,7 @@ namespace ASU.UI
             this.HelpLink.TabStop = true;
             this.HelpLink.Text = "help";
             this.HelpLink.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.HelpLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HelpLink_LinkClicked);
             // 
             // OptionsForm
             // 

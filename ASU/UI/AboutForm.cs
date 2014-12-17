@@ -25,7 +25,7 @@ namespace ASU.UI
 
         private void AboutForm_Load(object sender, System.EventArgs e)
         {
-            MessageBox.Show("Any bugs, suggestions, feedback can be left @ https://github.com/ForkandBeard/Alferd-Spritesheet-Unpacker/issues");
+            MessageBox.Show("Any bugs, suggestions, feedback can be left @ https://github.com/ForkandBeard/Alferd-Spritesheet-Unpacker/issues or tweet me up @ForkandBeard");
             this.CoolBackGroundImage = new Bitmap(this.Width * 2, this.Height * 2);
             Graphics.FromImage(this.CoolBackGroundImage).FillRectangle(Brushes.Silver, new Rectangle(0, 0, this.Width * 2, this.Height * 2));
         }

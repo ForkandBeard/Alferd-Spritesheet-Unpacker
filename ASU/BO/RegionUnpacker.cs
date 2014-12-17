@@ -99,6 +99,13 @@ namespace ASU.BO
             do
             {
                 index = CombineFirstOverlappingBox(ref boxes, background, image, index);
+                // There is a bug here where -1 is returned even when boxes still need to be combined so just a hack to try again even if 
+                // index is -1. Keep trying.
+                if(index == -1)
+                {
+                    index = 0;
+                    index = CombineFirstOverlappingBox(ref boxes, background, image, index);
+                }
             } while (index != -1);
         }
 
@@ -115,10 +122,8 @@ namespace ASU.BO
 
                 foreach (Rectangle collider in boxes)
                 {
-
                     if (box != collider)
                     {
-
                         if (DoBoxesContainAdjacentOrOverlappingPixels(box, collider, background, image))
                         {
                             newBox = box;
