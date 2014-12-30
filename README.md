@@ -24,3 +24,7 @@ I also, originally, never planned on releasing it, so it was only ever going to 
 Ideally I'd like to move all the code over to C# and remove all the Hungarian notation and other kak.
 ###### Updates
 06/11/2014 -  All VB code has now been replaced with C#
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ForkandBeard/alferd-spritesheet-unpacker/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
