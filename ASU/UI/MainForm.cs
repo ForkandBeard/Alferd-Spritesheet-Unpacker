@@ -843,7 +843,6 @@ namespace ASU.UI
                     if (newBox == Rectangle.Empty)
                     {
                         newBox = box;
-
                     }
                     else
                     {
@@ -917,7 +916,6 @@ namespace ASU.UI
                 {
                     this.FolderBrowserDialog1.SelectedPath = this.ExportLocationTextBox.Text;
                 }
-
 
                 if (this.Selected.Count > 0 || unpackers.Count > 1)
                 {
@@ -1172,6 +1170,8 @@ namespace ASU.UI
 
         private void SelectAllButton_Click(System.Object sender, System.EventArgs e)
         {
+            Enums.SelectAllOrder selectOrder;
+
             try
             {
                 if (this.unpackers.Count == 0)
@@ -1183,12 +1183,18 @@ namespace ASU.UI
                 this.Selected.Clear();
                 if (this.Options == null)
                 {
-                    this.Selected = BO.ImageUnpacker.OrderBoxes(this.unpackers[0].GetBoxes(), Enums.SelectAllOrder.TopLeft, this.unpackers[0].GetSize());
+                    selectOrder = Enums.SelectAllOrder.TopLeft;                    
                 }
                 else
                 {
-                    this.Selected = BO.ImageUnpacker.OrderBoxes(this.unpackers[0].GetBoxes(), (Enums.SelectAllOrder)this.Options.SelectAllOrderComboBox.SelectedIndex, this.unpackers[0].GetSize());
+                    selectOrder = (Enums.SelectAllOrder)this.Options.SelectAllOrderComboBox.SelectedIndex;
                 }
+
+                if (this.unpackers.Count == 1)
+                {
+                    this.Selected = BO.ImageUnpacker.OrderBoxes(this.Boxes, selectOrder, this.unpackers[0].GetSize());
+                }
+
                 this.SetFullImageOverlayText();
                 this.Refresh();
             }
