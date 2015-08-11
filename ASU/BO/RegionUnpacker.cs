@@ -57,26 +57,26 @@ namespace ASU.BO
 
                         presentColour = image.GetPixel(x, y);
 
-                        if (presentColour != background)
+                        if (presentColour.ToArgb() != background.ToArgb())
                         {
                             newBox = new Rectangle(presentPixel, new Size(0, 0));
                             x2 = x;
 
-                            while (x2 < (image.Width - 1) && image.GetPixel(x2, y) != background)
+                            while (x2 < (image.Width - 1) && image.GetPixel(x2, y).ToArgb() != background.ToArgb())
                             {
                                 x2 += 1;
                                 newBox = new Rectangle(newBox.X, newBox.Y, newBox.Width + 1, newBox.Height);
                             }
 
                             y2 = y;
-                            while (y2 < (image.Height - 1) && image.GetPixel(x2, y2) != background)
+                            while (y2 < (image.Height - 1) && image.GetPixel(x2, y2).ToArgb() != background.ToArgb())
                             {
                                 y2 += 1;
                                 newBox = new Rectangle(newBox.X, newBox.Y, newBox.Width, newBox.Height + 1);
                             }
 
                             y2 = y + newBox.Height;
-                            while (y2 < (image.Height - 1) && image.GetPixel(x, y2) != background)
+                            while (y2 < (image.Height - 1) && image.GetPixel(x, y2).ToArgb() != background.ToArgb())
                             {
                                 y2 += 1;
                                 newBox = new Rectangle(newBox.X, newBox.Y, newBox.Width, newBox.Height + 1);
@@ -204,8 +204,8 @@ namespace ASU.BO
                 for (int x = intersection.X; x <= intersection.Right; x++)
                 {
                     for (int y = intersection.Y; y <= intersection.Bottom; y++)
-                    {
-                        if (image.GetPixel(x, y) != background)
+                    {                       
+                        if (image.GetPixel(x, y).ToArgb() != background.ToArgb())
                         {
                             return true;
                         }
@@ -214,19 +214,17 @@ namespace ASU.BO
 
             }
 
-
             if (ForkandBeard.Util.Geometry.GeometryHelper.GetXGapBetweenRectangles(box1, box2) <= UI.MainForm.DistanceBetweenTiles)
             {
                 for (int y = box1.Y - UI.MainForm.DistanceBetweenTiles; y <= box1.Bottom + UI.MainForm.DistanceBetweenTiles; y++)
                 {
-
                     if (y >= box2.Top && y <= box2.Bottom)
                     {
                         if (box2.Left > box1.Right)
                         {
-                            if (image.GetPixel(box1.Right, y) != background)
+                            if (image.GetPixel(box1.Right, y).ToArgb() != background.ToArgb())
                             {
-                                if (image.GetPixel(box2.Left, y) != background)
+                                if (image.GetPixel(box2.Left, y).ToArgb() != background.ToArgb())
                                 {
                                     return true;
                                 }
@@ -234,9 +232,9 @@ namespace ASU.BO
                         }
                         else
                         {
-                            if (image.GetPixel(box1.Left, y) != background)
+                            if (image.GetPixel(box1.Left, y).ToArgb() != background.ToArgb())
                             {
-                                if (image.GetPixel(box2.Right, y) != background)
+                                if (image.GetPixel(box2.Right, y).ToArgb() != background.ToArgb())
                                 {
                                     return true;
                                 }
@@ -247,19 +245,17 @@ namespace ASU.BO
                 }
             }
 
-
             if (ForkandBeard.Util.Geometry.GeometryHelper.GetYGapBetweenRectangles(box1, box2) <= UI.MainForm.DistanceBetweenTiles)
             {
                 for (int x = box1.Left - UI.MainForm.DistanceBetweenTiles; x <= box1.Right + UI.MainForm.DistanceBetweenTiles; x++)
                 {
-
                     if (x >= box2.Left && x <= box2.Right)
                     {
                         if (box2.Top > box1.Bottom)
                         {
-                            if (image.GetPixel(x, box1.Bottom) != background)
+                            if (image.GetPixel(x, box1.Bottom).ToArgb() != background.ToArgb())
                             {
-                                if (image.GetPixel(x, box2.Top) != background)
+                                if (image.GetPixel(x, box2.Top).ToArgb() != background.ToArgb())
                                 {
                                     return true;
                                 }
@@ -267,9 +263,9 @@ namespace ASU.BO
                         }
                         else
                         {
-                            if (image.GetPixel(x, box1.Top) != background)
+                            if (image.GetPixel(x, box1.Top).ToArgb() != background.ToArgb())
                             {
-                                if (image.GetPixel(x, box2.Bottom) != background)
+                                if (image.GetPixel(x, box2.Bottom).ToArgb() != background.ToArgb())
                                 {
                                     return true;
                                 }

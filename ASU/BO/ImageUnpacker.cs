@@ -46,9 +46,74 @@ namespace ASU.BO
             }
             this.original = new Bitmap((Bitmap)image.Clone());
             this.originalSize = image.Size;
+            this.original = this.RemoveTransparencyFromImage(this.original);
             this.boxes = new List<Rectangle>();
             this.FileName = fileName;
             this.IsLarge = (this.original.Width * this.original.Height) > (800 * 800);
+        }
+
+        private Bitmap RemoveTransparencyFromImage(Bitmap image)
+        {
+            Dictionary<int, Color> coloursByArgb = new Dictionary<int, Color>();
+            Dictionary<Point, Color> transparentPixelsByCoord = new Dictionary<Point, Color>();
+            Dictionary<Color, Color> opaquedByTransparent = new Dictionary<Color, Color>();
+            Color pixel;
+            bool containsTransparency = false;
+            Color transparentPixel;
+            Color opaquedPixel;
+
+            for(int x = 0; x < image.Width; x++)
+            {
+                for(int y = 0; y < image.Height; y++)
+                {
+                    pixel = image.GetPixel(x, y);
+
+                    if (!coloursByArgb.ContainsKey(pixel.ToArgb()))
+                    {
+                        coloursByArgb.Add(pixel.ToArgb(), pixel);     
+                    }
+                    if (pixel.A < 255)
+                    {
+                        containsTransparency = true;
+                        transparentPixelsByCoord.Add(new Point(x, y), pixel);
+                    }
+                }
+            }
+
+            if (containsTransparency)
+            {
+                foreach (Point coord in transparentPixelsByCoord.Keys)
+                {
+                    transparentPixel = transparentPixelsByCoord[coord];
+                    if (opaquedByTransparent.ContainsKey(transparentPixel))
+                    {
+                        opaquedPixel = opaquedByTransparent[transparentPixel];
+                    }
+                    else
+                    {
+                        opaquedPixel = Color.FromArgb(255, transparentPixel);
+
+                        do
+                        {
+                            if (transparentPixel.R > (255 / 2))
+                            {
+                                opaquedPixel = Color.FromArgb(opaquedPixel.R - 1, opaquedPixel.G, opaquedPixel.B);
+                            }
+                            else
+                            {
+                                opaquedPixel = Color.FromArgb(opaquedPixel.R + 1, opaquedPixel.G, opaquedPixel.B);
+                            }
+                        } while (coloursByArgb.ContainsKey(opaquedPixel.ToArgb()));
+
+                        coloursByArgb.Remove(transparentPixel.ToArgb());
+                        coloursByArgb.Add(opaquedPixel.ToArgb(), opaquedPixel);
+                        opaquedByTransparent.Add(transparentPixel, opaquedPixel);
+                    }
+                    image.SetPixel(coord.X, coord.Y, opaquedPixel);
+                }
+            }
+
+            return image;
         }
 
         public System.Drawing.Imaging.ColorPalette GetPallette()
@@ -330,8 +395,8 @@ namespace ASU.BO
 
         private void SetBackgroundColour(Bitmap image)
         {
-            Dictionary<Color, int> colours = new Dictionary<Color, int>();
-            Color presentColour = default(Color);
+            Dictionary<int, int> colourCountsByArgb = new Dictionary<int, int>();
+            Color presentColour; 
             int maxCount = 0;
 
             for (int x = 0; x <= this.originalSize.Width - 1; x++)
@@ -340,13 +405,13 @@ namespace ASU.BO
                 {
                     presentColour = image.GetPixel(x, y);
 
-                    if (!colours.ContainsKey(presentColour))
+                    if (!colourCountsByArgb.ContainsKey(presentColour.ToArgb()))
                     {
-                        colours.Add(presentColour, 1);
+                        colourCountsByArgb.Add(presentColour.ToArgb(), 1);
                     }
                     else
                     {
-                        colours[presentColour] += 1;
+                        colourCountsByArgb[presentColour.ToArgb()] += 1;
                     }
 
                     if ((x + y) % 100 == 0)
@@ -359,17 +424,17 @@ namespace ASU.BO
                 }
             }
 
-            foreach (Color colour in colours.Keys)
+            foreach (int colourArgb in colourCountsByArgb.Keys)
             {
-                if (colours[colour] >= maxCount)
+                if (colourCountsByArgb[colourArgb] >= maxCount)
                 {
-                    maxCount = colours[colour];
-                    this.backgroundColour = colour;
+                    maxCount = colourCountsByArgb[colourArgb];
+                    this.backgroundColour = Color.FromArgb(colourArgb);
                 }
             }
             image.Dispose();
             this._isBackgroundColourSet = true;
-            this.ColoursCount = colours.Count - 1;
+            this.ColoursCount = colourCountsByArgb.Count - 1;
         }
 
         private void HandleUnpackComplete()

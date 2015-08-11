@@ -437,7 +437,10 @@ namespace ASU.UI
                 {
                     dropped = e.Data.GetData(objFormat);
 
-                    if (object.ReferenceEquals(dropped.GetType(), typeof(string[])))
+                    if(
+                        (dropped != null)
+                        && (object.ReferenceEquals(dropped.GetType(), typeof(string[])))
+                        )
                     {   // Dropped object is an array of string, so assume they are file names.
                         Bitmap image;
                         List<string> fileNames = null;
@@ -909,6 +912,7 @@ namespace ASU.UI
             bool userOkToConvertFiles = true;
             List<Rectangle> boxes = null;
             DateTime lapse = System.DateTime.MinValue;
+            System.Windows.Forms.DialogResult folderResponse = System.Windows.Forms.DialogResult.Cancel;
 
             try
             {
@@ -919,10 +923,17 @@ namespace ASU.UI
 
                 if (this.Selected.Count > 0 || unpackers.Count > 1)
                 {
+                    if (PromptForDestinationFolder)
+                    {
+                        folderResponse = this.FolderBrowserDialog1.ShowDialog();
+                    }
+
                     foreach (BO.ImageUnpacker unpacker in unpackers)
                     {
-
-                        if ((PromptForDestinationFolder && this.FolderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) || !PromptForDestinationFolder)
+                        if (
+                            (folderResponse == System.Windows.Forms.DialogResult.OK) 
+                            || (!PromptForDestinationFolder)
+                            )
                         {
                             if (PromptForDestinationFolder)
                             {
