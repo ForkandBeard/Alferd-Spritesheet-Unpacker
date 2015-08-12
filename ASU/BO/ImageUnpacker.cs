@@ -38,7 +38,7 @@ namespace ASU.BO
         public delegate void PcCompleteChangedEventHandler(int pcComplete);
         public delegate void UnpackingCompleteEventHandler();
 
-        public ImageUnpacker(Bitmap image, string fileName)
+        public ImageUnpacker(Bitmap image, string fileName, bool removeTransparency)
         {
             if (image.Palette.Entries.Length > 0)
             {
@@ -46,7 +46,10 @@ namespace ASU.BO
             }
             this.original = new Bitmap((Bitmap)image.Clone());
             this.originalSize = image.Size;
-            this.original = this.RemoveTransparencyFromImage(this.original);
+            if (removeTransparency)
+            {
+                this.original = this.RemoveTransparencyFromImage(this.original);
+            }
             this.boxes = new List<Rectangle>();
             this.FileName = fileName;
             this.IsLarge = (this.original.Width * this.original.Height) > (800 * 800);

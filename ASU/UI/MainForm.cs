@@ -83,7 +83,7 @@ namespace ASU.UI
 
             this.ZoomPanel.Visible = false;
 
-            unpacker = new BO.ImageUnpacker(image, fileName);
+            unpacker = new BO.ImageUnpacker(image, fileName, MakeBackgroundTransparent && !this.Options.PreservePalletteCheckBox.Checked);
             this.unpackers.Add(unpacker);
         }
 

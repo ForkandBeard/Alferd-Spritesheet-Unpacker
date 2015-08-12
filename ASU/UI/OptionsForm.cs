@@ -14,6 +14,52 @@ namespace ASU.UI
         private const string STR_ADVANCED_EXPORT_FILE_FORMAT = "<Advanced>";
 
         public MainForm Main;
+
+        private void OptionsForm_Load(object sender, System.EventArgs e)
+        {
+            try
+            {
+                this.Text = String.Format(STR_FORM_TITLE, ForkandBeard.Logic.Names.GetApplicationMajorVersion());
+                this.CommandLineHelpLink.Text = String.Format("{0} command line help file", System.IO.Path.GetFileName(System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"]));
+
+                if (this.SelectAllOrderComboBox.SelectedIndex == -1)
+                {
+                    this.SelectAllOrderComboBox.SelectedIndex = 0;
+                }
+
+                this.ExportFormatComboBox.Items.Clear();
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Png);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Bmp);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Gif);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Tiff);
+                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Jpeg);
+                this.ExportFormatComboBox.Items.Add(STR_ADVANCED_EXPORT_FILE_FORMAT);
+                this.CommandLineLabel.Text = this.CreateCommandLineArgs();
+
+                if (this.Main != null)
+                {
+                    this.ExportBGTransparentCheckBox.Checked = MainForm.MakeBackgroundTransparent;
+                    this.SelectedColourPanel.BackColor = MainForm.SelectedFill.Color;
+                    this.TileBorderColourPanel.BackColor = MainForm.Outline.Color;
+                    this.HoverColourPanel.BackColor = MainForm.HoverFill.Color;
+                    this.DistanceBetweenTilesUpDown.Value = MainForm.DistanceBetweenTiles;
+                    this.OutlineWidthUpDown.Value = Convert.ToDecimal(MainForm.Outline.Width);
+                    if (MainForm.ExportFormat != null)
+                    {
+                        this.ExportFormatComboBox.SelectedItem = MainForm.ExportFormat;
+                    }
+                    else
+                    {
+                        this.ExportFormatComboBox.Text = STR_ADVANCED_EXPORT_FILE_FORMAT;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error during option load");
+            }
+        }
+
         private void SelectedColourButton_Click(System.Object sender, System.EventArgs e)
         {
             this.ColorDialog1.Color = this.SelectedColourPanel.BackColor;
@@ -83,51 +129,6 @@ namespace ASU.UI
             catch (Exception ex)
             {
                 ForkandBeard.Logic.ExceptionHandler.HandleException(ex, "cat@forkandbeard.co.uk");
-            }
-        }
-
-        private void OptionsForm_Load(object sender, System.EventArgs e)
-        {
-            try
-            {
-                this.Text = String.Format(STR_FORM_TITLE, ForkandBeard.Logic.Names.GetApplicationMajorVersion());
-                this.CommandLineHelpLink.Text = String.Format("{0} command line help file", System.IO.Path.GetFileName(System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"]));
-
-                if (this.SelectAllOrderComboBox.SelectedIndex == -1)
-                {
-                    this.SelectAllOrderComboBox.SelectedIndex = 0;
-                }
-
-                this.ExportFormatComboBox.Items.Clear();
-                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Png);
-                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Bmp);
-                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Gif);
-                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Tiff);
-                this.ExportFormatComboBox.Items.Add(System.Drawing.Imaging.ImageFormat.Jpeg);
-                this.ExportFormatComboBox.Items.Add(STR_ADVANCED_EXPORT_FILE_FORMAT);
-                this.CommandLineLabel.Text = this.CreateCommandLineArgs();
-
-                if (this.Main != null)
-                {
-                    this.ExportBGTransparentCheckBox.Checked = MainForm.MakeBackgroundTransparent;
-                    this.SelectedColourPanel.BackColor = MainForm.SelectedFill.Color;
-                    this.TileBorderColourPanel.BackColor = MainForm.Outline.Color;
-                    this.HoverColourPanel.BackColor = MainForm.HoverFill.Color;
-                    this.DistanceBetweenTilesUpDown.Value = MainForm.DistanceBetweenTiles;
-                    this.OutlineWidthUpDown.Value = Convert.ToDecimal(MainForm.Outline.Width);
-                    if (MainForm.ExportFormat != null)
-                    {
-                        this.ExportFormatComboBox.SelectedItem = MainForm.ExportFormat;
-                    }
-                    else
-                    {
-                        this.ExportFormatComboBox.Text = STR_ADVANCED_EXPORT_FILE_FORMAT;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error during option load");
             }
         }
 
@@ -213,10 +214,6 @@ namespace ASU.UI
             {
                 this.ExportBGTransparentCheckBox.Checked = false;
                 this.ExportBGTransparentCheckBox.Enabled = false;
-            }
-            else
-            {
-                this.ExportBGTransparentCheckBox.Enabled = true;
             }
         }
     }
