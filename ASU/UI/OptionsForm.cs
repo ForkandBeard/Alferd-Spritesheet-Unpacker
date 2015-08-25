@@ -44,6 +44,8 @@ namespace ASU.UI
                     this.HoverColourPanel.BackColor = MainForm.HoverFill.Color;
                     this.DistanceBetweenTilesUpDown.Value = MainForm.DistanceBetweenTiles;
                     this.OutlineWidthUpDown.Value = Convert.ToDecimal(MainForm.Outline.Width);
+                    this.PreservePalletteCheckBox.Checked = MainForm.PreservePallette;
+
                     if (MainForm.ExportFormat != null)
                     {
                         this.ExportFormatComboBox.SelectedItem = MainForm.ExportFormat;
@@ -96,6 +98,7 @@ namespace ASU.UI
                     MainForm.PromptForDestinationFolder = this.PromptDestinationFolderCheckBox.Checked;
                     MainForm.AutoOpenDestinationFolder = this.OpenExportedDestinationCheckBox.Checked;
                     MainForm.MakeBackgroundTransparent = this.ExportBGTransparentCheckBox.Checked;
+                    MainForm.PreservePallette = this.PreservePalletteCheckBox.Checked;
 
                     if (this.ExportFormatComboBox.Text != STR_ADVANCED_EXPORT_FILE_FORMAT)
                     {

@@ -54,8 +54,8 @@ namespace ASU.UI
         private static string ThirdPartyImageConverterPath;
         public static bool PromptForDestinationFolder = true;
         public static bool AutoOpenDestinationFolder = true;
-
         public static bool MakeBackgroundTransparent = true;
+        public static bool PreservePallette = false;
 
         private System.Threading.Timer multipleUnpackerTimer;
         #endregion
@@ -64,6 +64,41 @@ namespace ASU.UI
         public MainForm()
         {
             this.InitializeComponent();
+        }
+
+        private void MainForm_Load(object sender, System.EventArgs e)
+        {
+            try
+            {
+                this.SuppressThirdPartyWarningMessage = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["SuppressThirdPartyImageConverterWarningMessage"]);
+                this.ExportLocationTextBox.Text = AppDomain.CurrentDomain.BaseDirectory;
+                this.KeyPreview = true;
+                ThirdPartyImageConverterPath = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"];
+
+                if (ThirdPartyImageConverterPath.StartsWith("\\"))
+                {
+                    ThirdPartyImageConverterPath = AppDomain.CurrentDomain.BaseDirectory + ThirdPartyImageConverterPath;
+                }
+                AutoOpenDestinationFolder = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["AutoOpenDestinationFolder"]);
+                PromptForDestinationFolder = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["PromptForDestinationFolder"]);
+                Outline.Width = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["TileOutlineWidth"]);
+                DistanceBetweenTiles = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["DistanceBetweenFrames"]);
+                MakeBackgroundTransparent = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["ExportedOptionsMakeBackgroundTransparent"]);
+                PreservePallette = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["PreservePallette"]);
+
+                Dictionary<string, System.Drawing.Imaging.ImageFormat> formats = new Dictionary<string, System.Drawing.Imaging.ImageFormat>();
+                formats.Add("png", System.Drawing.Imaging.ImageFormat.Png);
+                formats.Add("bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                formats.Add("gif", System.Drawing.Imaging.ImageFormat.Gif);
+                formats.Add("tiff", System.Drawing.Imaging.ImageFormat.Tiff);
+                formats.Add("jpeg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                formats.Add("jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                ExportFormat = formats[System.Configuration.ConfigurationManager.AppSettings["ExportedOptionsFileFormat"].Replace(".", "").ToLower()];
+            }
+            catch (Exception ex)
+            {
+                ForkandBeard.Logic.ExceptionHandler.HandleException(ex, "cat@forkandbeard.co.uk");
+            }
         }
 
         private List<BO.ImageUnpacker> unpackers = new List<BO.ImageUnpacker>();
@@ -83,7 +118,7 @@ namespace ASU.UI
 
             this.ZoomPanel.Visible = false;
 
-            unpacker = new BO.ImageUnpacker(image, fileName, MakeBackgroundTransparent && !this.Options.PreservePalletteCheckBox.Checked);
+            unpacker = new BO.ImageUnpacker(image, fileName, MakeBackgroundTransparent && !PreservePallette);
             this.unpackers.Add(unpacker);
         }
 
@@ -383,40 +418,6 @@ namespace ASU.UI
             if (SheetWithBoxesEnlarged != null)
             {
                 SheetWithBoxesEnlarged.Dispose();
-            }
-        }
-
-        private void MainForm_Load(object sender, System.EventArgs e)
-        {
-            try
-            {
-                this.SuppressThirdPartyWarningMessage = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["SuppressThirdPartyImageConverterWarningMessage"]);
-                this.ExportLocationTextBox.Text = AppDomain.CurrentDomain.BaseDirectory;
-                this.KeyPreview = true;
-                ThirdPartyImageConverterPath = System.Configuration.ConfigurationManager.AppSettings["ThirdPartyImageConverter"];
-
-                if (ThirdPartyImageConverterPath.StartsWith("\\"))
-                {
-                    ThirdPartyImageConverterPath = AppDomain.CurrentDomain.BaseDirectory + ThirdPartyImageConverterPath;
-                }
-                AutoOpenDestinationFolder = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["AutoOpenDestinationFolder"]);
-                PromptForDestinationFolder = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["PromptForDestinationFolder"]);
-                Outline.Width = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["TileOutlineWidth"]);
-                DistanceBetweenTiles = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["DistanceBetweenFrames"]);
-                MakeBackgroundTransparent = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["ExportedOptionsMakeBackgroundTransparent"]);
-
-                Dictionary<string, System.Drawing.Imaging.ImageFormat> formats = new Dictionary<string, System.Drawing.Imaging.ImageFormat>();
-                formats.Add("png", System.Drawing.Imaging.ImageFormat.Png);
-                formats.Add("bmp", System.Drawing.Imaging.ImageFormat.Bmp);
-                formats.Add("gif", System.Drawing.Imaging.ImageFormat.Gif);
-                formats.Add("tiff", System.Drawing.Imaging.ImageFormat.Tiff);
-                formats.Add("jpeg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                formats.Add("jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                ExportFormat = formats[System.Configuration.ConfigurationManager.AppSettings["ExportedOptionsFileFormat"].Replace(".", "").ToLower()];
-            }
-            catch (Exception ex)
-            {
-                ForkandBeard.Logic.ExceptionHandler.HandleException(ex, "cat@forkandbeard.co.uk");
             }
         }
 
@@ -1026,7 +1027,7 @@ namespace ASU.UI
                                         objGraphics.Dispose();
                                     }
 
-                                    if (this.Options != null && this.Options.PreservePalletteCheckBox.Checked)
+                                    if (PreservePallette)
                                     {
                                         if (unpacker.GetPallette() != null)
                                         {
