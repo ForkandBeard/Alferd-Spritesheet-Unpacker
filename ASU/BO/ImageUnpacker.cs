@@ -58,7 +58,7 @@ namespace ASU.BO
         private Bitmap RemoveTransparencyFromImage(Bitmap image)
         {
             Dictionary<int, Color> coloursByArgb = new Dictionary<int, Color>();
-            Dictionary<int, Color> transparentPixelsByCoord = new Dictionary<int, Color>();
+            Dictionary<uint, Color> transparentPixelsByCoord = new Dictionary<uint, Color>();
             Dictionary<Color, Color> opaquedByTransparent = new Dictionary<Color, Color>();
             Color pixel;
             bool containsTransparency = false;
@@ -85,7 +85,7 @@ namespace ASU.BO
 
             if (containsTransparency)
             {
-                foreach (int coordHash in transparentPixelsByCoord.Keys)
+                foreach (uint coordHash in transparentPixelsByCoord.Keys)
                 {
                     Point coord = GetCoordFromHash(coordHash);
 
@@ -461,14 +461,14 @@ namespace ASU.BO
             }
         }
 
-        private Point GetCoordFromHash(int hash)
+        private Point GetCoordFromHash(uint hash)
         {
             return new Point((int)(hash >> 16), (int)(hash & 0x0000FFFF));
         }
 
-        private int GetHashFromCoord(Point point)
+        private uint GetHashFromCoord(Point point)
         {
-            return (point.X << 16) + point.Y;
+            return (uint)((point.X << 16) + point.Y);
         }
     }
 }
