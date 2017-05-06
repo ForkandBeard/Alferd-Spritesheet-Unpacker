@@ -618,7 +618,7 @@ namespace ASU.UI
                 {
                     if (ModifierKeys == Keys.Control)
                     {
-                        this.HighlightRect = new Rectangle(MouseDownLocation.X, MouseDownLocation.Y, e.Location.X - MouseDownLocation.X, e.Location.Y - MouseDownLocation.Y);
+                        this.HighlightRect = new Rectangle(MouseDownLocation.X, MouseDownLocation.Y, location.X - MouseDownLocation.X, location.Y - MouseDownLocation.Y);
 
                         // Make sure the width and height are not negative.
                         if (this.HighlightRect.Width < 0)
@@ -786,7 +786,11 @@ namespace ASU.UI
 
                     if (this.HighlightRect != Rectangle.Empty)
                     {
-                        graphics.DrawRectangle(Outline, this.HighlightRect);
+                        Rectangle highlightFixed = this.HighlightRect;
+                        highlightFixed.X += this.Offset.X;
+                        highlightFixed.Y += this.Offset.Y;
+
+                        graphics.DrawRectangle(Outline, highlightFixed);
                     }
 
                     if (!this.IsMouseDown)
