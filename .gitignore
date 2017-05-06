@@ -4,3 +4,4 @@ obj/
 .svn/
 *.user
 *.suo
+/.vs
