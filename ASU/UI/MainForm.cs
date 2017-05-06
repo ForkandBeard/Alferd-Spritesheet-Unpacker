@@ -39,6 +39,7 @@ namespace ASU.UI
         private Rectangle BoxSplitting;
         private Rectangle Hover = Rectangle.Empty;
         private OptionsForm Options;
+        private Rectangle HighlightRect = Rectangle.Empty;
 
         private bool SuppressThirdPartyWarningMessage = false;
         public static int DistanceBetweenTiles = 3;
@@ -552,7 +553,11 @@ namespace ASU.UI
                     return;
                 }
 
-                if (!this.ClickModeCheckBoxButton.Checked)
+                if (ModifierKeys == Keys.Control)
+                {
+                    this.HighlightRect = new Rectangle(e.Location.X - this.Offset.X, e.Location.Y - this.Offset.Y, 1, 1);
+                }
+                else if (!this.ClickModeCheckBoxButton.Checked)
                 {
                     if (this.Hover != Rectangle.Empty)
                     {
@@ -611,7 +616,24 @@ namespace ASU.UI
 
                 if (this.IsMouseDown)
                 {
-                    this.Offset = new Point(e.Location.X - this.MouseDownLocation.X, e.Location.Y - this.MouseDownLocation.Y);
+                    if (ModifierKeys == Keys.Control)
+                    {
+                        this.HighlightRect = new Rectangle(MouseDownLocation.X, MouseDownLocation.Y, e.Location.X - MouseDownLocation.X, e.Location.Y - MouseDownLocation.Y);
+
+                        // Make sure the width and height are not negative.
+                        if (this.HighlightRect.Width < 0)
+                        {
+                            this.HighlightRect.Width = Math.Abs(this.HighlightRect.Width);
+                            this.HighlightRect.X = MouseDownLocation.X - HighlightRect.Width;
+                        }
+                        if (this.HighlightRect.Height < 0)
+                        {
+                            this.HighlightRect.Height = Math.Abs(this.HighlightRect.Height);
+                            this.HighlightRect.Y = MouseDownLocation.Y - HighlightRect.Height;
+                        }
+                    }
+                    else
+                        this.Offset = new Point(e.Location.X - this.MouseDownLocation.X, e.Location.Y - this.MouseDownLocation.Y);
                 }
                 else
                 {
@@ -664,6 +686,21 @@ namespace ASU.UI
         private void MainPanel_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             this.IsMouseDown = false;
+
+            if (this.HighlightRect != Rectangle.Empty)
+            {
+                this.Selected.Clear();
+
+                foreach (Rectangle box in this.Boxes)
+                {
+                    if (box.IntersectsWith(this.HighlightRect))
+                    {
+                        this.Selected.Add(box);
+                    }
+                }
+            }
+
+            this.HighlightRect = Rectangle.Empty;
         }
 
         private void MainPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -745,6 +782,11 @@ namespace ASU.UI
                         boxOffset = selectedBox;
                         boxOffset.Offset(this.Offset);
                         graphics.FillRectangle(SelectedFill, boxOffset);
+                    }
+
+                    if (this.HighlightRect != Rectangle.Empty)
+                    {
+                        graphics.DrawRectangle(Outline, this.HighlightRect);
                     }
 
                     if (!this.IsMouseDown)
