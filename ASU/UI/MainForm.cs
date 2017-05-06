@@ -21,6 +21,8 @@ namespace ASU.UI
         private string FormTitle;
 
         private Bitmap ZoomImage;
+        private Bitmap originalImage = null;
+        private Bitmap paintedImage = null;
 
         private string OverlayText;
         private Point MouseLocation;
@@ -111,6 +113,11 @@ namespace ASU.UI
             this.Boxes.Clear();
             this.Selected.Clear();
             this.Hover = Rectangle.Empty;
+
+            if (this.originalImage != null)
+                this.originalImage.Dispose();
+
+            this.originalImage = null;
 
             BO.RegionUnpacker.Counter = 0;
             SheetWithBoxes = null;
@@ -707,8 +714,6 @@ namespace ASU.UI
         {
             Graphics graphics = null;
             Graphics zoomGraphics = null;
-            Bitmap originalImage = null;
-            Bitmap paintedImage = null;
 
             try
             {
@@ -719,7 +724,8 @@ namespace ASU.UI
 
                 if (this.unpackers.Count == 1)
                 {
-                    originalImage = this.unpackers[0].GetOriginalClone();
+                    if (originalImage == null)
+                        originalImage = this.unpackers[0].GetOriginalClone();
                 }
 
                 if (originalImage != null)
@@ -753,8 +759,21 @@ namespace ASU.UI
                         }
                     }
 
-                    paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
+                    bool refresh = false;
+
+                    if (paintedImage == null)
+                        refresh = true;
+                    
+                    if (paintedImage != null)
+                        if (this.MainPanel.ClientRectangle.Width != paintedImage.Width || this.MainPanel.ClientRectangle.Height != paintedImage.Height)
+                            refresh = true;
+
+                    if (refresh)
+                        paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
+
                     graphics = Graphics.FromImage(paintedImage);
+                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    graphics.Clear(Color.Black);
                     graphics.DrawImage(SheetWithBoxes, this.Offset);
 
                     Rectangle boxOffset;
@@ -853,7 +872,7 @@ namespace ASU.UI
                 }
                 if (paintedImage != null)
                 {
-                    paintedImage.Dispose();
+                    //paintedImage.Dispose();
                 }
             }
         }
