@@ -4,7 +4,7 @@
  _/    _\ _| _|   \___| _|   \__,_|     _____/   .__/  _|    _| \__| \___| ____/ _| |_| \___| \___| \__|     \___/  _|  _|  .__/  \__,_| \___| _|\_\ \___| _|    
                                                 _|                                                                         _|                                    
 
-Thanks for downloading 'Alferd Spritesheet Unpacker ver.11'.
+Thanks for downloading 'Alferd Spritesheet Unpacker'.
 
 ++ For the latest version please visit:	++
 	https://github.com/ForkandBeard/Alferd-Spritesheet-Unpacker/releases
@@ -17,6 +17,13 @@ Thanks for downloading 'Alferd Spritesheet Unpacker ver.11'.
 
 ============================================================
 ===	Version History
+============================================================
+
+  Future releases
+
+** ASU is now Open Source and can be found on GitHub ** 
+The newest version along with release notes can be found here: https://github.com/ForkandBeard/Alferd-Spritesheet-Unpacker/releases
+
 ============================================================
 Version 11 - 06/06/2014
 
@@ -100,11 +107,7 @@ Version 1 - 17/08/2011
 	~ ~ ~		
 Hope you find the app useful	
 	Mitchell William Cooper
-	
-	
-	
-	
-	
+
 
 *** Please read the following terms and conditions before using this application: ***********************************************************************************************************************************************
 |																																																								|

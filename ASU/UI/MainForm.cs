@@ -532,6 +532,7 @@ namespace ASU.UI
                                 }
                             }
                             this.DragAndDropLabel.Visible = false;
+                            this.ControlsHelpLabel.Visible = false;
                         }
                         this.StartUnpackers();
                         return;
@@ -559,7 +560,7 @@ namespace ASU.UI
             {
                 if (e.Button == System.Windows.Forms.MouseButtons.Right)
                 {
-                    this.ClickModeCheckBoxButton.Checked = !this.ClickModeCheckBoxButton.Checked;
+                    this.ToggleSelectSplitMode();
                 }
 
                 if (this.LoadingImage)
@@ -571,7 +572,7 @@ namespace ASU.UI
                 {
                     this.HighlightRect = new Rectangle(e.Location.X - this.Offset.X, e.Location.Y - this.Offset.Y, 1, 1);
                 }
-                else if (!this.ClickModeCheckBoxButton.Checked)
+                else if (!this.SplitFrameCheckBoxButton.Checked)
                 {
                     if (this.Hover != Rectangle.Empty)
                     {
@@ -600,7 +601,7 @@ namespace ASU.UI
                         this.Boxes.AddRange(this.Splits);
                         this.Splits.Clear();
                         SheetWithBoxes = null;
-                        this.ClickModeCheckBoxButton.Checked = false;
+                        this.SetClickMode(false);
                         return;
                     }
                 }
@@ -657,7 +658,7 @@ namespace ASU.UI
                     {
                         if (box.Contains(location))
                         {
-                            if (this.ClickModeCheckBoxButton.Checked)
+                            if (this.SplitFrameCheckBoxButton.Checked)
                             {
                                 this.MainPanel.Cursor = Cursors.Cross;
                                 this.SplitBoxAtLocation(box, location);
@@ -1229,7 +1230,7 @@ namespace ASU.UI
         {
             try
             {
-                if (!this.ClickModeCheckBoxButton.Checked)
+                if (!this.SplitFrameCheckBoxButton.Checked)
                 {
                     e.Graphics.DrawLine(ZoomPen, 0, (this.ZoomPanel.ClientRectangle.Height / 2f) + 2, this.ZoomPanel.ClientRectangle.Width, (this.ZoomPanel.ClientRectangle.Height / 2f) + 2);
                     e.Graphics.DrawLine(ZoomPen, (this.ZoomPanel.ClientRectangle.Width / 2f) + 2, 0, (this.ZoomPanel.ClientRectangle.Width / 2f) + 2, this.ZoomPanel.ClientRectangle.Height);
@@ -1322,6 +1323,7 @@ namespace ASU.UI
                 {
                     this.unpackers.Clear();
                     this.DragAndDropLabel.Visible = false;
+                    this.ControlsHelpLabel.Visible = false;
                     this.CreateUnpacker(new Bitmap(Clipboard.GetImage()), "clipboard");
                     this.StartUnpackers();
                 }
@@ -1399,6 +1401,7 @@ namespace ASU.UI
             if (this.unpackers.Count > 1 || this.unpackers.Count == 0)
             {
                 this.DragAndDropLabel.Visible = true;
+                this.ControlsHelpLabel.Visible = true;
                 this.MainPanel.BackColor = Color.FromArgb(224, 224, 224);
                 this.SetOverlayText(new List<string>(), new List<string>());
             }
@@ -1584,16 +1587,37 @@ namespace ASU.UI
         }
         #endregion
 
-        private void ClickModeCheckBoxButton_CheckedChanged(System.Object sender, System.EventArgs e)
+        private void SetClickMode(bool isSplit)
         {
-            if (this.ClickModeCheckBoxButton.Checked)
+            if (this.SplitFrameCheckBoxButton.Checked != isSplit)
             {
-                this.ClickModeCheckBoxButton.Image = global::ASU.Properties.Resources.cut;
+                this.ToggleSelectSplitMode();
+            }
+        }
+
+        private void ToggleSelectSplitMode()
+        {
+            this.SplitFrameCheckBoxButton.Checked = !this.SplitFrameCheckBoxButton.Checked;
+            this.SetCurrentSelectSplitModeTextAndIcon();
+        }
+
+        private void SetCurrentSelectSplitModeTextAndIcon()
+        {
+            if (this.SplitFrameCheckBoxButton.Checked)
+            {
+                this.SplitFrameCheckBoxButton.Image = global::ASU.Properties.Resources.cursor;
+                this.SplitFrameCheckBoxButton.Text = "Select";
             }
             else
             {
-                this.ClickModeCheckBoxButton.Image = global::ASU.Properties.Resources.cursor;
+                this.SplitFrameCheckBoxButton.Image = global::ASU.Properties.Resources.cut;
+                this.SplitFrameCheckBoxButton.Text = "Split";
             }
+        }
+
+        private void ClickModeCheckBoxButton_CheckedChanged(System.Object sender, System.EventArgs e)
+        {
+            this.SetCurrentSelectSplitModeTextAndIcon();
         }
     }
 }
