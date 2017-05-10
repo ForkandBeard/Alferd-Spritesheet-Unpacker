@@ -21,6 +21,8 @@ namespace ASU.UI
         private string FormTitle;
 
         private Bitmap ZoomImage;
+        private Bitmap originalImage = null;
+        private Bitmap paintedImage = null;
 
         private string OverlayText;
         private Point MouseLocation;
@@ -39,6 +41,7 @@ namespace ASU.UI
         private Rectangle BoxSplitting;
         private Rectangle Hover = Rectangle.Empty;
         private OptionsForm Options;
+        private Rectangle HighlightRect = Rectangle.Empty;
 
         private bool SuppressThirdPartyWarningMessage = false;
         public static int DistanceBetweenTiles = 3;
@@ -110,6 +113,11 @@ namespace ASU.UI
             this.Boxes.Clear();
             this.Selected.Clear();
             this.Hover = Rectangle.Empty;
+
+            if (this.originalImage != null)
+                this.originalImage.Dispose();
+
+            this.originalImage = null;
 
             BO.RegionUnpacker.Counter = 0;
             SheetWithBoxes = null;
@@ -552,7 +560,11 @@ namespace ASU.UI
                     return;
                 }
 
-                if (!this.ClickModeCheckBoxButton.Checked)
+                if (ModifierKeys == Keys.Control)
+                {
+                    this.HighlightRect = new Rectangle(e.Location.X - this.Offset.X, e.Location.Y - this.Offset.Y, 1, 1);
+                }
+                else if (!this.ClickModeCheckBoxButton.Checked)
                 {
                     if (this.Hover != Rectangle.Empty)
                     {
@@ -611,7 +623,24 @@ namespace ASU.UI
 
                 if (this.IsMouseDown)
                 {
-                    this.Offset = new Point(e.Location.X - this.MouseDownLocation.X, e.Location.Y - this.MouseDownLocation.Y);
+                    if (ModifierKeys == Keys.Control)
+                    {
+                        this.HighlightRect = new Rectangle(MouseDownLocation.X, MouseDownLocation.Y, location.X - MouseDownLocation.X, location.Y - MouseDownLocation.Y);
+
+                        // Make sure the width and height are not negative.
+                        if (this.HighlightRect.Width < 0)
+                        {
+                            this.HighlightRect.Width = Math.Abs(this.HighlightRect.Width);
+                            this.HighlightRect.X = MouseDownLocation.X - HighlightRect.Width;
+                        }
+                        if (this.HighlightRect.Height < 0)
+                        {
+                            this.HighlightRect.Height = Math.Abs(this.HighlightRect.Height);
+                            this.HighlightRect.Y = MouseDownLocation.Y - HighlightRect.Height;
+                        }
+                    }
+                    else
+                        this.Offset = new Point(e.Location.X - this.MouseDownLocation.X, e.Location.Y - this.MouseDownLocation.Y);
                 }
                 else
                 {
@@ -664,14 +693,27 @@ namespace ASU.UI
         private void MainPanel_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             this.IsMouseDown = false;
+
+            if (this.HighlightRect != Rectangle.Empty)
+            {
+                this.Selected.Clear();
+
+                foreach (Rectangle box in this.Boxes)
+                {
+                    if (box.IntersectsWith(this.HighlightRect))
+                    {
+                        this.Selected.Add(box);
+                    }
+                }
+            }
+
+            this.HighlightRect = Rectangle.Empty;
         }
 
         private void MainPanel_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             Graphics graphics = null;
             Graphics zoomGraphics = null;
-            Bitmap originalImage = null;
-            Bitmap paintedImage = null;
 
             try
             {
@@ -682,7 +724,8 @@ namespace ASU.UI
 
                 if (this.unpackers.Count == 1)
                 {
-                    originalImage = this.unpackers[0].GetOriginalClone();
+                    if (originalImage == null)
+                        originalImage = this.unpackers[0].GetOriginalClone();
                 }
 
                 if (originalImage != null)
@@ -716,8 +759,21 @@ namespace ASU.UI
                         }
                     }
 
-                    paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
+                    bool refresh = false;
+
+                    if (paintedImage == null)
+                        refresh = true;
+                    
+                    if (paintedImage != null)
+                        if (this.MainPanel.ClientRectangle.Width != paintedImage.Width || this.MainPanel.ClientRectangle.Height != paintedImage.Height)
+                            refresh = true;
+
+                    if (refresh)
+                        paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
+
                     graphics = Graphics.FromImage(paintedImage);
+                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                    graphics.Clear(Color.Black);
                     graphics.DrawImage(SheetWithBoxes, this.Offset);
 
                     Rectangle boxOffset;
@@ -745,6 +801,15 @@ namespace ASU.UI
                         boxOffset = selectedBox;
                         boxOffset.Offset(this.Offset);
                         graphics.FillRectangle(SelectedFill, boxOffset);
+                    }
+
+                    if (this.HighlightRect != Rectangle.Empty)
+                    {
+                        Rectangle highlightFixed = this.HighlightRect;
+                        highlightFixed.X += this.Offset.X;
+                        highlightFixed.Y += this.Offset.Y;
+
+                        graphics.DrawRectangle(Outline, highlightFixed);
                     }
 
                     if (!this.IsMouseDown)
@@ -807,7 +872,7 @@ namespace ASU.UI
                 }
                 if (paintedImage != null)
                 {
-                    paintedImage.Dispose();
+                    //paintedImage.Dispose();
                 }
             }
         }
