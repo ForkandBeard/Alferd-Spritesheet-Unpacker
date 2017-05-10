@@ -21,8 +21,8 @@ namespace ASU.UI
         private string FormTitle;
 
         private Bitmap ZoomImage;
-        private Bitmap originalImage = null;
-        private Bitmap paintedImage = null;
+        private Bitmap OriginalImage = null;
+        private Bitmap PaintedImage = null;
 
         private string OverlayText;
         private Point MouseLocation;
@@ -114,10 +114,17 @@ namespace ASU.UI
             this.Selected.Clear();
             this.Hover = Rectangle.Empty;
 
-            if (this.originalImage != null)
-                this.originalImage.Dispose();
+            if (this.OriginalImage != null)
+            {
+                this.OriginalImage.Dispose();
+                this.OriginalImage = null;
+            }
 
-            this.originalImage = null;
+            if (this.PaintedImage != null)
+            {
+                this.PaintedImage.Dispose();
+                this.PaintedImage = null;
+            }  
 
             BO.RegionUnpacker.Counter = 0;
             SheetWithBoxes = null;
@@ -714,6 +721,7 @@ namespace ASU.UI
         {
             Graphics graphics = null;
             Graphics zoomGraphics = null;
+            bool refresh = false;
 
             try
             {
@@ -722,32 +730,34 @@ namespace ASU.UI
                     return;
                 }
 
-                if (this.unpackers.Count == 1)
+                if (
+                    (this.unpackers.Count == 1)
+                    && (OriginalImage == null)
+                    )
                 {
-                    if (originalImage == null)
-                        originalImage = this.unpackers[0].GetOriginalClone();
+                    OriginalImage = this.unpackers[0].GetOriginalClone();
                 }
 
-                if (originalImage != null)
+                if (OriginalImage != null)
                 {
                     if (SheetWithBoxes == null)
                     {
                         Graphics boxGraphics = null;
                         try
                         {
-                            SheetWithBoxes = new Bitmap(originalImage);
+                            SheetWithBoxes = new Bitmap(OriginalImage);
                             boxGraphics = Graphics.FromImage(SheetWithBoxes);
                             boxGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
 
-                            Pen objZoomOutline;
-                            objZoomOutline = new Pen(Outline.Color, 1);
-                            SheetWithBoxesEnlarged = new Bitmap(originalImage);
+                            Pen zoomOutline;
+                            zoomOutline = new Pen(Outline.Color, 1);
+                            SheetWithBoxesEnlarged = new Bitmap(OriginalImage);
                             zoomGraphics = Graphics.FromImage(SheetWithBoxesEnlarged);
 
                             foreach (Rectangle box in this.Boxes)
                             {
                                 boxGraphics.DrawRectangle(Outline, box);
-                                zoomGraphics.DrawRectangle(objZoomOutline, box);
+                                zoomGraphics.DrawRectangle(zoomOutline, box);
                             }
                         }
                         finally
@@ -759,21 +769,33 @@ namespace ASU.UI
                         }
                     }
 
-                    bool refresh = false;
-
-                    if (paintedImage == null)
+                    if (PaintedImage == null)
+                    {
                         refresh = true;
-                    
-                    if (paintedImage != null)
-                        if (this.MainPanel.ClientRectangle.Width != paintedImage.Width || this.MainPanel.ClientRectangle.Height != paintedImage.Height)
-                            refresh = true;
+                    }
+                    else if (
+                                (PaintedImage != null)
+                                && (
+                                    this.MainPanel.ClientRectangle.Width != PaintedImage.Width 
+                                    || this.MainPanel.ClientRectangle.Height != PaintedImage.Height
+                                    )
+                            )
+                    {   
+                        refresh = true;
+                    }
 
                     if (refresh)
-                        paintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
+                    {
+                        if (PaintedImage != null)
+                        {
+                            PaintedImage.Dispose();
+                        }
+                        PaintedImage = new Bitmap(this.MainPanel.ClientRectangle.Width, this.MainPanel.ClientRectangle.Height);
+                    }
 
-                    graphics = Graphics.FromImage(paintedImage);
+                    graphics = Graphics.FromImage(PaintedImage);
                     graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                    graphics.Clear(Color.Black);
+                    graphics.Clear(this.unpackers[0].CreateOuterBackgroundColour());
                     graphics.DrawImage(SheetWithBoxes, this.Offset);
 
                     Rectangle boxOffset;
@@ -818,7 +840,7 @@ namespace ASU.UI
 
                         using (Graphics g = Graphics.FromImage(this.ZoomImage))
                         {
-                            g.DrawImage(paintedImage, 0, 0, new Rectangle(this.MouseLocation.X - 10, this.MouseLocation.Y - 10, 20, 20), GraphicsUnit.Pixel);
+                            g.DrawImage(PaintedImage, 0, 0, new Rectangle(this.MouseLocation.X - 10, this.MouseLocation.Y - 10, 20, 20), GraphicsUnit.Pixel);
                         }
 
                         if (this.ZoomPanel.BackgroundImage != null)
@@ -829,7 +851,7 @@ namespace ASU.UI
                         this.ZoomImage.Dispose();
                     }
 
-                    e.Graphics.DrawImage(paintedImage, new Point(0, 0));
+                    e.Graphics.DrawImage(PaintedImage, new Point(0, 0));
 
                     if (Outline.Color.GetBrightness() >= 0.5)
                     {
@@ -858,10 +880,6 @@ namespace ASU.UI
             }
             finally
             {
-                if (originalImage != null)
-                {
-                    originalImage.Dispose();
-                }
                 if (graphics != null)
                 {
                     graphics.Dispose();
@@ -869,10 +887,6 @@ namespace ASU.UI
                 if (zoomGraphics != null)
                 {
                     zoomGraphics.Dispose();
-                }
-                if (paintedImage != null)
-                {
-                    //paintedImage.Dispose();
                 }
             }
         }
@@ -905,7 +919,6 @@ namespace ASU.UI
                         return;
                     }
                 }
-
 
                 foreach (Rectangle box in this.Selected)
                 {

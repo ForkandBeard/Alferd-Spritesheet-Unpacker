@@ -141,6 +141,22 @@ namespace ASU.BO
             return this._isBackgroundColourSet;
         }
 
+        public Color CreateOuterBackgroundColour()
+        {
+            Color backgroundColour;
+
+            backgroundColour = this.GetBackgroundColour();
+
+            if (backgroundColour.GetBrightness() > .2f)
+            {
+                return Color.FromArgb(Math.Max(0, backgroundColour.R - 25), Math.Max(0, backgroundColour.G - 25), Math.Max(0, backgroundColour.B - 25));
+            }
+            else
+            {
+                return Color.FromArgb(Math.Min(255, backgroundColour.R + 25), Math.Min(255, backgroundColour.G + 25), Math.Min(255, backgroundColour.B + 25));
+            }
+        }
+
         public Color GetBackgroundColour()
         {
             if (this.backgroundColour.HasValue)
