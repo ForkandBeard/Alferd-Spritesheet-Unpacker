@@ -2,7 +2,7 @@ Alferd-Spritesheet-Unpacker
 ===========================
 
 ## What is this?
-ASU is a simple spriting tool which takes an animation spritesheet image and automatically turns each sprite into an individual image.
+ASU is a simple spriting tool which takes an animation spritesheet image, with irregular sized and positioned sprites, and automatically finds the boundaries of each sprite so they can be exported as individual images.
 #### The interesting bit
 So the actual logic to find the individual sprites can be found in `ASU\BO\RegionUnpacker.vb`.
 #### To use
@@ -24,7 +24,3 @@ I also, originally, never planned on releasing it, so it was only ever going to 
 Ideally I'd like to move all the code over to C# and remove all the Hungarian notation and other kak.
 ###### Updates
 06/11/2014 -  All VB code has now been replaced with C#
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ForkandBeard/alferd-spritesheet-unpacker/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
