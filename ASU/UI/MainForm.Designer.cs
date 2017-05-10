@@ -250,13 +250,11 @@ namespace ASU.UI
             this.ControlsHelpLabel.AutoSize = true;
             this.ControlsHelpLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ControlsHelpLabel.ForeColor = System.Drawing.Color.Gray;
-            this.ControlsHelpLabel.Location = new System.Drawing.Point(3, 171);
+            this.ControlsHelpLabel.Location = new System.Drawing.Point(2, 170);
             this.ControlsHelpLabel.Name = "ControlsHelpLabel";
-            this.ControlsHelpLabel.Size = new System.Drawing.Size(307, 52);
+            this.ControlsHelpLabel.Size = new System.Drawing.Size(307, 65);
             this.ControlsHelpLabel.TabIndex = 6;
-            this.ControlsHelpLabel.Text = "[left click]          select or split frame\r\n[right click]         toggle select " +
-    "/ split mode\r\n[ctrl + left drag]    select multiple frames\r\n[cursor keys]       " +
-    "  move pointer by single pixel";
+            this.ControlsHelpLabel.Text = resources.GetString("ControlsHelpLabel.Text");
             // 
             // HyperModeUnpacking0Label
             // 
@@ -265,7 +263,7 @@ namespace ASU.UI
             this.HyperModeUnpacking0Label.BackColor = System.Drawing.Color.Transparent;
             this.HyperModeUnpacking0Label.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HyperModeUnpacking0Label.ForeColor = System.Drawing.Color.Gray;
-            this.HyperModeUnpacking0Label.Location = new System.Drawing.Point(346, 103);
+            this.HyperModeUnpacking0Label.Location = new System.Drawing.Point(346, 77);
             this.HyperModeUnpacking0Label.Name = "HyperModeUnpacking0Label";
             this.HyperModeUnpacking0Label.Size = new System.Drawing.Size(61, 40);
             this.HyperModeUnpacking0Label.TabIndex = 5;
@@ -280,7 +278,7 @@ namespace ASU.UI
             this.HyperModeUnpacking1Label.BackColor = System.Drawing.Color.Transparent;
             this.HyperModeUnpacking1Label.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HyperModeUnpacking1Label.ForeColor = System.Drawing.Color.Gray;
-            this.HyperModeUnpacking1Label.Location = new System.Drawing.Point(466, 103);
+            this.HyperModeUnpacking1Label.Location = new System.Drawing.Point(466, 77);
             this.HyperModeUnpacking1Label.Name = "HyperModeUnpacking1Label";
             this.HyperModeUnpacking1Label.Size = new System.Drawing.Size(57, 40);
             this.HyperModeUnpacking1Label.TabIndex = 4;
@@ -294,7 +292,7 @@ namespace ASU.UI
             this.HyperModeUnpackingLabel.BackColor = System.Drawing.Color.Transparent;
             this.HyperModeUnpackingLabel.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HyperModeUnpackingLabel.ForeColor = System.Drawing.Color.Gray;
-            this.HyperModeUnpackingLabel.Location = new System.Drawing.Point(399, 103);
+            this.HyperModeUnpackingLabel.Location = new System.Drawing.Point(399, 77);
             this.HyperModeUnpackingLabel.Name = "HyperModeUnpackingLabel";
             this.HyperModeUnpackingLabel.Size = new System.Drawing.Size(76, 40);
             this.HyperModeUnpackingLabel.TabIndex = 3;
@@ -317,7 +315,7 @@ namespace ASU.UI
             // 
             this.DragAndDropLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.DragAndDropLabel.AutoSize = true;
-            this.DragAndDropLabel.Location = new System.Drawing.Point(216, 103);
+            this.DragAndDropLabel.Location = new System.Drawing.Point(216, 77);
             this.DragAndDropLabel.Name = "DragAndDropLabel";
             this.DragAndDropLabel.Size = new System.Drawing.Size(385, 40);
             this.DragAndDropLabel.TabIndex = 1;

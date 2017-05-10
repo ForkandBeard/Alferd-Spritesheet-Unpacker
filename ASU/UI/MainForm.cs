@@ -796,7 +796,14 @@ namespace ASU.UI
 
                     graphics = Graphics.FromImage(PaintedImage);
                     graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                    graphics.Clear(this.unpackers[0].CreateOuterBackgroundColour());
+                    if (this.unpackers.Count >= 1)
+                    {
+                        graphics.Clear(this.unpackers[0].CreateOuterBackgroundColour());
+                    }
+                    else
+                    {
+                        graphics.Clear(Color.Black);
+                    }
                     graphics.DrawImage(SheetWithBoxes, this.Offset);
 
                     Rectangle boxOffset;
@@ -1547,6 +1554,18 @@ namespace ASU.UI
 
             if (keyData == Keys.Escape)
             {
+                if (this.OriginalImage != null)
+                {
+                    this.OriginalImage.Dispose();
+                    this.OriginalImage = null;
+                }
+
+                if (this.PaintedImage != null)
+                {
+                    this.PaintedImage.Dispose();
+                    this.PaintedImage = null;
+                }
+
                 if (this.unpackers.Count == 1 && this.AreAllUnpacked())
                 {
                     this.unpackers.Clear();
