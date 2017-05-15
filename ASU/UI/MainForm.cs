@@ -1074,6 +1074,10 @@ namespace ASU.UI
                                 System.IO.Directory.CreateDirectory(outpath);
                             }
 
+                            // If the output folder does not exist, create it.
+                            if (!System.IO.Directory.Exists(outpath))
+                                System.IO.Directory.CreateDirectory(outpath);
+
                             int preFileCount = 0;
 
                             preFileCount = System.IO.Directory.GetFiles(outpath).Length;
